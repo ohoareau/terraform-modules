@@ -4,3 +4,6 @@ variable "name" {
 variable "schema_file" {
   type = "string"
 }
+variable "auth_type" {
+  default = "AWS_IAM"
+}

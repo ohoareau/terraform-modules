@@ -2,7 +2,7 @@ data "local_file" "schema" {
   filename = var.schema_file
 }
 resource "aws_appsync_graphql_api" "api" {
-  authentication_type = "AWS_IAM"
+  authentication_type = "${var.auth_type}"
   name                = var.name
   schema              = data.local_file.schema.content
   log_config {
