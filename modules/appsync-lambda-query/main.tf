@@ -1,6 +1,7 @@
 module "appsync-datasource-lambda" {
   source = "../appsync-datasource-lambda"
   api = var.api
+  api_name = var.api_name
   name = var.name
   lambda_arn = var.lambda_arn
 }
