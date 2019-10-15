@@ -205,7 +205,7 @@ data "aws_iam_policy_document" "s3_website_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ['*']
+      identifiers = ["*"]
     }
   }
 
@@ -215,7 +215,7 @@ data "aws_iam_policy_document" "s3_website_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ['*']
+      identifiers = ["*"]
     }
   }
 }
@@ -232,7 +232,7 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ['*']
+      identifiers = ["*"]
     }
   }
 
@@ -242,7 +242,7 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ['*']
+      identifiers = ["*"]
     }
   }
 }
