@@ -180,6 +180,7 @@ resource "aws_acm_certificate" "cert" {
   domain_name       = var.dns
   validation_method = "DNS"
   provider          = "aws.acm"
+  subject_alternative_names = var.apex_redirect ? ["www.${var.dns}"] : []
 
   lifecycle {
     create_before_destroy = true
