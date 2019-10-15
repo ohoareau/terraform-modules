@@ -249,5 +249,5 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
 resource "aws_s3_bucket_policy" "website_redirect_apex" {
   count = var.apex_redirect ? 1 : 0
   bucket = aws_s3_bucket.website_redirect_apex[count.index].id
-  policy = data.aws_iam_policy_document.s3_website_redirect_apex_policy.json
+  policy = data.aws_iam_policy_document.s3_website_redirect_apex_policy[count.index].json
 }
