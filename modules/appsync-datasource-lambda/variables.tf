@@ -7,3 +7,6 @@ variable "api" {
 variable "lambda_arn" {
   type = "string"
 }
+variable "api_name" {
+  default = ""
+}
