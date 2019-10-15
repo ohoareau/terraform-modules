@@ -15,13 +15,7 @@ resource "aws_s3_bucket" "website" {
     Website = var.name
   }
 }
-resource "aws_s3_bucket_policy" "website" {
-  bucket = aws_s3_bucket.website.id
-  policy = data.aws_iam_policy_document.s3_website_policy.json
-}
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = "S3 bucket access for ${var.name} CloudFront"
-}
+
 resource "aws_cloudfront_distribution" "website" {
   origin {
     domain_name         = aws_s3_bucket.website.website_endpoint
@@ -32,9 +26,6 @@ resource "aws_cloudfront_distribution" "website" {
       https_port             = "443"
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
-    }
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
     }
   }
 
@@ -65,12 +56,12 @@ resource "aws_cloudfront_distribution" "website" {
     compress               = true
   }
 
-  price_class = "PriceClass_100"
+  price_class = var.price_class
 
   restrictions {
     geo_restriction {
       restriction_type = "whitelist"
-      locations        = ["FR", "BE", "LU", "IT", "ES", "CH", "NL", "GB", "PT", "MC"]
+      locations        = var.geolocations
     }
   }
 
@@ -126,25 +117,4 @@ resource "aws_acm_certificate_validation" "cert" {
   provider                = "aws.acm"
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
-}
-data "aws_iam_policy_document" "s3_website_policy" {
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.website.arn}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
-    }
-  }
-
-  statement {
-    actions   = ["s3:ListBucket"]
-    resources = [aws_s3_bucket.website.arn]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
-    }
-  }
 }
