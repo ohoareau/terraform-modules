@@ -22,3 +22,6 @@ variable "geolocations" {
 variable "price_class" {
   default = "PriceClass_100"
 }
+variable "apex_redirect" {
+  default = false
+}
