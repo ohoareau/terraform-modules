@@ -101,7 +101,7 @@ resource "aws_cloudfront_distribution" "website" {
 resource "aws_cloudfront_distribution" "website_redirect_apex" {
   count = var.apex_redirect ? 1 : 0
   origin {
-    domain_name         = aws_s3_bucket.website_redirect_apex.website_endpoint
+    domain_name         = aws_s3_bucket.website_redirect_apex[count.index].website_endpoint
     origin_id           = "website-${var.name}-s3"
     custom_origin_config {
       // These are all the defaults.
@@ -171,8 +171,8 @@ resource "aws_route53_record" "website_redirect_apex" {
   type    = "CNAME"
 
   alias {
-    name                   = aws_cloudfront_distribution.website_redirect_apex.domain_name
-    zone_id                = aws_cloudfront_distribution.website_redirect_apex.hosted_zone_id
+    name                   = aws_cloudfront_distribution.website_redirect_apex[count.index].domain_name
+    zone_id                = aws_cloudfront_distribution.website_redirect_apex[count.index].hosted_zone_id
     evaluate_target_health = false
   }
 }
@@ -228,7 +228,7 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
   count = var.apex_redirect ? 1 : 0
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.website_redirect_apex.arn}/*"]
+    resources = ["${aws_s3_bucket.website_redirect_apex[count.index].arn}/*"]
 
     principals {
       type        = "AWS"
@@ -238,7 +238,7 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
 
   statement {
     actions   = ["s3:ListBucket"]
-    resources = [aws_s3_bucket.website_redirect_apex.arn]
+    resources = [aws_s3_bucket.website_redirect_apex[count.index].arn]
 
     principals {
       type        = "AWS"
@@ -248,6 +248,6 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
 }
 resource "aws_s3_bucket_policy" "website_redirect_apex" {
   count = var.apex_redirect ? 1 : 0
-  bucket = aws_s3_bucket.website_redirect_apex.id
+  bucket = aws_s3_bucket.website_redirect_apex[count.index].id
   policy = data.aws_iam_policy_document.s3_website_redirect_apex_policy.json
 }
