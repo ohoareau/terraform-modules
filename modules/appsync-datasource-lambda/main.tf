@@ -1,5 +1,5 @@
 locals {
-  full_name = "${var.api_name ? var.api_name : ""}${var.api_name ? "_" : ""}${var.name}"
+  full_name = "${var.api_name != "" ? var.api_name : ""}${var.api_name != "" ? "_" : ""}${var.name}"
 }
 
 resource "aws_appsync_datasource" "lambda" {
