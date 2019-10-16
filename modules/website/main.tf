@@ -180,7 +180,7 @@ resource "aws_acm_certificate" "cert" {
   domain_name       = var.dns
   validation_method = "DNS"
   provider          = "aws.acm"
-  subject_alternative_names = var.apex_redirect ? ["www.${var.dns}"] : []
+  subject_alternative_names = var.apex_redirect ? ["www.${var.dns}"] : null
 
   lifecycle {
     create_before_destroy = true
@@ -206,7 +206,7 @@ resource "aws_route53_record" "cert_validation_alt" {
 resource "aws_acm_certificate_validation" "cert" {
   provider                = "aws.acm"
   certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
+  validation_record_fqdns = var.apex_redirect ? [aws_route53_record.cert_validation.fqdn, aws_route53_record.cert_validation_alt[0].fqdn] : [aws_route53_record.cert_validation.fqdn]
 }
 
 data "aws_iam_policy_document" "s3_website_policy" {
