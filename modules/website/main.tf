@@ -206,7 +206,7 @@ resource "aws_route53_record" "cert_validation_alt" {
 resource "aws_acm_certificate_validation" "cert" {
   provider                = "aws.acm"
   certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = var.apex_redirect ? [aws_route53_record.cert_validation.fqdn] : [aws_route53_record.cert_validation.fqdn, aws_route53_record.cert_validation_alt[0].fqdn]
+  validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
 }
 
 data "aws_iam_policy_document" "s3_website_policy" {
