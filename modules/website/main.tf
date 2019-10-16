@@ -15,7 +15,6 @@ resource "aws_s3_bucket" "website" {
     Website = var.name
   }
 }
-
 resource "aws_s3_bucket" "website_redirect_apex" {
   count = var.apex_redirect ? 1 : 0
   bucket = "www.${var.bucket_name}"
@@ -176,6 +175,7 @@ resource "aws_route53_record" "website_redirect_apex" {
     evaluate_target_health = false
   }
 }
+
 resource "aws_acm_certificate" "cert" {
   domain_name       = var.dns
   validation_method = "DNS"
@@ -186,6 +186,7 @@ resource "aws_acm_certificate" "cert" {
     create_before_destroy = true
   }
 }
+
 resource "aws_route53_record" "cert_validation" {
   name    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_name
   type    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_type
@@ -201,6 +202,7 @@ resource "aws_route53_record" "cert_validation_alt" {
   records = [aws_acm_certificate.cert.domain_validation_options.1.resource_record_value]
   ttl     = 60
 }
+
 resource "aws_acm_certificate_validation" "cert" {
   provider                = "aws.acm"
   certificate_arn         = aws_acm_certificate.cert.arn
@@ -228,11 +230,6 @@ data "aws_iam_policy_document" "s3_website_policy" {
     }
   }
 }
-resource "aws_s3_bucket_policy" "website" {
-  bucket = aws_s3_bucket.website.id
-  policy = data.aws_iam_policy_document.s3_website_policy.json
-}
-
 data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
   count = var.apex_redirect ? 1 : 0
   statement {
@@ -254,6 +251,11 @@ data "aws_iam_policy_document" "s3_website_redirect_apex_policy" {
       identifiers = ["*"]
     }
   }
+}
+
+resource "aws_s3_bucket_policy" "website" {
+  bucket = aws_s3_bucket.website.id
+  policy = data.aws_iam_policy_document.s3_website_policy.json
 }
 resource "aws_s3_bucket_policy" "website_redirect_apex" {
   count = var.apex_redirect ? 1 : 0
