@@ -10,3 +10,6 @@ variable "lambda_arn" {
 variable "api_name" {
   default = ""
 }
+variable "type" {
+  default = "Query"
+}
