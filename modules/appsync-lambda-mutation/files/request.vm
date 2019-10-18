@@ -1,13 +1,13 @@
 #set ($params = {} )
 #foreach ($entry in $context.source)
 #if($context.arguments.get($entry.key))
-$util.quiet($params.put("source_${entry.key}", entry.value))
+$util.quiet($params.put("source_${entry.key}", $entry.value))
 #else
-$util.quiet($params.put(entry.key, entry.value))
+$util.quiet($params.put($entry.key, $entry.value))
 #end
 #end
 #foreach ($entry in $context.arguments)
-$util.quiet($params.put(entry.key, entry.value))
+$util.quiet($params.put($entry.key, $entry.value))
 #end
 {
     "version": "2018-05-29",
