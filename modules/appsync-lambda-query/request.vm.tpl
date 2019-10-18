@@ -1,7 +1,7 @@
 #set ($params = {} )
 #foreach ($entry in $context.source)
 #if($context.arguments.get($entry.key))
-$util.quiet($params.put("${sourcePrefix}\$${entry.key}", $entry.value))
+$util.quiet($params.put("${sourcePrefix}$${entry.key}", $entry.value))
 #else
 $util.quiet($params.put($entry.key, $entry.value))
 #end
