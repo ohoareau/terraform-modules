@@ -11,6 +11,6 @@ resource "aws_appsync_resolver" "get" {
   field             = var.name
   type              = var.type
   data_source       = module.appsync-datasource-lambda.name
-  request_template  = templatefile("${path.module}/request.vm.tpl", {sourcePrefix: ('Query' == var.type) ? '' : "${title(var.type)}_"})
+  request_template  = templatefile("${path.module}/request.vm.tpl", {sourcePrefix: ('Query' == var.type) ? "" : "${title(var.type)}_"})
   response_template = templatefile("${path.module}/response.vm.tpl")
 }
