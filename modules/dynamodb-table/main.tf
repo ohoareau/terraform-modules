@@ -22,12 +22,12 @@ resource "aws_dynamodb_table" "table" {
     for_each = ("" == var.indexes) ? {} : var.indexes
     content {
         name               = v.key
-        hash_key           = v.value.hash_key ? v.value.hash_key : v.key
-        range_key          = v.value.range_key ? v.value.range_key : null
-        write_capacity     = v.value.write_capacity ? v.value.write_capacity : 10
-        read_capacity      = v.value.read_capacity ? v.value.read_capacity : 10
-        projection_type    = v.value.projection_type ? v.value.projection_type : "ALL"
-        non_key_attributes = v.value.non_key_attributes ? v.value.non_key_attributes : null
+        hash_key           = lookup(v.value, "hash_key", v.key)
+        range_key          = lookup(v.value, "range_key", null)
+        write_capacity     = lookup(v.value, "write_capacity", 10)
+        read_capacity      = lookup(v.value, "read_capacity", 10)
+        projection_type    = lookup(v.value, "projection_type", "ALL")
+        non_key_attributes = lookup(v.value, "non_key_attributes", null)
     }
   }
 }
