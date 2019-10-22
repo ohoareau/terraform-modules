@@ -2,11 +2,15 @@ resource "aws_dynamodb_table" "table" {
   name           = var.name
   read_capacity  = 1
   write_capacity = 1
-  hash_key       = "id"
+  hash_key       = var.hash_key
 
-  attribute {
-    name = "id"
-    type = "S"
+  dynamic "attribute" {
+    iterator = v
+    for_each = ("" == var.attributes) ? {} : var.attributes
+    content {
+      name = v.key
+      type = lookup(v.value, "type", "S")
+    }
   }
 
   dynamic "ttl" {
