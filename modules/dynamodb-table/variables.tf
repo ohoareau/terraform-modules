@@ -5,3 +5,7 @@ variable "ttl" {
   type = "string"
   default = ""
 }
+variable "indexes" {
+  type = "map"
+  default = {}
+}
