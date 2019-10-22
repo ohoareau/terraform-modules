@@ -28,8 +28,8 @@ resource "aws_dynamodb_table" "table" {
         name               = v.key
         hash_key           = lookup(v.value, "hash_key", v.key)
         range_key          = lookup(v.value, "range_key", null)
-        write_capacity     = lookup(v.value, "write_capacity", 10)
-        read_capacity      = lookup(v.value, "read_capacity", 10)
+        write_capacity     = lookup(v.value, "write_capacity", 1)
+        read_capacity      = lookup(v.value, "read_capacity", 1)
         projection_type    = lookup(v.value, "projection_type", "ALL")
         non_key_attributes = lookup(v.value, "non_key_attributes", null)
     }
