@@ -8,3 +8,27 @@ resource "aws_lambda_event_source_mapping" "queue-event-source-mapping" {
 resource "aws_sqs_queue" "queue" {
   name = var.name
 }
+
+data "aws_iam_policy_document" "lambda-triggable-from-sqs" {
+  statement {
+    sid       = "AllowSQSPermissions"
+    effect    = "Allow"
+    resources = ["arn:aws:sqs:*"]
+
+    actions = [
+      "sqs:ChangeMessageVisibility",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:ReceiveMessage",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "lambda-triggable-from-sqs" {
+  policy = data.aws_iam_policy_document.lambda-triggable-from-sqs.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda-triggable-from-sqs" {
+  policy_arn = aws_iam_policy.lambda-triggable-from-sqs.arn
+  role = var.lambda_role_name
+}
