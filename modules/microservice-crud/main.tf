@@ -247,7 +247,7 @@ module "api-resolvers" {
 
 module "dynamodb-table" {
   source = "../dynamodb-table"
-  name = "${var.env}${local.upper_name}"
+  name = "${var.env}_${var.name}"
 }
 
 module "sns-outgoing-topic" {
