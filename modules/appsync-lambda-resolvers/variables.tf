@@ -19,3 +19,7 @@ variable "datasources" {
   type = map(string)
   default = {}
 }
+variable "lambdas" {
+  type = list(string)
+  default = []
+}

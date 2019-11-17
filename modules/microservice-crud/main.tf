@@ -215,6 +215,14 @@ module "api-resolvers" {
   api      = var.api
   api_name = var.api_name
   name     = "${var.env}-microservice-${var.name}"
+  lambdas = concat(
+    (false != lookup(local.operations.events, "api", false)) ? [module.lambda-events.arn] : [],
+    (false != lookup(local.operations.list, "api", false)) ? [module.lambda-list.arn] : [],
+    (false != lookup(local.operations.get, "api", false)) ? [module.lambda-get.arn] : [],
+    (false != lookup(local.operations.delete, "api", false)) ? [module.lambda-delete.arn] : [],
+    (false != lookup(local.operations.create, "api", false)) ? [module.lambda-create.arn] : [],
+    (false != lookup(local.operations.update, "api", false)) ? [module.lambda-update.arn] : []
+  )
   datasources = zipmap(
     concat(
       (false != lookup(local.operations.events, "api", false)) ? ["receiveExternalEvents"] : [],
