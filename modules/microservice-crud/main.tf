@@ -32,7 +32,11 @@ module "lambda-events" {
       DYNAMODB_TABLE_PREFIX = var.env,
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    lookup(local.operations.events, "variables", {})
+    local.operations.events.variables
+  )
+  policy_statements = concat(
+    [],
+    local.operations.events.policy_statements
   )
 }
 module "lambda-list" {
@@ -45,16 +49,17 @@ module "lambda-list" {
     {
       DYNAMODB_TABLE_PREFIX = var.env
     },
-    lookup(local.operations.list, "variables", {})
+    local.operations.list.variables
   )
   policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
         resources = [module.dynamodb-table.arn]
+        effect    = "Allow"
       }
     ],
-    lookup(local.operations.list, "policy_statements", [])
+    local.operations.list.policy_statements
   )
 }
 module "lambda-get" {
@@ -67,16 +72,17 @@ module "lambda-get" {
     {
       DYNAMODB_TABLE_PREFIX = var.env
     },
-    lookup(local.operations.get, "variables", {})
+    local.operations.get.variables
   )
   policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable"]
         resources = [module.dynamodb-table.arn]
+        effect    = "Allow"
       }
     ],
-    lookup(local.operations.get, "policy_statements", [])
+    local.operations.get.policy_statements
   )
 }
 module "lambda-delete" {
@@ -90,20 +96,22 @@ module "lambda-delete" {
       DYNAMODB_TABLE_PREFIX = var.env,
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    lookup(local.operations.delete, "variables", {})
+    local.operations.delete.variables
   )
   policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DeleteItem", "dynamodb:DescribeTable", "dynamodb:PutItem"]
         resources = [module.dynamodb-table.arn]
+        effect    = "Allow"
       },
       {
         actions   = ["SNS:Publish"]
         resources = [module.sns-outgoing-topic.arn]
+        effect    = "Allow"
       }
     ],
-    lookup(local.operations.delete, "policy_statements", [])
+    local.operations.delete.policy_statements
   )
 }
 module "lambda-create" {
@@ -117,20 +125,22 @@ module "lambda-create" {
       DYNAMODB_TABLE_PREFIX = var.env,
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    lookup(local.operations.create, "variables", {})
+    local.operations.create.variables
   )
   policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DeleteItem", "dynamodb:DescribeTable", "dynamodb:PutItem"]
         resources = [module.dynamodb-table.arn]
+        effect    = "Allow"
       },
       {
         actions   = ["SNS:Publish"]
         resources = [module.sns-outgoing-topic.arn]
+        effect    = "Allow"
       }
     ],
-    lookup(local.operations.create, "policy_statements", [])
+    local.operations.create.policy_statements
   )
 }
 module "lambda-update" {
@@ -144,20 +154,22 @@ module "lambda-update" {
       DYNAMODB_TABLE_PREFIX = var.env,
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    lookup(local.operations.update, "variables", {})
+    local.operations.update.variables
   )
   policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:UpdateItem", "dynamodb:DescribeTable"]
         resources = [module.dynamodb-table.arn]
+        effect    = "Allow"
       },
       {
         actions   = ["SNS:Publish"]
         resources = [module.sns-outgoing-topic.arn]
+        effect    = "Allow"
       }
     ],
-    lookup(local.operations.update, "policy_statements", [])
+    local.operations.update.policy_statements
   )
 }
 
@@ -216,40 +228,40 @@ module "api-resolvers" {
   api_name = var.api_name
   name     = "${var.env}-microservice-${var.name}"
   lambdas = concat(
-    (false != lookup(local.operations.events, "api", false)) ? [module.lambda-events.arn] : [],
-    (false != lookup(local.operations.list, "api", false)) ? [module.lambda-list.arn] : [],
-    (false != lookup(local.operations.get, "api", false)) ? [module.lambda-get.arn] : [],
-    (false != lookup(local.operations.delete, "api", false)) ? [module.lambda-delete.arn] : [],
-    (false != lookup(local.operations.create, "api", false)) ? [module.lambda-create.arn] : [],
-    (false != lookup(local.operations.update, "api", false)) ? [module.lambda-update.arn] : []
+    local.operations.events.api ? [module.lambda-events.arn] : [],
+    local.operations.list.api ? [module.lambda-list.arn] : [],
+    local.operations.get.api ? [module.lambda-get.arn] : [],
+    local.operations.delete.api ? [module.lambda-delete.arn] : [],
+    local.operations.create.api ? [module.lambda-create.arn] : [],
+    local.operations.update.api ? [module.lambda-update.arn] : []
   )
   datasources = zipmap(
     concat(
-      (false != lookup(local.operations.events, "api", false)) ? ["receiveExternalEvents"] : [],
-      (false != lookup(local.operations.list, "api", false)) ? ["get${local.upper_name_plural}"] : [],
-      (false != lookup(local.operations.get, "api", false)) ? ["get${local.upper_name}"] : [],
-      (false != lookup(local.operations.delete, "api", false)) ? ["delete${local.upper_name}"] : [],
-      (false != lookup(local.operations.create, "api", false)) ? ["create${local.upper_name}"] : [],
-      (false != lookup(local.operations.update, "api", false)) ? ["update${local.upper_name}"] : []
+      local.operations.events.api ? ["receiveExternalEvents"] : [],
+      local.operations.list.api ? ["get${local.upper_name_plural}"] : [],
+      local.operations.get.api ? ["get${local.upper_name}"] : [],
+      local.operations.delete.api ? ["delete${local.upper_name}"] : [],
+      local.operations.create.api ? ["create${local.upper_name}"] : [],
+      local.operations.update.api ? ["update${local.upper_name}"] : []
     ),
     concat(
-      (false != lookup(local.operations.events, "api", false)) ? [module.datasource-lambda-events.name] : [],
-      (false != lookup(local.operations.list, "api", false)) ? [module.datasource-lambda-list.name] : [],
-      (false != lookup(local.operations.get, "api", false)) ? [module.datasource-lambda-get.name] : [],
-      (false != lookup(local.operations.delete, "api", false)) ? [module.datasource-lambda-delete.name] : [],
-      (false != lookup(local.operations.create, "api", false)) ? [module.datasource-lambda-create.name] : [],
-      (false != lookup(local.operations.update, "api", false)) ? [module.datasource-lambda-update.name] : []
+      local.operations.events.api ? [module.datasource-lambda-events.name] : [],
+      local.operations.list.api ? [module.datasource-lambda-list.name] : [],
+      local.operations.get.api ? [module.datasource-lambda-get.name] : [],
+      local.operations.delete.api ? [module.datasource-lambda-delete.name] : [],
+      local.operations.create.api ? [module.datasource-lambda-create.name] : [],
+      local.operations.update.api ? [module.datasource-lambda-update.name] : []
     )
   )
   queries  = merge(
-    (false != lookup(local.operations.list, "api", false)) ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
-    (false != lookup(local.operations.get, "api", false)) ? zipmap(["get${local.upper_name}"], [{}]) : {}
+    local.operations.list.api ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
+    local.operations.get.api ? zipmap(["get${local.upper_name}"], [{}]) : {}
   )
   mutations = merge(
-    (false != lookup(local.operations.events, "api", false)) ? {receiveExternalEvents = {}} : {},
-    (false != lookup(local.operations.delete, "api", false)) ? zipmap(["delete${local.upper_name}"], [{}]) : {},
-    (false != lookup(local.operations.create, "api", false)) ? zipmap(["create${local.upper_name}"], [{}]) : {},
-    (false != lookup(local.operations.update, "api", false)) ? zipmap(["update${local.upper_name}"], [{}]) : {}
+    local.operations.events.api ? {receiveExternalEvents = {}} : {},
+    local.operations.delete.api ? zipmap(["delete${local.upper_name}"], [{}]) : {},
+    local.operations.create.api ? zipmap(["create${local.upper_name}"], [{}]) : {},
+    local.operations.update.api ? zipmap(["update${local.upper_name}"], [{}]) : {}
   )
 }
 
