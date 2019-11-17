@@ -1,5 +1,5 @@
 resource "aws_appsync_datasource" "lambda" {
-  count            = enabled ? 1 : 0
+  count            = var.enabled ? 1 : 0
   api_id           = var.api
   name             = replace(var.name, "-", "_")
   type             = "AWS_LAMBDA"
