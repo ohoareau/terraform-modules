@@ -16,6 +16,7 @@ variable "operations" {
     object({
       api = bool,
       enabled = bool,
+      variables = map(string),
       policy_statements = list(
         object({
           actions = list(string),

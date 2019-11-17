@@ -4,12 +4,12 @@ locals {
   upper_name_plural = title(("" != var.name_plural) ? var.name_plural : "${var.name}s")
   prefix            = "${var.env}-${var.name}"
   operations = {
-    events = merge({api = false, enabled = true, policy_statements = []}, lookup(var.operations, "events", {}))
-    list   = merge({api = true, enabled = true, policy_statements = []}, lookup(var.operations, "list", {}))
-    get    = merge({api = true, enabled = true, policy_statements = []}, lookup(var.operations, "get", {}))
-    delete = merge({api = true, enabled = true, policy_statements = []}, lookup(var.operations, "delete", {}))
-    create = merge({api = true, enabled = true, policy_statements = []}, lookup(var.operations, "create", {}))
-    update = merge({api = true, enabled = true, policy_statements = []}, lookup(var.operations, "update", {}))
+    events = merge({api = false, enabled = true, policy_statements = [], variables = {}}, lookup(var.operations, "events", {}))
+    list   = merge({api = true, enabled = true, policy_statements = [], variables = {}}, lookup(var.operations, "list", {}))
+    get    = merge({api = true, enabled = true, policy_statements = [], variables = {}}, lookup(var.operations, "get", {}))
+    delete = merge({api = true, enabled = true, policy_statements = [], variables = {}}, lookup(var.operations, "delete", {}))
+    create = merge({api = true, enabled = true, policy_statements = [], variables = {}}, lookup(var.operations, "create", {}))
+    update = merge({api = true, enabled = true, policy_statements = [], variables = {}}, lookup(var.operations, "update", {}))
   }
   enabled_operations = {
     events = false != lookup(var.operations, "events", {enabled = true}).enabled
