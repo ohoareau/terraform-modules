@@ -3,22 +3,21 @@ locals {
   upper_name        = title(var.name)
   upper_name_plural = title(("" != var.name_plural) ? var.name_plural : "${var.name}s")
   prefix            = "${var.env}-${var.name}"
-
   operations = {
     events = lookup(var.operations, "events", {})
-    list   = lookup(var.operations, "list", {})
-    get    = lookup(var.operations, "get", {})
-    delete = lookup(var.operations, "delete", {})
-    create = lookup(var.operations, "create", {})
-    update = lookup(var.operations, "update", {})
+    list   = lookup(var.operations, "list", {api: true})
+    get    = lookup(var.operations, "get", {api: true})
+    delete = lookup(var.operations, "delete", {api: true})
+    create = lookup(var.operations, "create", {api: true})
+    update = lookup(var.operations, "update", {api: true})
   }
   enabled_operations = {
-    events = false != lookup(var.operations, "events", false)
-    list   = false != lookup(var.operations, "list", false)
-    get    = false != lookup(var.operations, "get", false)
-    delete = false != lookup(var.operations, "delete", false)
-    create = false != lookup(var.operations, "create", false)
-    update = false != lookup(var.operations, "update", false)
+    events = false != lookup(lookup(var.operations, "events", {enabled: true}), "enabled", true)
+    list   = false != lookup(lookup(var.operations, "list", {enabled: true}), "enabled", true)
+    get    = false != lookup(lookup(var.operations, "get", {enabled: true}), "enabled", true)
+    delete = false != lookup(lookup(var.operations, "delete", {enabled: true}), "enabled", true)
+    create = false != lookup(lookup(var.operations, "create", {enabled: true}), "enabled", true)
+    update = false != lookup(lookup(var.operations, "update", {enabled: true}), "enabled", true)
   }
 }
 
@@ -162,9 +161,17 @@ module "lambda-update" {
   )
 }
 
+module "datasource-lambda-events" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.events && lookup(local.operations.events, "api", false)
+  api = var.api
+  name = "${local.prefix}-events"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-events.arn
+}
 module "datasource-lambda-list" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.list
+  enabled = local.enabled_operations.list && lookup(local.operations.list, "api", false)
   api = var.api
   name = "${local.prefix}-list"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -172,7 +179,7 @@ module "datasource-lambda-list" {
 }
 module "datasource-lambda-get" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.get
+  enabled = local.enabled_operations.get && lookup(local.operations.get, "api", false)
   api = var.api
   name = "${local.prefix}-get"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -180,7 +187,7 @@ module "datasource-lambda-get" {
 }
 module "datasource-lambda-delete" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.delete
+  enabled = local.enabled_operations.delete && lookup(local.operations.delete, "api", false)
   api = var.api
   name = "${local.prefix}-delete"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -188,7 +195,7 @@ module "datasource-lambda-delete" {
 }
 module "datasource-lambda-create" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.create
+  enabled = local.enabled_operations.create && lookup(local.operations.create, "api", false)
   api = var.api
   name = "${local.prefix}-create"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -196,7 +203,7 @@ module "datasource-lambda-create" {
 }
 module "datasource-lambda-update" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.update
+  enabled = local.enabled_operations.update && lookup(local.operations.update, "api", false)
   api = var.api
   name = "${local.prefix}-update"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -209,20 +216,22 @@ module "api-resolvers" {
   api_name = var.api_name
   name     = "${var.env}-microservice-${var.name}"
   datasources = zipmap(
-    [
-      "get${local.upper_name_plural}",
-      "get${local.upper_name}",
-      "delete${local.upper_name}",
-      "create${local.upper_name}",
-      "update${local.upper_name}",
-    ],
-    [
-      module.datasource-lambda-list.name,
-      module.datasource-lambda-get.name,
-      module.datasource-lambda-delete.name,
-      module.datasource-lambda-create.name,
-      module.datasource-lambda-update.name,
-    ]
+    concat(
+      (false != lookup(local.operations.events, "api", false)) ? ["receiveExternalEvents"] : [],
+      (false != lookup(local.operations.list, "api", false)) ? ["get${local.upper_name_plural}"] : [],
+      (false != lookup(local.operations.get, "api", false)) ? ["get${local.upper_name}"] : [],
+      (false != lookup(local.operations.delete, "api", false)) ? ["delete${local.upper_name}"] : [],
+      (false != lookup(local.operations.create, "api", false)) ? ["create${local.upper_name}"] : [],
+      (false != lookup(local.operations.update, "api", false)) ? ["update${local.upper_name}"] : []
+    ),
+    concat(
+      (false != lookup(local.operations.events, "api", false)) ? [module.datasource-lambda-events.name] : [],
+      (false != lookup(local.operations.list, "api", false)) ? [module.datasource-lambda-list.name] : [],
+      (false != lookup(local.operations.get, "api", false)) ? [module.datasource-lambda-get.name] : [],
+      (false != lookup(local.operations.delete, "api", false)) ? [module.datasource-lambda-delete.name] : [],
+      (false != lookup(local.operations.create, "api", false)) ? [module.datasource-lambda-create.name] : [],
+      (false != lookup(local.operations.update, "api", false)) ? [module.datasource-lambda-update.name] : []
+    )
   )
   queries  = merge(
     (false != lookup(local.operations.list, "api", false)) ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
