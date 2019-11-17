@@ -162,20 +162,77 @@ module "lambda-update" {
   )
 }
 
-module "api-entrypoints" {
-  source   = "../appsync-lambda-sources"
+module "datasource-lambda-list" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.list
+  api = var.api
+  name = "${local.prefix}-list"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-list.arn
+}
+module "datasource-lambda-get" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.get
+  api = var.api
+  name = "${local.prefix}-get"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-get.arn
+}
+module "datasource-lambda-delete" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.delete
+  api = var.api
+  name = "${local.prefix}-delete"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-delete.arn
+}
+module "datasource-lambda-create" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.create
+  api = var.api
+  name = "${local.prefix}-create"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-create.arn
+}
+module "datasource-lambda-update" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.update
+  api = var.api
+  name = "${local.prefix}-update"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-update.arn
+}
+
+module "api-resolvers" {
+  source   = "../appsync-lambda-resolvers"
   api      = var.api
   api_name = var.api_name
   name     = "${var.env}-microservice-${var.name}"
+  datasources = zipmap(
+    [
+      "get${local.upper_name_plural}",
+      "get${local.upper_name}",
+      "delete${local.upper_name}",
+      "create${local.upper_name}",
+      "update${local.upper_name}",
+    ],
+    [
+      module.datasource-lambda-list.name,
+      module.datasource-lambda-get.name,
+      module.datasource-lambda-delete.name,
+      module.datasource-lambda-create.name,
+      module.datasource-lambda-update.name,
+    ]
+  )
   queries  = merge(
-    (false != lookup(local.operations.list, "api", false)) ? zipmap(["get${local.upper_name_plural}"], [{arn = module.lambda-list.arn}]) : {},
-    (false != lookup(local.operations.get, "api", false)) ? zipmap(["get${local.upper_name}"], [{arn = module.lambda-get.arn}]) : {}
+    (false != lookup(local.operations.list, "api", false)) ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
+    (false != lookup(local.operations.get, "api", false)) ? zipmap(["get${local.upper_name}"], [{}]) : {}
   )
   mutations = merge(
-    (false != lookup(local.operations.events, "api", false)) ? {receiveExternalEvents = {arn = module.lambda-events.arn}} : {},
-    (false != lookup(local.operations.delete, "api", false)) ? zipmap(["delete${local.upper_name}"], [{arn = module.lambda-delete.arn}]) : {},
-    (false != lookup(local.operations.create, "api", false)) ? zipmap(["create${local.upper_name}"], [{arn = module.lambda-create.arn}]) : {},
-    (false != lookup(local.operations.update, "api", false)) ? zipmap(["update${local.upper_name}"], [{arn = module.lambda-update.arn}]) : {}
+    (false != lookup(local.operations.events, "api", false)) ? {receiveExternalEvents = {}} : {},
+    (false != lookup(local.operations.delete, "api", false)) ? zipmap(["delete${local.upper_name}"], [{}]) : {},
+    (false != lookup(local.operations.create, "api", false)) ? zipmap(["create${local.upper_name}"], [{}]) : {},
+    (false != lookup(local.operations.update, "api", false)) ? zipmap(["update${local.upper_name}"], [{}]) : {}
   )
 }
 

@@ -15,3 +15,7 @@ variable "mutations" {
 variable "name" {
   type = string
 }
+variable "datasources" {
+  type = map(string)
+  default = {}
+}
