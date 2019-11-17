@@ -13,7 +13,7 @@ variable "handler" {
   default = "index.handler"
 }
 variable "variables" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 variable "enabled" {
@@ -21,6 +21,12 @@ variable "enabled" {
   default = true
 }
 variable "policy_statements" {
-  type = "list"
+  type = list(
+    object({
+      actions   = list(string),
+      resources = list(string),
+      effect    = string
+    })
+  )
   default = []
 }

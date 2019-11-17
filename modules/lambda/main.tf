@@ -47,8 +47,9 @@ module "lambda-policy" {
   statements = concat(
     [
       {
-        actions = ["logs:CreateLogStream", "logs:PutLogEvents"],
+        actions   = ["logs:CreateLogStream", "logs:PutLogEvents"],
         resources = ["arn:aws:logs:*:*:*"],
+        effect    = "Allow"
       },
     ],
     var.policy_statements
