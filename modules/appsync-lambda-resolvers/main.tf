@@ -35,7 +35,7 @@ resource "aws_appsync_resolver" "query" {
   api_id            = var.api
   field             = each.key
   type              = lookup(each.value, "type", "Query")
-  data_source       = lookup(var.datasources, each.key).name
+  data_source       = lookup(var.datasources, each.key)
   request_template  = templatefile("${path.module}/files/query-request.vm.tpl", {sourcePrefix: ("Query" == lookup(each.value, "type", "Query")) ? "" : "${lower(substr(lookup(each.value, "type", "Unknown"), 0, 1))}${substr(lookup(each.value, "type", "Unknown"), 1, length(lookup(each.value, "type", "Unknown")) - 1)}_"})
   response_template = templatefile("${path.module}/files/query-response.vm.tpl", {})
 }
@@ -45,7 +45,7 @@ resource "aws_appsync_resolver" "mutation" {
   api_id            = var.api
   field             = each.key
   type              = "Mutation"
-  data_source       = lookup(var.datasources, each.key).name
+  data_source       = lookup(var.datasources, each.key)
   request_template  = file("${path.module}/files/mutation-request.vm")
   response_template = file("${path.module}/files/mutation-response.vm")
 }
