@@ -58,6 +58,6 @@ resource "aws_appsync_resolver" "mutation" {
   field             = each.key
   type              = "Mutation"
   data_source       = aws_appsync_datasource.lambda[index(local.all_idx, each.key)].name
-  request_template  = file("${path.module}/files/files/mutation-request.vm")
-  response_template = file("${path.module}/files/files/mutation-response.vm")
+  request_template  = file("${path.module}/files/mutation-request.vm")
+  response_template = file("${path.module}/files/mutation-response.vm")
 }
