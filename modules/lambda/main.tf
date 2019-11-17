@@ -40,7 +40,7 @@ resource "aws_cloudwatch_log_group" "lambda" {
 
 module "lambda-policy" {
   source = "../lambda-policy"
-  enabled = var.enabled ? 1 : 0
+  enabled = var.enabled
   name = var.name
   policy_name = "lambda-${var.name}"
   role_name = aws_iam_role.lambda[0].name

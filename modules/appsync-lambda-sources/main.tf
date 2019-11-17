@@ -1,6 +1,6 @@
 locals {
-  all = merge(var.queries, var.mutations, var.subqueries)
-  all_idx = keys(merge(var.queries, var.mutations, var.subqueries))
+  all = merge(var.queries, var.mutations)
+  all_idx = keys(merge(var.queries, var.mutations))
 }
 
 resource "aws_appsync_datasource" "lambda" {

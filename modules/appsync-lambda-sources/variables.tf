@@ -1,14 +1,10 @@
 variable "api" {
-  type = "string"
+  type = string
 }
 variable "api_name" {
-  type = "string"
+  type = string
 }
 variable "queries" {
-  type = "map"
-  default = {}
-}
-variable "subqueries" {
   type = "map"
   default = {}
 }
@@ -17,5 +13,5 @@ variable "mutations" {
   default = {}
 }
 variable "name" {
-  type = "string"
+  type = string
 }
