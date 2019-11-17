@@ -44,7 +44,7 @@ module "lambda-policy" {
   name = var.name
   policy_name = "lambda-${var.name}"
   role_name = aws_iam_role.lambda[0].name
-  statements = merge(
+  statements = concat(
     [
       {
         actions = ["logs:CreateLogStream", "logs:PutLogEvents"],

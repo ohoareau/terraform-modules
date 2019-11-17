@@ -48,7 +48,7 @@ module "lambda-list" {
     },
     lookup(local.operations.list, "variables", {})
   )
-  policy_statements = merge(
+  policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
@@ -70,7 +70,7 @@ module "lambda-get" {
     },
     lookup(local.operations.get, "variables", {})
   )
-  policy_statements = merge(
+  policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable"]
@@ -93,7 +93,7 @@ module "lambda-delete" {
     },
     lookup(local.operations.delete, "variables", {})
   )
-  policy_statements = merge(
+  policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DeleteItem", "dynamodb:DescribeTable", "dynamodb:PutItem"]
@@ -120,7 +120,7 @@ module "lambda-create" {
     },
     lookup(local.operations.create, "variables", {})
   )
-  policy_statements = merge(
+  policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DeleteItem", "dynamodb:DescribeTable", "dynamodb:PutItem"]
@@ -147,7 +147,7 @@ module "lambda-update" {
     },
     lookup(local.operations.update, "variables", {})
   )
-  policy_statements = merge(
+  policy_statements = concat(
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:UpdateItem", "dynamodb:DescribeTable"]
