@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "appsync_api_assume_role" {
 data "aws_iam_policy_document" "appsync_api_role" {
   statement {
     actions   = ["lambda:InvokeFunction"]
-    resources = [for o in local.all : lookup(o, "arn", "unknown-arn")]
+    resources = [for o in var.datasources : o]
   }
 }
 
