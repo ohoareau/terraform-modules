@@ -1,6 +1,18 @@
 data "local_file" "schema" {
   filename = var.schema_file
 }
+
+data "aws_iam_policy_document" "appsync-api-assume-role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      identifiers = ["appsync.amazonaws.com"]
+      type = "Service"
+    }
+    effect = "Allow"
+  }
+}
+
 resource "aws_appsync_graphql_api" "api" {
   authentication_type = var.auth_type
   name                = var.name
@@ -23,20 +35,7 @@ resource "aws_appsync_graphql_api" "api" {
 resource "aws_iam_role" "logs" {
   name = "appsync-api-${var.name}-logs-role"
 
-  assume_role_policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-        "Effect": "Allow",
-        "Principal": {
-            "Service": "appsync.amazonaws.com"
-        },
-        "Action": "sts:AssumeRole"
-        }
-    ]
-}
-POLICY
+  assume_role_policy = data.aws_iam_policy_document.appsync-api-assume-role.json
 }
 
 resource "aws_iam_role_policy_attachment" "example" {

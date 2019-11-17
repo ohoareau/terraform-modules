@@ -1,11 +1,12 @@
 resource "aws_lambda_function" "lambda" {
+  count            = var.enabled ? 1 : 0
   filename         = var.file
   source_code_hash = filebase64sha256(var.file)
   function_name    = var.name
-  role             = aws_iam_role.lambda.arn
+  role             = aws_iam_role.lambda[0].arn
   handler          = var.handler
   runtime          = var.runtime
-  depends_on       = ["aws_iam_role_policy_attachment.lambda_logs", "aws_cloudwatch_log_group.lambda"]
+  depends_on       = ["module.lambda-policy", "aws_cloudwatch_log_group.lambda[0]"]
   dynamic "environment" {
     iterator = v
     for_each = (0 != length(keys(var.variables))) ? {variables: var.variables} : {}
@@ -15,10 +16,9 @@ resource "aws_lambda_function" "lambda" {
   }
 }
 
-data "aws_iam_policy_document" "lambda-assume-role-policy" {
+data "aws_iam_policy_document" "lambda-assume-role" {
   statement {
     actions = ["sts:AssumeRole"]
-
     principals {
       type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
@@ -27,37 +27,30 @@ data "aws_iam_policy_document" "lambda-assume-role-policy" {
 }
 
 resource "aws_iam_role" "lambda" {
+  count              = var.enabled ? 1 : 0
   name               = "lambda-${var.name}-role"
-  assume_role_policy = data.aws_iam_policy_document.lambda-assume-role-policy.json
+  assume_role_policy = data.aws_iam_policy_document.lambda-assume-role.json
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
+  count             = var.enabled ? 1 : 0
   name              = "/aws/lambda/${var.name}"
   retention_in_days = 14
 }
 
-resource "aws_iam_policy" "lambda_logging" {
-  name = "lambda-${var.name}-logging"
-  path = "/"
-  description = "IAM policy for logging from a lambda"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:*",
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role = aws_iam_role.lambda.name
-  policy_arn = aws_iam_policy.lambda_logging.arn
+module "lambda-policy" {
+  source = "../lambda-policy"
+  enabled = var.enabled ? 1 : 0
+  name = var.name
+  policy_name = "lambda-${var.name}"
+  role_name = aws_iam_role.lambda[0].name
+  statements = merge(
+    [
+      {
+        actions = ["logs:CreateLogStream", "logs:PutLogEvents"],
+        resources = ["arn:aws:logs:*:*:*"],
+      },
+    ],
+    var.policy_statements
+  )
 }

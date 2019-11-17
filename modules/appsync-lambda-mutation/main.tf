@@ -5,7 +5,8 @@ module "appsync-datasource-lambda" {
   name = var.name
   lambda_arn = var.lambda_arn
 }
-resource "aws_appsync_resolver" "create" {
+
+resource "aws_appsync_resolver" "mutation" {
   api_id            = var.api
   field             = var.name
   type              = "Mutation"

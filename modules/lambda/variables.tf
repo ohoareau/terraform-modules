@@ -14,3 +14,10 @@ variable "variables" {
   type    = "map"
   default = {}
 }
+variable "enabled" {
+  default = true
+}
+variable "policy_statements" {
+  type = "list"
+  default = []
+}

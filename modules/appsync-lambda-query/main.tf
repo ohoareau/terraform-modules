@@ -6,7 +6,7 @@ module "appsync-datasource-lambda" {
   lambda_arn = var.lambda_arn
 }
 
-resource "aws_appsync_resolver" "get" {
+resource "aws_appsync_resolver" "query" {
   api_id            = var.api
   field             = var.name
   type              = var.type
