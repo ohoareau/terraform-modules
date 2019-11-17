@@ -18,8 +18,6 @@ data "aws_iam_policy_document" "lambda" {
 resource "aws_iam_role_policy" "lambda" {
   count       = var.enabled ? 1 : 0
   name        = "lambda-${var.name}-policy-${var.policy_name}"
-  path        = "/"
-  description = "IAM policy for lambda-${var.name}"
   policy      = data.aws_iam_policy_document.lambda.json
   role        = var.role_name
 }
