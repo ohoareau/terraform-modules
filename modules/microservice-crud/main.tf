@@ -12,12 +12,12 @@ locals {
     update = merge({api = true, enabled = true, policy_statements = []}, lookup(var.operations, "update", {}))
   }
   enabled_operations = {
-    events = false != lookup(lookup(var.operations, "events", {enabled = true}), "enabled", true)
-    list   = false != lookup(lookup(var.operations, "list", {enabled = true}), "enabled", true)
-    get    = false != lookup(lookup(var.operations, "get", {enabled = true}), "enabled", true)
-    delete = false != lookup(lookup(var.operations, "delete", {enabled = true}), "enabled", true)
-    create = false != lookup(lookup(var.operations, "create", {enabled = true}), "enabled", true)
-    update = false != lookup(lookup(var.operations, "update", {enabled = true}), "enabled", true)
+    events = false != lookup(var.operations, "events", {enabled = true}).enabled
+    list   = false != lookup(var.operations, "list", {enabled = true}).enabled
+    get    = false != lookup(var.operations, "get", {enabled = true}).enabled
+    delete = false != lookup(var.operations, "delete", {enabled = true}).enabled
+    create = false != lookup(var.operations, "create", {enabled = true}).enabled
+    update = false != lookup(var.operations, "update", {enabled = true}).enabled
   }
 }
 

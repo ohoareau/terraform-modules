@@ -12,7 +12,19 @@ variable "name_plural" {
   default = ""
 }
 variable "operations" {
-  type = "map"
+  type = map(
+    object({
+      api = bool,
+      enabled = bool,
+      policy_statements = list(
+        object({
+          actions = list(string),
+          resources = list(string),
+          effect = string
+        })
+      )
+    })
+  )
   default = {}
 }
 variable "api" {
