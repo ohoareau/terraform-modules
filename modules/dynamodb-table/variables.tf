@@ -1,8 +1,13 @@
+variable "enabled" {
+  type    = bool
+  default = true
+}
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "hash_key" {
-  default = "id"
+  type    = string
+  default = id
 }
 variable "attributes" {
   default = {"id": {"type" = "S"}}

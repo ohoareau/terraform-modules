@@ -1,4 +1,5 @@
 resource "aws_dynamodb_table" "table" {
+  count          = var.enabled ? 1 : 0
   name           = var.name
   read_capacity  = 1
   write_capacity = 1

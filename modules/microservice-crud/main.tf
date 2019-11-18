@@ -4,20 +4,22 @@ locals {
   upper_name_plural = title(("" != var.name_plural) ? var.name_plural : "${var.name}s")
   prefix            = "${var.env}-${var.name}"
   operations = {
-    events = lookup(var.operations, "events", {api = false, enabled = true, policy_statements = [], variables = {}})
-    list   = lookup(var.operations, "list", {api = true, enabled = true, policy_statements = [], variables = {}})
-    get    = lookup(var.operations, "get", {api = true, enabled = true, policy_statements = [], variables = {}})
-    delete = lookup(var.operations, "delete", {api = true, enabled = true, policy_statements = [], variables = {}})
-    create = lookup(var.operations, "create", {api = true, enabled = true, policy_statements = [], variables = {}})
-    update = lookup(var.operations, "update", {api = true, enabled = true, policy_statements = [], variables = {}})
+    events  = lookup(var.operations, "events", {api = false, enabled = true, policy_statements = [], variables = {}})
+    migrate = lookup(var.operations, "migrate", {api = true, enabled = true, policy_statements = [], variables = {}})
+    list    = lookup(var.operations, "list", {api = true, enabled = true, policy_statements = [], variables = {}})
+    get     = lookup(var.operations, "get", {api = true, enabled = true, policy_statements = [], variables = {}})
+    delete  = lookup(var.operations, "delete", {api = true, enabled = true, policy_statements = [], variables = {}})
+    create  = lookup(var.operations, "create", {api = true, enabled = true, policy_statements = [], variables = {}})
+    update  = lookup(var.operations, "update", {api = true, enabled = true, policy_statements = [], variables = {}})
   }
   enabled_operations = {
-    events = lookup(var.operations, "events", {api = false, enabled = true, policy_statements = [], variables = {}}).enabled
-    list   = lookup(var.operations, "list", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    get    = lookup(var.operations, "get", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    delete = lookup(var.operations, "delete", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    create = lookup(var.operations, "create", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    update = lookup(var.operations, "update", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    events  = lookup(var.operations, "events", {api = false, enabled = true, policy_statements = [], variables = {}}).enabled
+    migrate = lookup(var.operations, "migrate", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    list    = lookup(var.operations, "list", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    get     = lookup(var.operations, "get", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    delete  = lookup(var.operations, "delete", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    create  = lookup(var.operations, "create", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    update  = lookup(var.operations, "update", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
   }
 }
 
@@ -37,6 +39,25 @@ module "lambda-events" {
   policy_statements = concat(
     [],
     local.operations.events.policy_statements
+  )
+}
+module "lambda-migrate" {
+  source    = "../lambda"
+  enabled   = local.enabled_operations.migrate
+  file      = var.file
+  name      = "${local.prefix}-migrate"
+  handler   = "index.migrate"
+  variables = merge(
+    {
+      DYNAMODB_TABLE_PREFIX = "${var.env}_",
+      DYNAMODB_MIGRATION_TABLE_PREFIX = "${local.upper_name}_",
+      MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
+    },
+    local.operations.migrate.variables
+  )
+  policy_statements = concat(
+    [],
+    local.operations.migrate.policy_statements
   )
 }
 module "lambda-list" {
@@ -181,6 +202,14 @@ module "datasource-lambda-events" {
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-events.arn
 }
+module "datasource-lambda-migrate" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_operations.migrate && lookup(local.operations.migrate, "api", false)
+  api = var.api
+  name = "${local.prefix}-migrate"
+  api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-migrate.arn
+}
 module "datasource-lambda-list" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_operations.list && lookup(local.operations.list, "api", false)
@@ -229,6 +258,7 @@ module "api-resolvers" {
   name     = "${var.env}-microservice-${var.name}"
   lambdas = concat(
     local.operations.events.api ? [module.lambda-events.arn] : [],
+    local.operations.migrate.api ? [module.lambda-migrate.arn] : [],
     local.operations.list.api ? [module.lambda-list.arn] : [],
     local.operations.get.api ? [module.lambda-get.arn] : [],
     local.operations.delete.api ? [module.lambda-delete.arn] : [],
@@ -238,6 +268,7 @@ module "api-resolvers" {
   datasources = zipmap(
     concat(
       local.operations.events.api ? ["receiveExternalEvents"] : [],
+      local.operations.migrate.api ? ["migrate"] : [],
       local.operations.list.api ? ["get${local.upper_name_plural}"] : [],
       local.operations.get.api ? ["get${local.upper_name}"] : [],
       local.operations.delete.api ? ["delete${local.upper_name}"] : [],
@@ -246,6 +277,7 @@ module "api-resolvers" {
     ),
     concat(
       local.operations.events.api ? [module.datasource-lambda-events.name] : [],
+      local.operations.migrate.api ? [module.datasource-lambda-migrate.name] : [],
       local.operations.list.api ? [module.datasource-lambda-list.name] : [],
       local.operations.get.api ? [module.datasource-lambda-get.name] : [],
       local.operations.delete.api ? [module.datasource-lambda-delete.name] : [],
@@ -259,6 +291,7 @@ module "api-resolvers" {
   )
   mutations = merge(
     local.operations.events.api ? {receiveExternalEvents = {}} : {},
+    local.operations.migrate.api ? {migrate = {}} : {},
     local.operations.delete.api ? zipmap(["delete${local.upper_name}"], [{}]) : {},
     local.operations.create.api ? zipmap(["create${local.upper_name}"], [{}]) : {},
     local.operations.update.api ? zipmap(["update${local.upper_name}"], [{}]) : {}
@@ -270,11 +303,17 @@ module "dynamodb-table" {
   name = "${var.env}_${local.upper_name}"
 }
 
+module "dynamodb-table-migration" {
+  source = "../dynamodb-table"
+  name = "${var.env}_${local.upper_name}_Migration"
+}
+
 module "sns-outgoing-topic" {
   source = "../sns-topic"
   name = "${local.prefix}-outgoing"
   sources = [
     module.lambda-events.arn,
+    module.lambda-migrate.arn,
     module.lambda-delete.arn,
     module.lambda-create.arn,
     module.lambda-update.arn,

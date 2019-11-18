@@ -6,6 +6,12 @@ output "lambdas" {
       role_arn  = module.lambda-events.role_arn
       role_name = module.lambda-events.role_name
     }
+    migrate = {
+      arn       = module.lambda-migrate.arn
+      name      = module.lambda-migrate.name
+      role_arn  = module.lambda-migrate.role_arn
+      role_name = module.lambda-migrate.role_name
+    }
     list = {
       arn       = module.lambda-list.arn
       name      = module.lambda-events.name
@@ -58,6 +64,10 @@ output "dynamodb_tables" {
     main = {
       arn  = module.dynamodb-table.arn
       name = module.dynamodb-table.name
+    }
+    migration = {
+      arn  = module.dynamodb-table-migration.arn
+      name = module.dynamodb-table-migration.name
     }
   }
 }
