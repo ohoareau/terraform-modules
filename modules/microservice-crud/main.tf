@@ -29,7 +29,7 @@ module "lambda-events" {
   handler   = "index.receiveExternalEvents"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = var.env,
+      DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
     local.operations.events.variables
@@ -47,7 +47,7 @@ module "lambda-list" {
   handler   = "index.get${local.upper_name_plural}"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = var.env
+      DYNAMODB_TABLE_PREFIX = "${var.env}_"
     },
     local.operations.list.variables
   )
@@ -70,7 +70,7 @@ module "lambda-get" {
   handler   = "index.get${local.upper_name}"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = var.env
+      DYNAMODB_TABLE_PREFIX = "${var.env}_"
     },
     local.operations.get.variables
   )
@@ -93,7 +93,7 @@ module "lambda-delete" {
   handler   = "index.delete${local.upper_name}"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = var.env,
+      DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
     local.operations.delete.variables
@@ -122,7 +122,7 @@ module "lambda-create" {
   handler = "index.create${local.upper_name}"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = var.env,
+      DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
     local.operations.create.variables
@@ -151,7 +151,7 @@ module "lambda-update" {
   handler = "index.update${local.upper_name}"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = var.env,
+      DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
     local.operations.update.variables
@@ -267,7 +267,7 @@ module "api-resolvers" {
 
 module "dynamodb-table" {
   source = "../dynamodb-table"
-  name = "${var.env}_${var.name}"
+  name = "${var.env}_${var.upper_name}"
 }
 
 module "sns-outgoing-topic" {
