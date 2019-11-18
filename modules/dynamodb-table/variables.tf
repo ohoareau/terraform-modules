@@ -7,7 +7,7 @@ variable "name" {
 }
 variable "hash_key" {
   type    = string
-  default = id
+  default = "id"
 }
 variable "attributes" {
   default = {"id": {"type" = "S"}}
