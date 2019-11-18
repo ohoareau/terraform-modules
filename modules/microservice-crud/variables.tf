@@ -30,7 +30,6 @@ variable "api_operations" {
 variable "operations" {
   type = map(
     object({
-      api = bool,
       variables = map(string),
       policy_statements = list(
         object({
