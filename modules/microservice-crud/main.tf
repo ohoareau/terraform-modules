@@ -49,14 +49,33 @@ module "lambda-migrate" {
   handler   = "index.migrate"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX = "${var.env}_",
+      DYNAMODB_TABLE_PREFIX           = "${var.env}_",
       DYNAMODB_MIGRATION_TABLE_PREFIX = "${local.upper_name}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
+      LAMBDA_CREATE_ARN               = module.lambda-create.arn,
+      LAMBDA_UPDATE_ARN               = module.lambda-update.arn,
+      LAMBDA_DELETE_ARN               = module.lambda-delete.arn,
+      LAMBDA_GET_ARN                  = module.lambda-get.arn,
+      LAMBDA_LIST_ARN                 = module.lambda-list.arn,
+      LAMBDA_EVENTS_ARN               = module.lambda-events.arn,
     },
     local.operations.migrate.variables
   )
   policy_statements = concat(
-    [],
+    [
+      {
+        actions = ["lambda:InvokeFunction"]
+        resources = [
+          module.lambda-create.arn,
+          module.lambda-update.arn,
+          module.lambda-delete.arn,
+          module.lambda-get.arn,
+          module.lambda-list.arn,
+          module.lambda-events.arn,
+        ]
+        effect = "Allow"
+      }
+    ],
     local.operations.migrate.policy_statements
   )
 }
