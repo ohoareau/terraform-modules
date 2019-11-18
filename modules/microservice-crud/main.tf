@@ -268,7 +268,7 @@ module "api-resolvers" {
   datasources = zipmap(
     concat(
       local.operations.events.api ? ["receiveExternalEvents"] : [],
-      local.operations.migrate.api ? ["migrate"] : [],
+      local.operations.migrate.api ? ["migrateMicroservice${local.upper_name}"] : [],
       local.operations.list.api ? ["get${local.upper_name_plural}"] : [],
       local.operations.get.api ? ["get${local.upper_name}"] : [],
       local.operations.delete.api ? ["delete${local.upper_name}"] : [],
@@ -291,7 +291,7 @@ module "api-resolvers" {
   )
   mutations = merge(
     local.operations.events.api ? {receiveExternalEvents = {}} : {},
-    local.operations.migrate.api ? {migrate = {}} : {},
+    local.operations.migrate.api ? zipmap(["migrateMicroservice${local.upper_name}"], [{}]) : {},
     local.operations.delete.api ? zipmap(["delete${local.upper_name}"], [{}]) : {},
     local.operations.create.api ? zipmap(["create${local.upper_name}"], [{}]) : {},
     local.operations.update.api ? zipmap(["update${local.upper_name}"], [{}]) : {}
