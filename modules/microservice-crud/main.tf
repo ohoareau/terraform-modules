@@ -369,7 +369,6 @@ data "aws_iam_policy_document" "sqs-incoming-queue" {
 }
 
 resource "aws_sqs_queue_policy" "sqs-incoming-queue" {
-  count = length(lookup(var.queues, "incoming", {sources = []}).sources) > 0 ? 1 : 0
   queue_url = module.sqs-incoming-queue.id
   policy = data.aws_iam_policy_document.sqs-incoming-queue.json
 }
