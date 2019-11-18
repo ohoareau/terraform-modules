@@ -11,6 +11,14 @@ variable "name_plural" {
   type    = string
   default = ""
 }
+variable "queues" {
+  type = map(
+    object({
+      sources = list(string)
+    })
+  )
+  default = {}
+}
 variable "operations" {
   type = map(
     object({
