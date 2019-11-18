@@ -366,7 +366,7 @@ data "aws_iam_policy_document" "sqs-incoming-queue" {
     condition {
       test = "ArnEquals"
       variable = "aws:SourceArn"
-      values = concat(lookup(var.queues, "incoming", {sources = []}).sources, [module.sns-outgoing-topic.arn])
+      values = lookup(var.queues, "incoming", {sources = []}).sources
     }
     effect = "Allow"
     principals {
