@@ -50,7 +50,7 @@ module "lambda-migrate" {
   variables = merge(
     {
       DYNAMODB_TABLE_PREFIX           = "${var.env}_",
-      DYNAMODB_MIGRATION_TABLE_PREFIX = "${local.upper_name}_",
+      DYNAMODB_MIGRATION_TABLE_PREFIX = "${var.env}_${local.upper_name}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
       LAMBDA_CREATE_ARN               = module.lambda-create.arn,
       LAMBDA_UPDATE_ARN               = module.lambda-update.arn,
@@ -74,6 +74,11 @@ module "lambda-migrate" {
           module.lambda-events.arn,
         ]
         effect = "Allow"
+      },
+      {
+        actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
+        resources = [module.dynamodb-table-migration.arn]
+        effect    = "Allow"
       }
     ],
     local.operations.migrate.policy_statements
