@@ -19,11 +19,14 @@ variable "queues" {
   )
   default = {}
 }
+variable "enabled_operations" {
+  type = map(bool)
+  default = {}
+}
 variable "operations" {
   type = map(
     object({
       api = bool,
-      enabled = bool,
       variables = map(string),
       policy_statements = list(
         object({

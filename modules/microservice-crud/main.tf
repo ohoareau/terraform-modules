@@ -4,22 +4,22 @@ locals {
   upper_name_plural = title(("" != var.name_plural) ? var.name_plural : "${var.name}s")
   prefix            = "${var.env}-${var.name}"
   operations = {
-    events  = lookup(var.operations, "events", {api = false, enabled = true, policy_statements = [], variables = {}})
-    migrate = lookup(var.operations, "migrate", {api = true, enabled = true, policy_statements = [], variables = {}})
-    list    = lookup(var.operations, "list", {api = true, enabled = true, policy_statements = [], variables = {}})
-    get     = lookup(var.operations, "get", {api = true, enabled = true, policy_statements = [], variables = {}})
-    delete  = lookup(var.operations, "delete", {api = true, enabled = true, policy_statements = [], variables = {}})
-    create  = lookup(var.operations, "create", {api = true, enabled = true, policy_statements = [], variables = {}})
-    update  = lookup(var.operations, "update", {api = true, enabled = true, policy_statements = [], variables = {}})
+    events  = lookup(var.operations, "events", {api = false, policy_statements = [], variables = {}})
+    migrate = lookup(var.operations, "migrate", {api = true, policy_statements = [], variables = {}})
+    list    = lookup(var.operations, "list", {api = true, policy_statements = [], variables = {}})
+    get     = lookup(var.operations, "get", {api = true, policy_statements = [], variables = {}})
+    delete  = lookup(var.operations, "delete", {api = true, policy_statements = [], variables = {}})
+    create  = lookup(var.operations, "create", {api = true, policy_statements = [], variables = {}})
+    update  = lookup(var.operations, "update", {api = true, policy_statements = [], variables = {}})
   }
   enabled_operations = {
-    events  = lookup(var.operations, "events", {api = false, enabled = true, policy_statements = [], variables = {}}).enabled
-    migrate = lookup(var.operations, "migrate", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    list    = lookup(var.operations, "list", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    get     = lookup(var.operations, "get", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    delete  = lookup(var.operations, "delete", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    create  = lookup(var.operations, "create", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
-    update  = lookup(var.operations, "update", {api = true, enabled = true, policy_statements = [], variables = {}}).enabled
+    events  = lookup(var.enabled_operations, "events", true)
+    migrate = lookup(var.enabled_operations, "migrate", true)
+    list    = lookup(var.enabled_operations, "list", true)
+    get     = lookup(var.enabled_operations, "get", true)
+    delete  = lookup(var.enabled_operations, "delete", true)
+    create  = lookup(var.enabled_operations, "create", true)
+    update  = lookup(var.enabled_operations, "update", true)
   }
 }
 
