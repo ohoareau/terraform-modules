@@ -23,6 +23,10 @@ variable "enabled_operations" {
   type = map(bool)
   default = {}
 }
+variable "api_operations" {
+  type = map(bool)
+  default = {}
+}
 variable "operations" {
   type = map(
     object({

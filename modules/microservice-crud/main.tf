@@ -4,13 +4,13 @@ locals {
   upper_name_plural = title(("" != var.name_plural) ? var.name_plural : "${var.name}s")
   prefix            = "${var.env}-${var.name}"
   operations = {
-    events  = lookup(var.operations, "events", {api = false, policy_statements = [], variables = {}})
-    migrate = lookup(var.operations, "migrate", {api = true, policy_statements = [], variables = {}})
-    list    = lookup(var.operations, "list", {api = true, policy_statements = [], variables = {}})
-    get     = lookup(var.operations, "get", {api = true, policy_statements = [], variables = {}})
-    delete  = lookup(var.operations, "delete", {api = true, policy_statements = [], variables = {}})
-    create  = lookup(var.operations, "create", {api = true, policy_statements = [], variables = {}})
-    update  = lookup(var.operations, "update", {api = true, policy_statements = [], variables = {}})
+    events  = lookup(var.operations, "events", {policy_statements = [], variables = {}})
+    migrate = lookup(var.operations, "migrate", {policy_statements = [], variables = {}})
+    list    = lookup(var.operations, "list", {policy_statements = [], variables = {}})
+    get     = lookup(var.operations, "get", {policy_statements = [], variables = {}})
+    delete  = lookup(var.operations, "delete", {policy_statements = [], variables = {}})
+    create  = lookup(var.operations, "create", {policy_statements = [], variables = {}})
+    update  = lookup(var.operations, "update", {policy_statements = [], variables = {}})
   }
   enabled_operations = {
     events  = lookup(var.enabled_operations, "events", true)
@@ -20,6 +20,15 @@ locals {
     delete  = lookup(var.enabled_operations, "delete", true)
     create  = lookup(var.enabled_operations, "create", true)
     update  = lookup(var.enabled_operations, "update", true)
+  }
+  api_operations = {
+    events  = lookup(var.api_operations, "events", false)
+    migrate = lookup(var.api_operations, "migrate", true)
+    list    = lookup(var.api_operations, "list", true)
+    get     = lookup(var.api_operations, "get", true)
+    delete  = lookup(var.api_operations, "delete", true)
+    create  = lookup(var.api_operations, "create", true)
+    update  = lookup(var.api_operations, "update", true)
   }
 }
 
@@ -220,7 +229,7 @@ module "lambda-update" {
 
 module "datasource-lambda-events" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.events && lookup(local.operations.events, "api", false)
+  enabled = local.enabled_operations.events && local.api_operations.events
   api = var.api
   name = "${local.prefix}-events"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -228,7 +237,7 @@ module "datasource-lambda-events" {
 }
 module "datasource-lambda-migrate" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.migrate && lookup(local.operations.migrate, "api", false)
+  enabled = local.enabled_operations.migrate && local.api_operations.migrate
   api = var.api
   name = "${local.prefix}-migrate"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -236,7 +245,7 @@ module "datasource-lambda-migrate" {
 }
 module "datasource-lambda-list" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.list && lookup(local.operations.list, "api", false)
+  enabled = local.enabled_operations.list && local.api_operations.list
   api = var.api
   name = "${local.prefix}-list"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -244,7 +253,7 @@ module "datasource-lambda-list" {
 }
 module "datasource-lambda-get" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.get && lookup(local.operations.get, "api", false)
+  enabled = local.enabled_operations.get && local.api_operations.get
   api = var.api
   name = "${local.prefix}-get"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -252,7 +261,7 @@ module "datasource-lambda-get" {
 }
 module "datasource-lambda-delete" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.delete && lookup(local.operations.delete, "api", false)
+  enabled = local.enabled_operations.delete && local.api_operations.delete
   api = var.api
   name = "${local.prefix}-delete"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -260,7 +269,7 @@ module "datasource-lambda-delete" {
 }
 module "datasource-lambda-create" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.create && lookup(local.operations.create, "api", false)
+  enabled = local.enabled_operations.create && local.api_operations.create
   api = var.api
   name = "${local.prefix}-create"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -268,7 +277,7 @@ module "datasource-lambda-create" {
 }
 module "datasource-lambda-update" {
   source = "../appsync-lambda-datasource"
-  enabled = local.enabled_operations.update && lookup(local.operations.update, "api", false)
+  enabled = local.enabled_operations.update && local.api_operations.update
   api = var.api
   name = "${local.prefix}-update"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
@@ -281,44 +290,44 @@ module "api-resolvers" {
   api_name = var.api_name
   name     = "${var.env}-microservice-${var.name}"
   lambdas = concat(
-    local.operations.events.api ? [module.lambda-events.arn] : [],
-    local.operations.migrate.api ? [module.lambda-migrate.arn] : [],
-    local.operations.list.api ? [module.lambda-list.arn] : [],
-    local.operations.get.api ? [module.lambda-get.arn] : [],
-    local.operations.delete.api ? [module.lambda-delete.arn] : [],
-    local.operations.create.api ? [module.lambda-create.arn] : [],
-    local.operations.update.api ? [module.lambda-update.arn] : []
+    local.api_operations.events ? [module.lambda-events.arn] : [],
+    local.api_operations.migrate ? [module.lambda-migrate.arn] : [],
+    local.api_operations.list ? [module.lambda-list.arn] : [],
+    local.api_operations.get ? [module.lambda-get.arn] : [],
+    local.api_operations.delete ? [module.lambda-delete.arn] : [],
+    local.api_operations.create ? [module.lambda-create.arn] : [],
+    local.api_operations.update ? [module.lambda-update.arn] : []
   )
   datasources = zipmap(
     concat(
-      local.operations.events.api ? ["receiveExternalEvents"] : [],
-      local.operations.migrate.api ? ["migrateMicroservice${local.upper_name}"] : [],
-      local.operations.list.api ? ["get${local.upper_name_plural}"] : [],
-      local.operations.get.api ? ["get${local.upper_name}"] : [],
-      local.operations.delete.api ? ["delete${local.upper_name}"] : [],
-      local.operations.create.api ? ["create${local.upper_name}"] : [],
-      local.operations.update.api ? ["update${local.upper_name}"] : []
+      local.api_operations.events ? ["receiveExternalEvents"] : [],
+      local.api_operations.migrate ? ["migrateMicroservice${local.upper_name}"] : [],
+      local.api_operations.list ? ["get${local.upper_name_plural}"] : [],
+      local.api_operations.get ? ["get${local.upper_name}"] : [],
+      local.api_operations.delete ? ["delete${local.upper_name}"] : [],
+      local.api_operations.create ? ["create${local.upper_name}"] : [],
+      local.api_operations.update ? ["update${local.upper_name}"] : []
     ),
     concat(
-      local.operations.events.api ? [module.datasource-lambda-events.name] : [],
-      local.operations.migrate.api ? [module.datasource-lambda-migrate.name] : [],
-      local.operations.list.api ? [module.datasource-lambda-list.name] : [],
-      local.operations.get.api ? [module.datasource-lambda-get.name] : [],
-      local.operations.delete.api ? [module.datasource-lambda-delete.name] : [],
-      local.operations.create.api ? [module.datasource-lambda-create.name] : [],
-      local.operations.update.api ? [module.datasource-lambda-update.name] : []
+      local.api_operations.events ? [module.datasource-lambda-events.name] : [],
+      local.api_operations.migrate ? [module.datasource-lambda-migrate.name] : [],
+      local.api_operations.list ? [module.datasource-lambda-list.name] : [],
+      local.api_operations.get ? [module.datasource-lambda-get.name] : [],
+      local.api_operations.delete ? [module.datasource-lambda-delete.name] : [],
+      local.api_operations.create ? [module.datasource-lambda-create.name] : [],
+      local.api_operations.update ? [module.datasource-lambda-update.name] : []
     )
   )
   queries  = merge(
-    local.operations.list.api ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
-    local.operations.get.api ? zipmap(["get${local.upper_name}"], [{}]) : {}
+    local.api_operations.list ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
+    local.api_operations.get ? zipmap(["get${local.upper_name}"], [{}]) : {}
   )
   mutations = merge(
-    local.operations.events.api ? {receiveExternalEvents = {}} : {},
-    local.operations.migrate.api ? zipmap(["migrateMicroservice${local.upper_name}"], [{}]) : {},
-    local.operations.delete.api ? zipmap(["delete${local.upper_name}"], [{}]) : {},
-    local.operations.create.api ? zipmap(["create${local.upper_name}"], [{}]) : {},
-    local.operations.update.api ? zipmap(["update${local.upper_name}"], [{}]) : {}
+    local.api_operations.events ? {receiveExternalEvents = {}} : {},
+    local.api_operations.migrate ? zipmap(["migrateMicroservice${local.upper_name}"], [{}]) : {},
+    local.api_operations.delete ? zipmap(["delete${local.upper_name}"], [{}]) : {},
+    local.api_operations.create ? zipmap(["create${local.upper_name}"], [{}]) : {},
+    local.api_operations.update ? zipmap(["update${local.upper_name}"], [{}]) : {}
   )
 }
 
