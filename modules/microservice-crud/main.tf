@@ -101,7 +101,7 @@ module "lambda-migrate" {
       },
       {
         actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
-        resources = [module.dynamodb-table-migration.arn]
+        resources = [module.dynamodb-table.arn, "${module.dynamodb-table.arn}/index/*"]
         effect    = "Allow"
       }
     ],
@@ -124,7 +124,7 @@ module "lambda-list" {
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
-        resources = [module.dynamodb-table.arn]
+        resources = [module.dynamodb-table.arn, "${module.dynamodb-table.arn}/index/*"]
         effect    = "Allow"
       }
     ],
@@ -147,7 +147,7 @@ module "lambda-get" {
     [
       {
         actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable"]
-        resources = [module.dynamodb-table.arn]
+        resources = [module.dynamodb-table.arn, "${module.dynamodb-table.arn}/index/*"]
         effect    = "Allow"
       }
     ],
