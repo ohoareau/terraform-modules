@@ -30,6 +30,13 @@ locals {
     create  = lookup(var.api_operations, "create", true)
     update  = lookup(var.api_operations, "update", true)
   }
+  api_events_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "events"]
+  api_migrate_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "migrate"]
+  api_list_aliases = [for k,v in var.api_query_aliases: {name: k, config: v.config} if v.operation == "list"]
+  api_get_aliases = [for k,v in var.api_query_aliases: {name: k, config: v.config} if v.operation == "get"]
+  api_delete_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "delete"]
+  api_create_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "create"]
+  api_update_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "update"]
 }
 
 module "lambda-events" {
@@ -306,7 +313,14 @@ module "api-resolvers" {
       local.api_operations.get ? ["get${local.upper_name}"] : [],
       local.api_operations.delete ? ["delete${local.upper_name}"] : [],
       local.api_operations.create ? ["create${local.upper_name}"] : [],
-      local.api_operations.update ? ["update${local.upper_name}"] : []
+      local.api_operations.update ? ["update${local.upper_name}"] : [],
+      [for o in local.api_events_aliases: o.name],
+      [for o in local.api_migrate_aliases: o.name],
+      [for o in local.api_list_aliases: o.name],
+      [for o in local.api_get_aliases: o.name],
+      [for o in local.api_delete_aliases: o.name],
+      [for o in local.api_create_aliases: o.name],
+      [for o in local.api_update_aliases: o.name]
     ),
     concat(
       local.api_operations.events ? [module.datasource-lambda-events.name] : [],
@@ -315,12 +329,21 @@ module "api-resolvers" {
       local.api_operations.get ? [module.datasource-lambda-get.name] : [],
       local.api_operations.delete ? [module.datasource-lambda-delete.name] : [],
       local.api_operations.create ? [module.datasource-lambda-create.name] : [],
-      local.api_operations.update ? [module.datasource-lambda-update.name] : []
+      local.api_operations.update ? [module.datasource-lambda-update.name] : [],
+      [for o in local.api_events_aliases: module.datasource-lambda-events.name],
+      [for o in local.api_migrate_aliases: module.datasource-lambda-events.name],
+      [for o in local.api_list_aliases: module.datasource-lambda-list.name],
+      [for o in local.api_get_aliases: module.datasource-lambda-get.name],
+      [for o in local.api_delete_aliases: module.datasource-lambda-delete.name],
+      [for o in local.api_create_aliases: module.datasource-lambda-create.name],
+      [for o in local.api_update_aliases: module.datasource-lambda-update.name]
     )
   )
   queries  = merge(
     local.api_operations.list ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
-    local.api_operations.get ? zipmap(["get${local.upper_name}"], [{}]) : {}
+    local.api_operations.get ? zipmap(["get${local.upper_name}"], [{}]) : {},
+    zipmap([for o in local.api_list_aliases: o.name], [for o in local.api_list_aliases: o]),
+    zipmap([for o in local.api_get_aliases: o.name], [for o in local.api_get_aliases: o])
   )
   mutations = merge(
     local.api_operations.events ? {receiveExternalEvents = {}} : {},
@@ -328,6 +351,11 @@ module "api-resolvers" {
     local.api_operations.delete ? zipmap(["delete${local.upper_name}"], [{}]) : {},
     local.api_operations.create ? zipmap(["create${local.upper_name}"], [{}]) : {},
     local.api_operations.update ? zipmap(["update${local.upper_name}"], [{}]) : {}
+    zipmap([for o in local.api_events_aliases: o.name], [for o in local.api_events_aliases: o]),
+    zipmap([for o in local.api_migrate_aliases: o.name], [for o in local.api_migrate_aliases: o]),
+    zipmap([for o in local.api_delete_aliases: o.name], [for o in local.api_delete_aliases: o]),
+    zipmap([for o in local.api_create_aliases: o.name], [for o in local.api_create_aliases: o]),
+    zipmap([for o in local.api_update_aliases: o.name], [for o in local.api_update_aliases: o])
   )
 }
 

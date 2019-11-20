@@ -42,6 +42,14 @@ variable "operations" {
   )
   default = {}
 }
+variable "api_mutation_aliases" {
+  type    = map(object({operation: string, config: map(string)}))
+  default = {}
+}
+variable "api_query_aliases" {
+  type    = map(object({operation: string, config: map(string)}))
+  default = {}
+}
 variable "api" {
   type    = string
   default = ""
