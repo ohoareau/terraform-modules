@@ -378,8 +378,8 @@ module "dynamodb-table" {
 module "dynamodb-table-migration" {
   source = "../dynamodb-table"
   name = "${var.env}_${local.upper_name}_Migration"
-  attributes = local.tables.migration.attributes
-  indexes    = local.tables.migration.indexes
+  attributes = local.tables_attributes.migration
+  indexes    = local.tables_indexes.migration
 }
 
 module "sns-outgoing-topic" {
