@@ -350,7 +350,7 @@ module "api-resolvers" {
     local.api_operations.migrate ? zipmap(["migrateMicroservice${local.upper_name}"], [{}]) : {},
     local.api_operations.delete ? zipmap(["delete${local.upper_name}"], [{}]) : {},
     local.api_operations.create ? zipmap(["create${local.upper_name}"], [{}]) : {},
-    local.api_operations.update ? zipmap(["update${local.upper_name}"], [{}]) : {}
+    local.api_operations.update ? zipmap(["update${local.upper_name}"], [{}]) : {},
     zipmap([for o in local.api_events_aliases: o.name], [for o in local.api_events_aliases: o]),
     zipmap([for o in local.api_migrate_aliases: o.name], [for o in local.api_migrate_aliases: o]),
     zipmap([for o in local.api_delete_aliases: o.name], [for o in local.api_delete_aliases: o]),
