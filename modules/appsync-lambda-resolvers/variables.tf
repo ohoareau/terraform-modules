@@ -5,11 +5,11 @@ variable "api_name" {
   type = string
 }
 variable "queries" {
-  type = "map"
+  type    = map(object({type: string, config: map(string)}))
   default = {}
 }
 variable "mutations" {
-  type = "map"
+  type    = map(object({type: string, config: map(string)}))
   default = {}
 }
 variable "name" {

@@ -30,13 +30,13 @@ locals {
     create  = lookup(var.api_operations, "create", true)
     update  = lookup(var.api_operations, "update", true)
   }
-  api_events_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "events"]
-  api_migrate_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "migrate"]
-  api_list_aliases = [for k,v in var.api_query_aliases: {name: k, config: v.config} if v.operation == "list"]
-  api_get_aliases = [for k,v in var.api_query_aliases: {name: k, config: v.config} if v.operation == "get"]
-  api_delete_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "delete"]
-  api_create_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "create"]
-  api_update_aliases = [for k,v in var.api_mutation_aliases: {name: k, config: v.config} if v.operation == "update"]
+  api_events_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "events"]
+  api_migrate_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "migrate"]
+  api_list_aliases = [for k,v in var.api_query_aliases: {name: k, type: lookup(v.config, "type", "Query"), config: v.config} if v.operation == "list"]
+  api_get_aliases = [for k,v in var.api_query_aliases: {name: k, type: lookup(v.config, "type", "Query"), config: v.config} if v.operation == "get"]
+  api_delete_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "delete"]
+  api_create_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "create"]
+  api_update_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "update"]
 }
 
 module "lambda-events" {
@@ -340,17 +340,17 @@ module "api-resolvers" {
     )
   )
   queries  = merge(
-    local.api_operations.list ? zipmap(["get${local.upper_name_plural}"], [{}]) : {},
-    local.api_operations.get ? zipmap(["get${local.upper_name}"], [{}]) : {},
+    local.api_operations.list ? zipmap(["get${local.upper_name_plural}"], [{type = "Query", config = {}}]) : {},
+    local.api_operations.get ? zipmap(["get${local.upper_name}"], [{type = "Query", config = {}}]) : {},
     zipmap([for o in local.api_list_aliases: o.name], [for o in local.api_list_aliases: o]),
     zipmap([for o in local.api_get_aliases: o.name], [for o in local.api_get_aliases: o])
   )
   mutations = merge(
     local.api_operations.events ? {receiveExternalEvents = {}} : {},
-    local.api_operations.migrate ? zipmap(["migrateMicroservice${local.upper_name}"], [{}]) : {},
-    local.api_operations.delete ? zipmap(["delete${local.upper_name}"], [{}]) : {},
-    local.api_operations.create ? zipmap(["create${local.upper_name}"], [{}]) : {},
-    local.api_operations.update ? zipmap(["update${local.upper_name}"], [{}]) : {},
+    local.api_operations.migrate ? zipmap(["migrateMicroservice${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
+    local.api_operations.delete ? zipmap(["delete${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
+    local.api_operations.create ? zipmap(["create${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
+    local.api_operations.update ? zipmap(["update${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
     zipmap([for o in local.api_events_aliases: o.name], [for o in local.api_events_aliases: o]),
     zipmap([for o in local.api_migrate_aliases: o.name], [for o in local.api_migrate_aliases: o]),
     zipmap([for o in local.api_delete_aliases: o.name], [for o in local.api_delete_aliases: o]),
