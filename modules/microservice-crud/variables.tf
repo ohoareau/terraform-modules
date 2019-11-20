@@ -60,17 +60,21 @@ variable "api_name" {
 }
 variable "tables_attributes" {
   type = map(
-    object({
-      type = string
-    })
+    map(
+      object({
+        type = string
+      })
+    )
   )
   default = {}
 }
 variable "tables_indexes" {
   type = map(
-    object({
-      type = string
-    })
+    map(
+      object({
+        type = string
+      })
+    )
   )
   default = {}
 }
