@@ -9,6 +9,9 @@ $util.quiet($params.put($entry.key, $entry.value))
 #foreach ($entry in $context.arguments.entrySet())
 $util.quiet($params.put($entry.key, $entry.value))
 #end
+%{ if config && config.filter ~}
+$util.quiet($params.put("criteria", {"${config.filter}": $context.arguments.get("${config.filter}")}))
+%{ endif ~}
 {
     "version": "2018-05-29",
     "operation": "Invoke",
