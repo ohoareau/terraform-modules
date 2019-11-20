@@ -37,6 +37,10 @@ locals {
   api_delete_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "delete"]
   api_create_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "create"]
   api_update_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "update"]
+  tables = {
+    main      = lookup(var.tables, "main", {attributes: {id = {type: "S"}, indexes: {}}})
+    migration = lookup(var.tables, "migration", {attributes: {id = {type: "S"}, indexes: {}}})
+  }
 }
 
 module "lambda-events" {
@@ -362,11 +366,16 @@ module "api-resolvers" {
 module "dynamodb-table" {
   source = "../dynamodb-table"
   name = "${var.env}_${local.upper_name}"
+  attributes = local.tables.main.attributes
+  indexes    = local.tables.main.indexes
+
 }
 
 module "dynamodb-table-migration" {
   source = "../dynamodb-table"
   name = "${var.env}_${local.upper_name}_Migration"
+  attributes = local.tables.migration.attributes
+  indexes    = local.tables.migration.indexes
 }
 
 module "sns-outgoing-topic" {
