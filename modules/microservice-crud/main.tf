@@ -284,7 +284,7 @@ module "datasource-lambda-events-public" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_public_operations.events
   api = var.public_api
-  name = "${local.prefix}-events-public"
+  name = "${local.prefix}-events"
   api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-events.arn
 }
@@ -300,7 +300,7 @@ module "datasource-lambda-migrate-public" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_public_operations.migrate
   api = var.public_api
-  name = "${local.prefix}-migrate-public"
+  name = "${local.prefix}-migrate"
   api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-migrate.arn
 }
@@ -316,7 +316,7 @@ module "datasource-lambda-list-public" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_public_operations.list
   api = var.public_api
-  name = "${local.prefix}-list-public"
+  name = "${local.prefix}-list"
   api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-list.arn
 }
@@ -348,7 +348,7 @@ module "datasource-lambda-delete-public" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_public_operations.delete
   api = var.public_api
-  name = "${local.prefix}-delete-public"
+  name = "${local.prefix}-delete"
   api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-delete.arn
 }
@@ -364,7 +364,7 @@ module "datasource-lambda-create-public" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_public_operations.create
   api = var.public_api
-  name = "${local.prefix}-create-public"
+  name = "${local.prefix}-create"
   api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-create.arn
 }
@@ -380,7 +380,7 @@ module "datasource-lambda-update-public" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_public_operations.update
   api = var.public_api
-  name = "${local.prefix}-update-public"
+  name = "${local.prefix}-update"
   api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-update.arn
 }
@@ -479,13 +479,13 @@ module "public-api-resolvers" {
       [for o in local.public_api_update_aliases: o.name]
     ),
     concat(
-      [for o in local.public_api_events_aliases: module.datasource-lambda-events.name],
-      [for o in local.public_api_migrate_aliases: module.datasource-lambda-events.name],
-      [for o in local.public_api_list_aliases: module.datasource-lambda-list.name],
-      [for o in local.public_api_get_aliases: module.datasource-lambda-get.name],
-      [for o in local.public_api_delete_aliases: module.datasource-lambda-delete.name],
-      [for o in local.public_api_create_aliases: module.datasource-lambda-create.name],
-      [for o in local.public_api_update_aliases: module.datasource-lambda-update.name]
+      [for o in local.public_api_events_aliases: module.datasource-lambda-events-public.name],
+      [for o in local.public_api_migrate_aliases: module.datasource-lambda-migrate-public.name],
+      [for o in local.public_api_list_aliases: module.datasource-lambda-list-public.name],
+      [for o in local.public_api_get_aliases: module.datasource-lambda-get-public.name],
+      [for o in local.public_api_delete_aliases: module.datasource-lambda-delete-public.name],
+      [for o in local.public_api_create_aliases: module.datasource-lambda-create-public.name],
+      [for o in local.public_api_update_aliases: module.datasource-lambda-update-public.name]
     )
   )
   queries  = merge(
