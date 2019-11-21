@@ -1,5 +1,7 @@
 data "aws_iam_policy_document" "sqs-queue" {
+  policy_id = "sns-to-sqs-subscription-${var.name}"
   statement {
+    sid = "sns-to-sqs-subscription-${var.name}"
     actions = [
       "sqs:SendMessage",
     ]
