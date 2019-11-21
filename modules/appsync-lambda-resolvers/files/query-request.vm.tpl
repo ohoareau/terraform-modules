@@ -13,7 +13,7 @@ $util.quiet($params.put($entry.key, $entry.value))
 $util.quiet($params.put("criteria", {"${config.filter}": $context.arguments.get("${config.filter}")}))
 %{ endif ~}
 %{ if "" != lookup(config, "userAs", "") ~}
-$util.quiet($params.put("${config.userAs}", $context.identity.get("sub")))
+$util.quiet($params.put("${config.userAs}", $context.identity.sub))
 %{ endif ~}
 {
     "version": "2018-05-29",
