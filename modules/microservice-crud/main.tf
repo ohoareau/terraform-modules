@@ -72,6 +72,9 @@ locals {
     main      = lookup(var.tables_indexes, "main", {})
     migration = lookup(var.tables_indexes, "migration", {})
   }
+  queues_sources = {
+    incoming = lookup(var.queues, "incoming", {sources = []}).sources
+  }
 }
 
 module "lambda-events" {
@@ -532,24 +535,3 @@ module "sqs-incoming-queue" {
   lambda_role_name = module.lambda-events.role_name
 }
 
-data "aws_iam_policy_document" "sqs-incoming-queue" {
-  statement {
-    actions = ["sqs:SendMessage"]
-    condition {
-      test = "ArnEquals"
-      variable = "aws:SourceArn"
-      values = lookup(var.queues, "incoming", {sources = []}).sources
-    }
-    effect = "Allow"
-    principals {
-      type = "AWS"
-      identifiers = ["*"]
-    }
-    resources = [module.sqs-incoming-queue.arn]
-  }
-}
-
-resource "aws_sqs_queue_policy" "sqs-incoming-queue" {
-  queue_url = module.sqs-incoming-queue.id
-  policy = data.aws_iam_policy_document.sqs-incoming-queue.json
-}
