@@ -425,7 +425,7 @@ module "api-resolvers" {
       local.api_operations.create ? [module.datasource-lambda-create.name] : [],
       local.api_operations.update ? [module.datasource-lambda-update.name] : [],
       [for o in local.api_events_aliases: module.datasource-lambda-events.name],
-      [for o in local.api_migrate_aliases: module.datasource-lambda-events.name],
+      [for o in local.api_migrate_aliases: module.datasource-lambda-migrate.name],
       [for o in local.api_list_aliases: module.datasource-lambda-list.name],
       [for o in local.api_get_aliases: module.datasource-lambda-get.name],
       [for o in local.api_delete_aliases: module.datasource-lambda-delete.name],
