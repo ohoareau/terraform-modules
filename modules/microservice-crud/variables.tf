@@ -50,11 +50,27 @@ variable "api_query_aliases" {
   type    = map(object({operation: string, config: map(string)}))
   default = {}
 }
+variable "public_api_mutation_aliases" {
+  type    = map(object({operation: string, config: map(string)}))
+  default = {}
+}
+variable "public_api_query_aliases" {
+  type    = map(object({operation: string, config: map(string)}))
+  default = {}
+}
 variable "api" {
   type    = string
   default = ""
 }
+variable "public_api" {
+  type    = string
+  default = ""
+}
 variable "api_name" {
+  type    = string
+  default = ""
+}
+variable "public_api_name" {
   type    = string
   default = ""
 }

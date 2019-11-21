@@ -1,3 +1,7 @@
+variable "enabled" {
+  type    = bool
+  default = true
+}
 variable "api" {
   type = string
 }

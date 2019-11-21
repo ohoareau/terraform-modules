@@ -3,6 +3,7 @@ locals {
 }
 
 data "aws_iam_policy_document" "appsync_api_assume_role" {
+  count = var.enabled ? 1 : 0
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -13,6 +14,7 @@ data "aws_iam_policy_document" "appsync_api_assume_role" {
   }
 }
 data "aws_iam_policy_document" "appsync_api_role" {
+  count = var.enabled ? 1 : 0
   statement {
     actions   = ["lambda:InvokeFunction"]
     resources = [for arn in var.lambdas : arn]
@@ -20,14 +22,16 @@ data "aws_iam_policy_document" "appsync_api_role" {
 }
 
 resource "aws_iam_role" "appsync_api" {
+  count = var.enabled ? 1 : 0
   name = "appsync_api_${var.api_name}_${var.name}"
-  assume_role_policy = data.aws_iam_policy_document.appsync_api_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.appsync_api_assume_role[0].json
 }
 
 resource "aws_iam_role_policy" "appsync_api_policy" {
+  count = var.enabled ? 1 : 0
   name = "appsync_api_${var.api_name}_${var.name}_policy"
-  role = aws_iam_role.appsync_api.id
-  policy = data.aws_iam_policy_document.appsync_api_role.json
+  role = aws_iam_role.appsync_api[0].id
+  policy = data.aws_iam_policy_document.appsync_api_role[0].json
 }
 
 resource "aws_appsync_resolver" "query" {

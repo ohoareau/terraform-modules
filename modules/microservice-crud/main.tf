@@ -21,6 +21,24 @@ locals {
     create  = lookup(var.enabled_operations, "create", true)
     update  = lookup(var.enabled_operations, "update", true)
   }
+  enabled_public_operations = {
+    events  = length([for k,v in var.public_api_mutation_aliases: true if v.operation == "events"]) > 0
+    migrate = length([for k,v in var.public_api_mutation_aliases: true if v.operation == "migrate"]) > 0
+    list    = length([for k,v in var.public_api_query_aliases: true if v.operation == "list"]) > 0
+    get     = length([for k,v in var.public_api_query_aliases: true if v.operation == "get"]) > 0
+    delete  = length([for k,v in var.public_api_mutation_aliases: true if v.operation == "delete"]) > 0
+    create  = length([for k,v in var.public_api_mutation_aliases: true if v.operation == "create"]) > 0
+    update  = length([for k,v in var.public_api_mutation_aliases: true if v.operation == "update"]) > 0
+  }
+  enabled_public = (
+       length([for k,v in var.public_api_mutation_aliases: true if v.operation == "events"]) > 0
+    || length([for k,v in var.public_api_mutation_aliases: true if v.operation == "migrate"]) > 0
+    || length([for k,v in var.public_api_query_aliases: true if v.operation == "list"]) > 0
+    || length([for k,v in var.public_api_query_aliases: true if v.operation == "get"]) > 0
+    || length([for k,v in var.public_api_mutation_aliases: true if v.operation == "delete"]) > 0
+    || length([for k,v in var.public_api_mutation_aliases: true if v.operation == "create"]) > 0
+    || length([for k,v in var.public_api_mutation_aliases: true if v.operation == "update"]) > 0
+  )
   api_operations = {
     events  = lookup(var.api_operations, "events", false)
     migrate = lookup(var.api_operations, "migrate", true)
@@ -37,6 +55,15 @@ locals {
   api_delete_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "delete"]
   api_create_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "create"]
   api_update_aliases = [for k,v in var.api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "update"]
+
+  public_api_events_aliases = [for k,v in var.public_api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "events"]
+  public_api_migrate_aliases = [for k,v in var.public_api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "migrate"]
+  public_api_list_aliases = [for k,v in var.public_api_query_aliases: {name: k, type: lookup(v.config, "type", "Query"), config: v.config} if v.operation == "list"]
+  public_api_get_aliases = [for k,v in var.public_api_query_aliases: {name: k, type: lookup(v.config, "type", "Query"), config: v.config} if v.operation == "get"]
+  public_api_delete_aliases = [for k,v in var.public_api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "delete"]
+  public_api_create_aliases = [for k,v in var.public_api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "create"]
+  public_api_update_aliases = [for k,v in var.public_api_mutation_aliases: {name: k, type: lookup(v.config, "type", "Mutation"), config: v.config} if v.operation == "update"]
+
   tables_attributes = {
     main      = lookup(var.tables_attributes, "main", {id = {type: "S"}})
     migration = lookup(var.tables_attributes, "migration", {id = {type: "S"}})
@@ -250,12 +277,28 @@ module "datasource-lambda-events" {
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-events.arn
 }
+module "datasource-lambda-events-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.events
+  api = var.public_api
+  name = "${local.prefix}-events-public"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-events.arn
+}
 module "datasource-lambda-migrate" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_operations.migrate && local.api_operations.migrate
   api = var.api
   name = "${local.prefix}-migrate"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-migrate.arn
+}
+module "datasource-lambda-migrate-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.migrate
+  api = var.public_api
+  name = "${local.prefix}-migrate-public"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-migrate.arn
 }
 module "datasource-lambda-list" {
@@ -266,12 +309,28 @@ module "datasource-lambda-list" {
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-list.arn
 }
+module "datasource-lambda-list-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.list
+  api = var.public_api
+  name = "${local.prefix}-list-public"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-list.arn
+}
 module "datasource-lambda-get" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_operations.get && local.api_operations.get
   api = var.api
   name = "${local.prefix}-get"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-get.arn
+}
+module "datasource-lambda-get-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.get
+  api = var.public_api
+  name = "${local.prefix}-get"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-get.arn
 }
 module "datasource-lambda-delete" {
@@ -282,6 +341,14 @@ module "datasource-lambda-delete" {
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-delete.arn
 }
+module "datasource-lambda-delete-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.delete
+  api = var.public_api
+  name = "${local.prefix}-delete-public"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-delete.arn
+}
 module "datasource-lambda-create" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_operations.create && local.api_operations.create
@@ -290,12 +357,28 @@ module "datasource-lambda-create" {
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-create.arn
 }
+module "datasource-lambda-create-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.create
+  api = var.public_api
+  name = "${local.prefix}-create-public"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-create.arn
+}
 module "datasource-lambda-update" {
   source = "../appsync-lambda-datasource"
   enabled = local.enabled_operations.update && local.api_operations.update
   api = var.api
   name = "${local.prefix}-update"
   api_assume_role_arn = module.api-resolvers.api_assume_role_arn
+  lambda_arn = module.lambda-update.arn
+}
+module "datasource-lambda-update-public" {
+  source = "../appsync-lambda-datasource"
+  enabled = local.enabled_public_operations.update
+  api = var.public_api
+  name = "${local.prefix}-update-public"
+  api_assume_role_arn = module.public-api-resolvers.api_assume_role_arn
   lambda_arn = module.lambda-update.arn
 }
 
@@ -364,6 +447,54 @@ module "api-resolvers" {
     zipmap([for o in local.api_delete_aliases: o.name], [for o in local.api_delete_aliases: o]),
     zipmap([for o in local.api_create_aliases: o.name], [for o in local.api_create_aliases: o]),
     zipmap([for o in local.api_update_aliases: o.name], [for o in local.api_update_aliases: o])
+  )
+}
+
+module "public-api-resolvers" {
+  source   = "../appsync-lambda-resolvers"
+  enabled  = local.enabled_public
+  api      = var.public_api
+  api_name = var.public_api_name
+  name     = "${var.env}-microservice-${var.name}-public"
+  lambdas = concat(
+    local.enabled_public_operations.events ? [module.lambda-events.arn] : [],
+    local.enabled_public_operations.migrate ? [module.lambda-migrate.arn] : [],
+    local.enabled_public_operations.list ? [module.lambda-list.arn] : [],
+    local.enabled_public_operations.get ? [module.lambda-get.arn] : [],
+    local.enabled_public_operations.delete ? [module.lambda-delete.arn] : [],
+    local.enabled_public_operations.create ? [module.lambda-create.arn] : [],
+    local.enabled_public_operations.update ? [module.lambda-update.arn] : []
+  )
+  datasources = zipmap(
+    concat(
+      [for o in local.public_api_events_aliases: o.name],
+      [for o in local.public_api_migrate_aliases: o.name],
+      [for o in local.public_api_list_aliases: o.name],
+      [for o in local.public_api_get_aliases: o.name],
+      [for o in local.public_api_delete_aliases: o.name],
+      [for o in local.public_api_create_aliases: o.name],
+      [for o in local.public_api_update_aliases: o.name]
+    ),
+    concat(
+      [for o in local.public_api_events_aliases: module.datasource-lambda-events.name],
+      [for o in local.public_api_migrate_aliases: module.datasource-lambda-events.name],
+      [for o in local.public_api_list_aliases: module.datasource-lambda-list.name],
+      [for o in local.public_api_get_aliases: module.datasource-lambda-get.name],
+      [for o in local.public_api_delete_aliases: module.datasource-lambda-delete.name],
+      [for o in local.public_api_create_aliases: module.datasource-lambda-create.name],
+      [for o in local.public_api_update_aliases: module.datasource-lambda-update.name]
+    )
+  )
+  queries  = merge(
+    zipmap([for o in local.public_api_list_aliases: o.name], [for o in local.public_api_list_aliases: o]),
+    zipmap([for o in local.public_api_get_aliases: o.name], [for o in local.public_api_get_aliases: o])
+  )
+  mutations = merge(
+    zipmap([for o in local.public_api_events_aliases: o.name], [for o in local.public_api_events_aliases: o]),
+    zipmap([for o in local.public_api_migrate_aliases: o.name], [for o in local.public_api_migrate_aliases: o]),
+    zipmap([for o in local.public_api_delete_aliases: o.name], [for o in local.public_api_delete_aliases: o]),
+    zipmap([for o in local.public_api_create_aliases: o.name], [for o in local.public_api_create_aliases: o]),
+    zipmap([for o in local.public_api_update_aliases: o.name], [for o in local.public_api_update_aliases: o])
   )
 }
 
