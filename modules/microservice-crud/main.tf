@@ -75,6 +75,7 @@ locals {
   queues_sources = {
     incoming = lookup(var.queues, "incoming", {sources = []}).sources
   }
+  extra_variables = var.debug ? {MICROSERVICE_DEBUG = "true"} : {}
 }
 
 module "lambda-events" {
@@ -88,7 +89,8 @@ module "lambda-events" {
       DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    local.operations.events.variables
+    local.operations.events.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [],
@@ -113,7 +115,8 @@ module "lambda-migrate" {
       LAMBDA_LIST_ARN                 = module.lambda-list.arn,
       LAMBDA_EVENTS_ARN               = module.lambda-events.arn,
     },
-    local.operations.migrate.variables
+    local.operations.migrate.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [
@@ -148,7 +151,8 @@ module "lambda-list" {
     {
       DYNAMODB_TABLE_PREFIX = "${var.env}_"
     },
-    local.operations.list.variables
+    local.operations.list.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [
@@ -171,7 +175,8 @@ module "lambda-get" {
     {
       DYNAMODB_TABLE_PREFIX = "${var.env}_"
     },
-    local.operations.get.variables
+    local.operations.get.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [
@@ -195,7 +200,8 @@ module "lambda-delete" {
       DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    local.operations.delete.variables
+    local.operations.delete.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [
@@ -224,7 +230,8 @@ module "lambda-create" {
       DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    local.operations.create.variables
+    local.operations.create.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [
@@ -253,7 +260,8 @@ module "lambda-update" {
       DYNAMODB_TABLE_PREFIX = "${var.env}_",
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
-    local.operations.update.variables
+    local.operations.update.variables,
+    local.extra_variables
   )
   policy_statements = concat(
     [

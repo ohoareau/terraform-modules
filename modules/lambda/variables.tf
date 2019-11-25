@@ -6,7 +6,7 @@ variable "file" {
 }
 variable "runtime" {
   type    = string
-  default = "nodejs10.x"
+  default = "nodejs12.x"
 }
 variable "handler" {
   type    = string

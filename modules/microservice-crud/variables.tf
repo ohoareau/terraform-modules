@@ -1,6 +1,10 @@
 variable "env" {
   type = string
 }
+variable "debug" {
+  type    = bool
+  default = false
+}
 variable "file" {
   type = string
 }
