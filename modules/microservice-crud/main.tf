@@ -83,7 +83,7 @@ module "lambda-events" {
   enabled   = local.enabled_operations.events
   file      = var.file
   name      = "${local.prefix}-events"
-  handler   = "index.receiveExternalEvents"
+  handler   = "index.receive${local.upper_name}ExternalEvents"
   variables = merge(
     {
       DYNAMODB_TABLE_PREFIX = "${var.env}_",
@@ -102,7 +102,7 @@ module "lambda-migrate" {
   enabled   = local.enabled_operations.migrate
   file      = var.file
   name      = "${local.prefix}-migrate"
-  handler   = "index.migrate"
+  handler   = "index.migrate${local.upper_name_plural}"
   variables = merge(
     {
       DYNAMODB_TABLE_PREFIX           = "${var.env}_",
@@ -409,7 +409,7 @@ module "api-resolvers" {
   )
   datasources = zipmap(
     concat(
-      local.api_operations.events ? ["receiveExternalEvents"] : [],
+      local.api_operations.events ? ["receive${local.upper_name}ExternalEvents"] : [],
       local.api_operations.migrate ? ["migrateMicroservice${local.upper_name}"] : [],
       local.api_operations.list ? ["get${local.upper_name_plural}"] : [],
       local.api_operations.get ? ["get${local.upper_name}"] : [],
@@ -448,7 +448,7 @@ module "api-resolvers" {
     zipmap([for o in local.api_get_aliases: o.name], [for o in local.api_get_aliases: o])
   )
   mutations = merge(
-    local.api_operations.events ? {receiveExternalEvents = {}} : {},
+    local.api_operations.events ? zipmap(["receive${local.upper_name}ExternalEvents"], [{type = "Mutation", config = {}}]) : {},
     local.api_operations.migrate ? zipmap(["migrateMicroservice${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
     local.api_operations.delete ? zipmap(["delete${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
     local.api_operations.create ? zipmap(["create${local.upper_name}"], [{type = "Mutation", config = {}}]) : {},
