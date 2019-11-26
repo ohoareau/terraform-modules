@@ -2,6 +2,10 @@ variable "name" {
   type    = string
   default = ""
 }
+variable "handler" {
+  type    = string
+  default = ""
+}
 variable "enabled" {
   type    = bool
   default = true

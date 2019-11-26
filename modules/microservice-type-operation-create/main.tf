@@ -3,7 +3,7 @@ module "operation" {
   enabled           = var.enabled
   type              = var.type
   family            = "create"
-  handler           = "index.create${var.type.full_upper_name}"
+  handler           = ("" != var.handler) ? var.handler : "index.create${var.type.full_upper_name}"
   resolvers         = var.resolvers
   variables         = var.variables
   policy_statements = concat(
