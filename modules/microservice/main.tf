@@ -46,7 +46,57 @@ module "sqs-incoming-queue" {
 
 module "dynamodb-table-migration" {
   source = "../dynamodb-table"
-  name = "${local.table_prefix}Migration"
+  name = "${local.table_prefix}migration"
   attributes = {id = {type = "S"}}
   indexes    = {}
+}
+
+module "lambda-migrate" {
+  source    = "../lambda"
+  file      = var.file
+  name      = "${local.prefix}-migrate"
+  handler   = "index.migrate"
+  variables = merge(
+    {
+      DYNAMODB_TABLE_PREFIX           = "${var.env}_",
+      MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn
+      DYNAMODB_MIGRATION_TABLE_PREFIX = local.table_prefix,
+    },
+    local.variables
+  )
+  policy_statements = [
+    {
+      actions   = ["SNS:Publish"]
+      resources = [module.sns-outgoing-topic.arn]
+      effect    = "Allow"
+    },
+    {
+      effect    = "Allow"
+      actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
+      resources = [
+        module.dynamodb-table-migration.arn,
+        "${module.dynamodb-table-migration.arn}/index/*",
+      ]
+    }
+  ]
+}
+module "lambda-events" {
+  source    = "../lambda"
+  file      = var.file
+  name      = "${local.prefix}-events"
+  handler   = "index.receiveExternalEvents"
+  variables = merge(
+    {
+      DYNAMODB_TABLE_PREFIX           = "${var.env}_",
+      MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn
+    },
+    local.variables
+  )
+  policy_statements = [
+    {
+      actions   = ["SNS:Publish"]
+      resources = [module.sns-outgoing-topic.arn]
+      effect    = "Allow"
+    }
+  ]
 }
