@@ -8,6 +8,7 @@ variable "microservice" {
     object({
       id = string,
       assume_role_arn = string,
+      assume_role = string,
     }),
     ),
     sns_topics = map(
