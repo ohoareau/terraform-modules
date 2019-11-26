@@ -46,7 +46,7 @@ variable "type" {
         })
       ),
       variables = map(string),
-      dynamodb-tables = map(
+      dynamodb_tables = map(
         object({
           arn = string,
         })

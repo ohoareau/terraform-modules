@@ -18,8 +18,8 @@ module "operation" {
         effect    = "Allow"
         actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
         resources = [
-          var.type.microservice.dynamodb-tables.migration.arn,
-          "${var.type.microservice.dynamodb-tables.migration.arn}/index/*",
+          var.type.microservice.dynamodb_tables.migration.arn,
+          "${var.type.microservice.dynamodb_tables.migration.arn}/index/*",
         ]
       }
     ]
