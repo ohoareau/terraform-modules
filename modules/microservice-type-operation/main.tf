@@ -44,7 +44,7 @@ resource "aws_appsync_datasource" "datasources" {
 }
 
 resource "aws_appsync_resolver" "resolvers" {
-  for_each          = var.resolvers
+  for_each          = {for r in var.resolvers: "${r.api}_${r.type}_${r.field}" => r}
   api_id            = var.type.microservice.apis[each.value.api].id
   field             = each.value.field
   type              = each.value.type
