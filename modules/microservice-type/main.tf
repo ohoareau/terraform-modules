@@ -1,7 +1,7 @@
 locals {
   name_plural  = ("" != var.name_plural) ? var.name_plural : "${var.name}s"
   upper_name   = title(var.name)
-  table_prefix = "${var.microservice.table_prefix}${var.name}"
+  table_prefix = (var.parent != null) ? "${var.microservice.table_prefix}${replace(var.parent.full_name, "-", "_")}_${var.name}" : "${var.microservice.table_prefix}${var.name}"
 }
 
 locals {
