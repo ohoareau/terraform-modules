@@ -1,5 +1,5 @@
 locals {
-  variables = {for o in var.operations: "MICROSERVICE_LAMBDA_${replace(upper(lookup(o, "local_name", "")), "-", "_")}_ARN" => lookup(o, "lambda_arn", "")},
+  variables = {for o in var.operations: "MICROSERVICE_LAMBDA_${replace(upper(lookup(o, "local_name", "")), "-", "_")}_ARN" => lookup(o, "lambda_arn", "")}
 }
 
 module "sns-outgoing-topic-policy" {
@@ -9,9 +9,9 @@ module "sns-outgoing-topic-policy" {
 }
 
 module "sqs-incoming-queue-event-source-mapping" {
-  source = "../sqs-to-lambda-event-source-mapping"
-  queue = var.microservice.sqs_queues.incoming.arn
-  lambda_arn = module.lambda-events.arn
+  source           = "../sqs-to-lambda-event-source-mapping"
+  queue            = var.microservice.sqs_queues.incoming.arn
+  lambda_arn       = module.lambda-events.arn
   lambda_role_name = module.lambda-events.role_name
 }
 
@@ -40,12 +40,12 @@ module "lambda-migrate" {
   name      = "${var.microservice.prefix}-migrate"
   handler   = "index.migrate"
   variables = merge(
-  {
-    DYNAMODB_TABLE_PREFIX           = var.microservice.table_prefix,
-    MICROSERVICE_OUTGOING_TOPIC_ARN = var.microservice.sns_topics.outgoing.arn,
-  },
-  local.variables,
-  var.microservice.variables
+    {
+      DYNAMODB_TABLE_PREFIX           = var.microservice.table_prefix,
+      MICROSERVICE_OUTGOING_TOPIC_ARN = var.microservice.sns_topics.outgoing.arn,
+    },
+    local.variables,
+    var.microservice.variables
   )
   policy_statements = [
     {
@@ -74,12 +74,12 @@ module "lambda-events" {
   name      = "${var.microservice.prefix}-events"
   handler   = "index.receiveExternalEvents"
   variables = merge(
-  {
-    DYNAMODB_TABLE_PREFIX           = var.microservice.table_prefix,
-    MICROSERVICE_OUTGOING_TOPIC_ARN = var.microservice.sns_topics.outgoing.arn
-  },
-  local.variables,
-  var.microservice.variables
+    {
+      DYNAMODB_TABLE_PREFIX           = var.microservice.table_prefix,
+      MICROSERVICE_OUTGOING_TOPIC_ARN = var.microservice.sns_topics.outgoing.arn
+    },
+    local.variables,
+    var.microservice.variables
   )
   policy_statements = [
     {
