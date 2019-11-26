@@ -58,9 +58,8 @@ module "lambda-migrate" {
   handler   = "index.migrate"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX           = "${var.env}_",
-      MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn
-      DYNAMODB_MIGRATION_TABLE_PREFIX = local.table_prefix,
+      DYNAMODB_TABLE_PREFIX           = local.table_prefix,
+      MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn,
     },
     local.variables
   )
