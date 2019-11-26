@@ -54,6 +54,11 @@ output "lambdas" {
       role_name = "yyy"
       role = "zzz"
     }
+    migrate = {
+      arn = "xxx"
+      role_name = "yyy"
+      role = "zzz"
+    }
   }
 }
 output "dynamodb_tables" {

@@ -3,6 +3,7 @@ variable "microservice" {
     prefix = string,
     lambdas = map(object({
       arn = string,
+      role_name = string,
     })),
     apis = map(object({
       assume_role = string
