@@ -23,6 +23,6 @@ data "aws_iam_policy_document" "lambda-triggable-from-sqs" {
 
 resource "aws_iam_role_policy" "lambda-triggable-from-sqs" {
   count  = var.enabled ? 1 : 0
-  policy = var.enabled ? data.aws_iam_policy_document.lambda-triggable-from-sqs.json : null
+  policy = var.enabled ? data.aws_iam_policy_document.lambda-triggable-from-sqs[0].json : null
   role   = var.lambda_role_name
 }
