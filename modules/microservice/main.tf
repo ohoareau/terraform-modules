@@ -86,7 +86,7 @@ module "lambda-events" {
   handler   = "index.receiveExternalEvents"
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX           = "${var.env}_",
+      DYNAMODB_TABLE_PREFIX           = local.table_prefix,
       MICROSERVICE_OUTGOING_TOPIC_ARN = module.sns-outgoing-topic.arn
     },
     local.variables

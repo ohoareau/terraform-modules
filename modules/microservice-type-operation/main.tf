@@ -14,7 +14,7 @@ module "lambda" {
   handler   = var.handler
   variables = merge(
     {
-      DYNAMODB_TABLE_PREFIX           = "${var.type.microservice.env}_",
+      DYNAMODB_TABLE_PREFIX           = var.type.microservice.table_prefix,
       MICROSERVICE_OUTGOING_TOPIC_ARN = var.type.microservice.sns_topics.outgoing.arn,
     },
     var.variables,
