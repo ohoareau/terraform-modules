@@ -6,7 +6,21 @@ variable "microservice" {
     name = string,
     prefix = string,
     table_prefix = string,
-    variables = map(string),
+    apis = map(
+    object({
+      id = string,
+      assume_role_arn = string,
+    }),
+    ),
+    sns_topics = map(
+    object({
+      arn = string,
+    })
+    ),
+    variables: map(string),
+    dynamodb-table-migration = object({
+      arn: string,
+    }),
   })
 }
 variable "parent" {
