@@ -2,11 +2,9 @@ module "operation" {
   source            = "../microservice-type-operation"
   enabled           = var.enabled
   type              = var.type
-  resolver          = var.resolver
-  public_resolver   = var.public_resolver
   family            = "migrate"
-  handler_name      = "index.migrate${var.type.full_upper_name_plural}"
-  resolver_mode     = "mutation"
+  handler           = "index.migrate${var.type.full_upper_name_plural}"
+  resolvers         = var.resolvers
   variables         = merge(
     {
       DYNAMODB_MIGRATION_TABLE_PREFIX = "${var.type.microservice.env}_${var.type.microservice.full_upper_name}_",

@@ -11,7 +11,7 @@ module "lambda" {
   enabled   = var.enabled
   file      = var.type.microservice.file
   name      = "${var.type.prefix}-${var.family}${local.name_suffix}"
-  handler   = var.handler_name
+  handler   = var.handler
   variables = merge(
     {
       DYNAMODB_TABLE_PREFIX           = "${var.type.microservice.env}_",

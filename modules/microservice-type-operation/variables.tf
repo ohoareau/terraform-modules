@@ -6,14 +6,10 @@ variable "enabled" {
   type    = bool
   default = true
 }
-variable "enabled_public" {
-  type    = bool
-  default = true
-}
 variable "family" {
   type = string
 }
-variable "handler_name" {
+variable "handler" {
   type = string
 }
 variable "variables" {
@@ -26,14 +22,6 @@ variable "policy_statements" {
     resources = list(string),
     effect = string,
   }))
-}
-variable "api_enabled" {
-  type    = bool
-  default = true
-}
-variable "api_enabled_public" {
-  type    = bool
-  default = true
 }
 variable "type" {
   type = object({
