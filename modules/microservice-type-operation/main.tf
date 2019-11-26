@@ -1,5 +1,5 @@
 locals {
-  name_suffix = var.name ? "-${var.name}" : ""
+  name_suffix = ("" != var.name) ? "-${var.name}" : ""
   datasources = {
     main   = "${var.type.prefix}-${var.family}${local.name_suffix}",
     public = "${var.type.prefix}-${var.family}${local.name_suffix}-public",
