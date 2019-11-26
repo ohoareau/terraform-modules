@@ -20,12 +20,31 @@ variable "policy_statements" {
 }
 variable "type" {
   type = object({
+    prefix = string,
     full_upper_name = string,
     full_upper_name_plural = string,
-    dynamodb-table = object({arn = string}),
+    dynamodb-table = object({
+      arn: string,
+    }),
     microservice = object({
       env = string,
-    }),
+      file = string,
+      apis = map(
+      object({
+        id = string,
+        assume_role_arn = string,
+      }),
+      ),
+      sns_topics = map(
+      object({
+        arn = string,
+      })
+      ),
+      variables: map(string),
+      dynamodb-table-migration = object({
+        arn: string,
+      }),
+    })
   })
 }
 variable "resolvers" {
