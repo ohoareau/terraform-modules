@@ -10,6 +10,9 @@ output "full_name_plural" {
 output "upper_name" {
   value = local.upper_name
 }
+output "full_name" {
+  value = local.full_name
+}
 output "full_upper_name" {
   value = local.full_upper_name
 }
