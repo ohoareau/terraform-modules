@@ -17,10 +17,12 @@ variable "microservice" {
       arn = string,
     })
     ),
-    variables: map(string),
-    dynamodb-table-migration = object({
-      arn: string,
-    }),
+    variables = map(string),
+    dynamodb-tables = map(
+      object({
+        arn = string,
+      })
+    ),
   })
 }
 variable "parent" {
