@@ -47,6 +47,15 @@ output "sqs_queues" {
     }
   }
 }
+output "lambdas" {
+  value = {
+    events = {
+      arn = "xxx"
+      role_name = "yyy"
+      role = "zzz"
+    }
+  }
+}
 output "dynamodb_tables" {
   value = {
     migration = {
