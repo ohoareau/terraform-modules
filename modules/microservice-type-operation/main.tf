@@ -11,7 +11,7 @@ module "lambda" {
   source    = "../lambda"
   enabled   = var.enabled
   file      = var.type.microservice.file
-  name      = "${var.type.prefix}-${local.local_name}"
+  name      = "${var.type.prefix}-${var.family}${local.name_suffix}"
   handler   = var.handler
   variables = merge(
     {
