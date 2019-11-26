@@ -1,24 +1,35 @@
 variable "microservice" {
   type = object({
+    env = string,
+    file = string,
+    table_prefix = string,
     prefix = string,
-    lambdas = map(object({
+    apis = map(
+    object({
+      id = string,
+      assume_role_arn = string,
+    }),
+    ),
+    sns_topics = map(
+    object({
       arn = string,
-      role_name = string,
-    })),
-    apis = map(object({
-      assume_role = string
-    })),
+    })
+    ),
     sqs_queues = map(object({
       arn = string,
     })),
-    sns_topics = map(object({
+    variables = map(string),
+    dynamodb_tables = map(
+    object({
       arn = string,
-    })),
+    })
+    ),
   })
 }
 variable "operations" {
   type    = list(object({
     lambda_arn = string,
+    local_name = string,
   }))
   default = []
 }

@@ -4,13 +4,14 @@ locals {
     main   = "${var.type.prefix}-${var.family}${local.name_suffix}",
     public = "${var.type.prefix}-${var.family}${local.name_suffix}-public",
   }
+  local_name = "${var.family}${local.name_suffix}"
 }
 
 module "lambda" {
   source    = "../lambda"
   enabled   = var.enabled
   file      = var.type.microservice.file
-  name      = "${var.type.prefix}-${var.family}${local.name_suffix}"
+  name      = "${var.type.prefix}-${local.local_name}"
   handler   = var.handler
   variables = merge(
     {
