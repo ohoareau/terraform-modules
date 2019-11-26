@@ -134,7 +134,12 @@ module "lambda-migrate" {
       },
       {
         actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
-        resources = [module.dynamodb-table.arn, "${module.dynamodb-table.arn}/index/*"]
+        resources = [
+          module.dynamodb-table.arn,
+          "${module.dynamodb-table.arn}/index/*",
+          module.dynamodb-table-migration.arn,
+          "${module.dynamodb-table-migration.arn}/index/*",
+        ]
         effect    = "Allow"
       }
     ],

@@ -1,6 +1,7 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "sources" {
-  type = "list"
+  type    = list(string)
+  default = []
 }
