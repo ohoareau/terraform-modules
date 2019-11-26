@@ -1,6 +1,11 @@
 variable "microservice" {
   type = object({
+    env = string,
+    debug = bool,
+    file = string,
+    name = string,
     prefix = string,
+    variables = map(string),
   })
 }
 variable "parent" {
