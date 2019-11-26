@@ -25,7 +25,6 @@ variable "type" {
     dynamodb-table = object({arn = string}),
     microservice = object({
       env = string,
-      full_upper_name = string,
     }),
   })
 }
