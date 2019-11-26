@@ -1,6 +1,7 @@
 locals {
-  name_plural = ("" != var.name_plural) ? var.name_plural : "${var.name}s"
-  upper_name  = title(var.name)
+  name_plural  = ("" != var.name_plural) ? var.name_plural : "${var.name}s"
+  upper_name   = title(var.name)
+  table_prefix = "${var.microservice.table_prefix}${var.name}"
 }
 
 locals {
@@ -17,7 +18,7 @@ locals {
 
 module "dynamodb-table" {
   source     = "../dynamodb-table"
-  name       = "${var.microservice.prefix}_${local.full_upper_name}"
+  name       = local.table_prefix
   attributes = var.table_attributes
   indexes    = var.table_indexes
 }

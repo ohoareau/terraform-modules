@@ -1,6 +1,7 @@
 locals {
-  prefix    = "${var.env}-${var.name}"
-  variables = var.debug ? {MICROSERVICE_DEBUG = "true"} : {}
+  prefix       = "${var.env}-${var.name}"
+  table_prefix = "${var.env}_${var.name}_"
+  variables    = var.debug ? {MICROSERVICE_DEBUG = "true"} : {}
 }
 
 data "aws_iam_policy_document" "appsync_api_assume_role" {
@@ -45,7 +46,7 @@ module "sqs-incoming-queue" {
 
 module "dynamodb-table-migration" {
   source = "../dynamodb-table"
-  name = "${local.prefix}_${title(var.name)}_Migration"
+  name = "${local.table_prefix}Migration"
   attributes = {id = {type = "S"}}
   indexes    = {}
 }

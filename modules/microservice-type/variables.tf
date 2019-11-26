@@ -5,6 +5,7 @@ variable "microservice" {
     file = string,
     name = string,
     prefix = string,
+    table_prefix = string,
     variables = map(string),
   })
 }

@@ -13,6 +13,9 @@ output "name" {
 output "prefix" {
   value = local.prefix
 }
+output "table_prefix" {
+  value = local.table_prefix
+}
 output "variables" {
   value = local.variables
 }
