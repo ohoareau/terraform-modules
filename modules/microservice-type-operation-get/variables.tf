@@ -24,6 +24,7 @@ variable "policy_statements" {
 }
 variable "type" {
   type = object({
+    name = string,
     prefix = string,
     full_upper_name = string,
     full_upper_name_plural = string,

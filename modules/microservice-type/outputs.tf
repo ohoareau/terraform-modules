@@ -1,6 +1,9 @@
 output "prefix" {
   value = local.prefix
 }
+output "name" {
+  value = var.name
+}
 output "table_prefix" {
   value = local.table_prefix
 }
