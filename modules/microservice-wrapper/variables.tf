@@ -21,3 +21,8 @@ variable "operations" {
   }))
   default = []
 }
+variable "types" {
+  type    = list(object({
+  }))
+  default = []
+}
