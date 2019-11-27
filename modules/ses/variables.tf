@@ -15,3 +15,7 @@ variable "sources" {
   type    = list(string)
   default = []
 }
+variable "service_sources" {
+  type    = list(string)
+  default = []
+}
