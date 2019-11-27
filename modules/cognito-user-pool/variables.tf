@@ -1,7 +1,11 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "dev_attributes" {
+  type    = map(any)
   default = {}
-  type = "map"
+}
+variable "email_identity" {
+  type    = string
+  default = ""
 }
