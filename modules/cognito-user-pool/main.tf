@@ -2,6 +2,13 @@ resource "aws_cognito_user_pool" "pool" {
   name = var.name
   auto_verified_attributes = ["email"]
 
+  dynamic "verification_message_template" {
+    for_each = ("" == var.email_subject && "" == var.email_message) ? [] : [{subject: var.email_subject, message: var.email_message}]
+    content {
+      email_subject = lookup(verification_message_template.value, "subject", "")
+      email_message = lookup(verification_message_template.value, "message", "")
+    }
+  }
   dynamic "email_configuration" {
     for_each = ("" == var.email_identity) ? [] : [{source_arn: var.email_identity}]
     content {
