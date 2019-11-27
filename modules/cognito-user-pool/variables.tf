@@ -25,3 +25,7 @@ variable "invite_email_message" {
   type    = string
   default = ""
 }
+variable "invite_sms_message" {
+  type    = string
+  default = ""
+}

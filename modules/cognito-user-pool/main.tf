@@ -11,11 +11,12 @@ resource "aws_cognito_user_pool" "pool" {
   }
 
   dynamic "admin_create_user_config" {
-    for_each = ("" == var.invite_email_subject && "" == var.invite_email_message) ? [] : [{subject: var.invite_email_subject, message: var.invite_email_message}]
+    for_each = ("" == var.invite_email_subject && "" == var.invite_email_message) ? [] : [{email_subject: var.invite_email_subject, email_message: var.invite_email_message, sms_message: var.invite_sms_message}]
     content {
       invite_message_template {
-        email_subject = lookup(admin_create_user_config.value, "subject", "")
-        email_message = lookup(admin_create_user_config.value, "message", "")
+        email_subject = lookup(admin_create_user_config.value, "email_subject", "")
+        email_message = lookup(admin_create_user_config.value, "email_message", "")
+        sms_message = lookup(admin_create_user_config.value, "sms_message", "")
       }
     }
   }
