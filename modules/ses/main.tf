@@ -5,12 +5,12 @@ locals {
 }
 
 resource "aws_ses_domain_identity" "identity" {
-  domain = var.dns
+  domain = var.domain
 }
 
 resource "aws_route53_record" "verification_record" {
   zone_id = var.zone
-  name    = "_amazonses.${var.dns}"
+  name    = "_amazonses.${var.domain}"
   type    = "TXT"
   ttl     = "600"
   records = [aws_ses_domain_identity.identity.verification_token]
@@ -23,7 +23,7 @@ resource "aws_ses_domain_identity_verification" "verification" {
 
 resource "aws_ses_email_identity" "identities" {
   for_each = var.emails
-  email = "${each.value}@${var.dns}"
+  email = "${each.value}@${var.domain}"
 }
 
 resource "aws_ses_domain_mail_from" "domain" {
@@ -54,7 +54,7 @@ resource "aws_ses_domain_dkim" "dkim" {
 resource "aws_route53_record" "dkim_record" {
   count   = 3
   zone_id = var.zone
-  name    = "${element(aws_ses_domain_dkim.dkim.dkim_tokens, count.index)}._domainkey.${var.dns}"
+  name    = "${element(aws_ses_domain_dkim.dkim.dkim_tokens, count.index)}._domainkey.${var.domain}"
   type    = "CNAME"
   ttl     = "600"
   records = ["${element(aws_ses_domain_dkim.dkim.dkim_tokens, count.index)}.dkim.amazonses.com"]
