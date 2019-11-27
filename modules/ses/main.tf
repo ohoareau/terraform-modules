@@ -64,7 +64,12 @@ data "aws_iam_policy_document" "policy" {
   dynamic "statement" {
     for_each = (0 < length(var.sources)) ? [var.sources] : []
     content {
-      actions   = ["SES:SendEmail", "SES:SendRawEmail"]
+      actions   = [
+        "ses:SendEmail",
+        "ses:SendTemplatedEmail",
+        "ses:SendRawEmail",
+        "ses:SendBulkTemplatedEmail",
+      ]
       resources = [aws_ses_domain_identity.identity.arn]
       condition {
         test = "ArnEquals"
@@ -81,7 +86,12 @@ data "aws_iam_policy_document" "policy" {
   dynamic "statement" {
     for_each = (0 < length(var.service_sources)) ? [var.service_sources] : []
     content {
-      actions   = ["SES:SendEmail", "SES:SendRawEmail"]
+      actions   = [
+        "ses:SendEmail",
+        "ses:SendTemplatedEmail",
+        "ses:SendRawEmail",
+        "ses:SendBulkTemplatedEmail",
+      ]
       resources = [aws_ses_domain_identity.identity.arn]
       effect = "Allow"
       principals {
