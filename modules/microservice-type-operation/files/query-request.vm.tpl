@@ -18,6 +18,9 @@ $util.quiet($params.put("query", "${config.query}"))
 %{ if "" != lookup(config, "userAs", "") ~}
 $util.quiet($params.put("${config.userAs}", $context.identity.sub))
 %{ endif ~}
+%{ if "" != lookup(config, "idAs", "") ~}
+$util.quiet($params.put("${config.idAs}", $context.arguments.get("id")))
+%{ endif ~}
 {
     "version": "2018-05-29",
     "operation": "Invoke",
