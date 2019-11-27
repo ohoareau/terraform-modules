@@ -9,11 +9,19 @@ variable "email_identity" {
   type    = string
   default = ""
 }
-variable "email_subject" {
+variable "verification_email_subject" {
   type    = string
   default = ""
 }
-variable "email_message" {
+variable "verification_email_message" {
+  type    = string
+  default = ""
+}
+variable "invite_email_subject" {
+  type    = string
+  default = ""
+}
+variable "invite_email_message" {
   type    = string
   default = ""
 }

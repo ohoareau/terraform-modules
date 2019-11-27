@@ -3,10 +3,20 @@ resource "aws_cognito_user_pool" "pool" {
   auto_verified_attributes = ["email"]
 
   dynamic "verification_message_template" {
-    for_each = ("" == var.email_subject && "" == var.email_message) ? [] : [{subject: var.email_subject, message: var.email_message}]
+    for_each = ("" == var.verification_email_subject && "" == var.verification_email_message) ? [] : [{subject: var.verification_email_subject, message: var.verification_email_message}]
     content {
       email_subject = lookup(verification_message_template.value, "subject", "")
       email_message = lookup(verification_message_template.value, "message", "")
+    }
+  }
+
+  dynamic "admin_create_user_config" {
+    for_each = ("" == var.invite_email_subject && "" == var.invite_email_message) ? [] : [{subject: var.invite_email_subject, message: var.invite_email_message}]
+    content {
+      invite_message_template {
+        email_subject = lookup(admin_create_user_config.value, "subject", "")
+        email_message = lookup(admin_create_user_config.value, "message", "")
+      }
     }
   }
   dynamic "email_configuration" {
