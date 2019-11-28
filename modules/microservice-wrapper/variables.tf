@@ -39,3 +39,27 @@ variable "types" {
   }))
   default = []
 }
+variable "events_variables" {
+  type    = map(string)
+  default = {}
+}
+variable "events_policy_statements" {
+  type = list(object({
+    actions = list(string),
+    resources = list(string),
+    effect = string,
+  }))
+  default = []
+}
+variable "migrate_variables" {
+  type    = map(string)
+  default = {}
+}
+variable "migrate_policy_statements" {
+  type = list(object({
+    actions = list(string),
+    resources = list(string),
+    effect = string,
+  }))
+  default = []
+}
