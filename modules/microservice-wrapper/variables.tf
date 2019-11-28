@@ -4,6 +4,7 @@ variable "microservice" {
     file = string,
     table_prefix = string,
     prefix = string,
+    name = string,
     apis = map(
     object({
       id = string,
