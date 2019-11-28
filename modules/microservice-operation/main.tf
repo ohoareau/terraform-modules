@@ -7,16 +7,23 @@ locals {
     public = "${var.name}-public",
   }
   aws_account = data.aws_caller_identity.current.account_id
-  aws_region = data.aws_region.current.name
+  aws_region  = data.aws_region.current.name
+  tags        = merge(var.tags, {
+    Env          = var.microservice.env
+    Microservice = var.microservice.prefix
+  })
 }
 
 module "lambda" {
-  source    = "../lambda"
-  enabled   = var.enabled
-  file      = var.microservice.file
-  name      = var.name
-  handler   = var.handler
-  variables = merge(
+  source      = "../lambda"
+  enabled     = var.enabled
+  file        = var.microservice.file
+  name        = var.name
+  handler     = var.handler
+  timeout     = var.timeout
+  memory_size = var.memory_size
+  tags        = local.tags
+  variables   = merge(
     {
       MICROSERVICE_OUTGOING_TOPIC_ARN           = var.microservice.sns_topics.outgoing.arn,
       MICROSERVICE_PATTERN_LAMBDA_OPERATION_ARN = "arn:aws:lambda:${local.aws_region}:${local.aws_account}:function:${var.microservice.prefix}-{name}"

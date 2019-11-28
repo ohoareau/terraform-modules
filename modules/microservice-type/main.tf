@@ -10,6 +10,11 @@ locals {
   full_upper_name        = (var.parent != null) ? "${var.parent.full_upper_name}${local.upper_name}" : local.upper_name
   upper_name_plural      = title(local.name_plural)
   full_upper_name_plural = title(local.full_name_plural)
+  tags                   = merge(var.tags, {
+    Env              = var.microservice.env
+    Microservice     = var.microservice.prefix
+    MicroserviceType = local.full_name
+  })
 }
 
 locals {
@@ -21,4 +26,5 @@ module "dynamodb-table" {
   name       = local.table_prefix
   attributes = var.table_attributes
   indexes    = var.table_indexes
+  tags       = local.tags
 }

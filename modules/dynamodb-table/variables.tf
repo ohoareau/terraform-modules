@@ -13,10 +13,14 @@ variable "attributes" {
   default = {"id": {"type" = "S"}}
 }
 variable "ttl" {
-  type = "string"
+  type    = string
   default = ""
 }
 variable "indexes" {
-  type = "map"
+  type    = map(any)
+  default = {}
+}
+variable "tags" {
+  type    = map(string)
   default = {}
 }

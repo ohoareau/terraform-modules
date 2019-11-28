@@ -6,7 +6,10 @@ resource "aws_lambda_function" "lambda" {
   role             = aws_iam_role.lambda[0].arn
   handler          = var.handler
   runtime          = var.runtime
+  timeout          = var.timeout
+  memory_size      = var.memory_size
   depends_on       = ["module.lambda-policy", "aws_cloudwatch_log_group.lambda[0]"]
+  tags             = var.tags
   dynamic "environment" {
     iterator = v
     for_each = (0 != length(keys(var.variables))) ? {variables: var.variables} : {}

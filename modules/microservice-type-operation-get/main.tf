@@ -6,6 +6,9 @@ module "operation" {
   handler           = ("" != var.handler) ? var.handler : "index.get${var.type.full_upper_name}"
   resolvers         = var.resolvers
   variables         = var.variables
+  timeout           = var.timeout
+  memory_size       = var.memory_size
+  tags              = var.tags
   policy_statements = concat(
     var.policy_statements,
     [

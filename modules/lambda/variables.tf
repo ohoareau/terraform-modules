@@ -8,6 +8,14 @@ variable "runtime" {
   type    = string
   default = "nodejs12.x"
 }
+variable "timeout" {
+  type    = number
+  default = 3
+}
+variable "memory_size" {
+  type    = number
+  default = 128
+}
 variable "handler" {
   type    = string
   default = "index.handler"
@@ -29,4 +37,8 @@ variable "policy_statements" {
     })
   )
   default = []
+}
+variable "tags" {
+  type    = map(string)
+  default = {}
 }

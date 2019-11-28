@@ -56,3 +56,7 @@ variable "table_indexes" {
   )
   default = {}
 }
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
