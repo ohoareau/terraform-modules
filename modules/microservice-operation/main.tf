@@ -1,8 +1,13 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
 locals {
   datasources = {
     main   = var.name,
     public = "${var.name}-public",
   }
+  aws_account = data.aws_caller_identity.current.account_id
+  aws_region = data.aws_region.current.name
 }
 
 module "lambda" {
@@ -13,7 +18,8 @@ module "lambda" {
   handler   = var.handler
   variables = merge(
     {
-      MICROSERVICE_OUTGOING_TOPIC_ARN = var.microservice.sns_topics.outgoing.arn,
+      MICROSERVICE_OUTGOING_TOPIC_ARN           = var.microservice.sns_topics.outgoing.arn,
+      MICROSERVICE_PATTERN_LAMBDA_OPERATION_ARN = "arn:aws:lambda:${local.aws_region}:${local.aws_account}:function:${var.microservice.prefix}-{name}"
     },
     var.variables,
     var.microservice.variables
@@ -25,7 +31,12 @@ module "lambda" {
         actions   = ["SNS:Publish"]
         resources = [var.microservice.sns_topics.outgoing.arn]
         effect    = "Allow"
-      }
+      },
+      {
+        effect    = "Allow"
+        actions   = ["lambda:InvokeFunction"]
+        resources = ["arn:aws:lambda:${local.aws_region}:${local.aws_account}:function:${var.microservice.prefix}-*"]
+      },
     ]
   )
 }
