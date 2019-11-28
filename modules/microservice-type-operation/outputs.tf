@@ -1,11 +1,11 @@
 output "lambda_arn" {
-  value = module.lambda.arn
+  value = module.operation.lambda_arn
 }
 output "lambda_role_name" {
-  value = module.lambda.role_name
+  value = module.operation.lambda_role_name
 }
 output "lambda_role_arn" {
-  value = module.lambda.role_arn
+  value = module.operation.lambda_role_arn
 }
 output "local_name" {
   value = local.local_name
