@@ -10,7 +10,7 @@ module "operation" {
     var.policy_statements,
     [
       {
-        actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
+        actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
         resources = [var.type.dynamodb-table.arn, "${var.type.dynamodb-table.arn}/index/*"]
         effect    = "Allow"
       },

@@ -55,7 +55,7 @@ module "lambda-migrate" {
     },
     {
       effect    = "Allow"
-      actions   = ["dynamodb:GetItem", "dynamodb:ListItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
+      actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query", "dynamodb:DeleteItem", "dynamodb:PutItem", "dynamodb:UpdateItem"]
       resources = [
         var.microservice.dynamodb_tables.migration.arn,
         "${var.microservice.dynamodb_tables.migration.arn}/index/*",
