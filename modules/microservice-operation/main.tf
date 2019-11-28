@@ -10,7 +10,7 @@ locals {
   aws_region  = data.aws_region.current.name
   tags        = merge(var.tags, {
     Env          = var.microservice.env
-    Microservice = var.microservice.prefix
+    Microservice = var.microservice.name
   })
 }
 

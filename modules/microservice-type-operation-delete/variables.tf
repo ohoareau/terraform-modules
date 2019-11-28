@@ -47,6 +47,7 @@ variable "type" {
     microservice = object({
       env = string,
       file = string,
+      name = string,
       prefix = string,
       table_prefix = string,
       apis = map(

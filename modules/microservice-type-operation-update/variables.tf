@@ -48,6 +48,7 @@ variable "type" {
       env = string,
       file = string,
       prefix = string,
+      name = string,
       table_prefix = string,
       apis = map(
       object({

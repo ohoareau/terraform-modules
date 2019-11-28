@@ -34,6 +34,7 @@ variable "policy_statements" {
 }
 variable "microservice" {
   type = object({
+    name = string,
     env = string,
     file = string,
     prefix = string,
