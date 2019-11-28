@@ -1,14 +1,14 @@
 output "lambdas" {
   value = {
     events = {
-      arn = module.lambda-events.arn
-      role_name = module.lambda-events.role_name
-      role_arn = module.lambda-events.role_arn
+      arn = module.operation-events.lambda_arn
+      role_name = module.operation-events.lambda_role_name
+      role_arn = module.operation-events.lambda_role_arn
     }
     migrate = {
-      arn = module.lambda-migrate.arn
-      role_name = module.lambda-migrate.role_name
-      role_arn = module.lambda-migrate.role_arn
+      arn = module.operation-migrate.lambda_arn
+      role_name = module.operation-migrate.lambda_role_name
+      role_arn = module.operation-migrate.lambda_role_arn
     }
   }
 }
