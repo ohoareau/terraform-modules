@@ -12,7 +12,7 @@ locals {
   full_upper_name_plural = title(local.full_name_plural)
   tags                   = merge(var.tags, {
     Env              = var.microservice.env
-    Microservice     = var.microservice.prefix
+    Microservice     = var.microservice.name
     MicroserviceType = local.full_name
   })
 }
