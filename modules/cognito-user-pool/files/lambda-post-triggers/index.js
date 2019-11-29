@@ -1,5 +1,5 @@
 module.exports = {
-    handler: (event) => {
+    handler: async (event) => {
         console.log(event);
     },
 };
