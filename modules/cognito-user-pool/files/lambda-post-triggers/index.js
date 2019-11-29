@@ -14,7 +14,6 @@ const dispatch = async (type, operation, payload = {}, attributes = {}) =>
 
 module.exports = {
     handler: async (event) => {
-        if (!event || !event.triggerSource) return; // ignore
         const { triggerSource, request, response, ...source } = event;
         switch (triggerSource) {
             case 'PostAuthentication_Authentication':
@@ -24,5 +23,6 @@ module.exports = {
             default: // ignore
                 break;
         }
+        return event;
     },
 };
