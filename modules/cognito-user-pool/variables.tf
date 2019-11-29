@@ -1,6 +1,10 @@
 variable "name" {
   type = string
 }
+variable "post_triggers" {
+  type    = bool
+  default = false
+}
 variable "dev_attributes" {
   type    = map(any)
   default = {}

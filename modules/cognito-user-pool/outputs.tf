@@ -7,3 +7,6 @@ output "arn" {
 output "email_identity" {
   value = ("" != var.email_identity) ? var.email_identity : null
 }
+output "sns_outgoing_topic_arn" {
+  value = var.post_triggers ? module.sns-outgoing-topic.arn : null
+}

@@ -1,10 +1,11 @@
 resource "aws_sns_topic" "topic" {
-  name = var.name
+  count = var.enabled ? 1 : 0
+  name  = var.name
 }
 
 module "policy" {
-  enabled = length(var.sources) > 0
+  enabled = var.enabled && (length(var.sources) > 0)
   source  = "../sns-topic-policy"
   sources = var.sources
-  topic   = aws_sns_topic.topic.arn
+  topic   = var.enabled ? aws_sns_topic.topic[0].arn : null
 }

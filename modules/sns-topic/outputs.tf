@@ -1,6 +1,6 @@
 output "arn" {
-  value = aws_sns_topic.topic.arn
+  value = var.enabled ? aws_sns_topic.topic[0].arn : null
 }
 output "id" {
-  value = aws_sns_topic.topic.id
+  value = var.enabled ? aws_sns_topic.topic[0].id : null
 }
