@@ -78,3 +78,33 @@ module "sns-outgoing-topic" {
   sources = var.post_triggers ? [module.lambda-post-triggers.arn] : []
 }
 
+data "aws_iam_policy_document" "assume-role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      identifiers = ["cognito-idp.amazonaws.com"]
+      type = "Service"
+    }
+    effect = "Allow"
+  }
+}
+
+data "aws_iam_policy_document" "role" {
+  statement {
+    actions   = ["lambda:InvokeFunction"]
+    resources = var.post_triggers ? [module.lambda-post-triggers.arn] : []
+  }
+}
+
+resource "aws_iam_role_policy" "policy" {
+  count  = var.post_triggers ? 1 : 0
+  name   = "cognito_user_pool_${var.name}_policy"
+  role   = var.post_triggers ? aws_iam_role.cognito[0].id : null
+  policy = data.aws_iam_policy_document.role.json
+}
+
+resource "aws_iam_role" "cognito" {
+  count              = var.post_triggers ? 1 : 0
+  name               = "cognito_user_pool_${var.name}_role"
+  assume_role_policy = data.aws_iam_policy_document.assume-role.json
+}
