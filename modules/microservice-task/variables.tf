@@ -69,3 +69,11 @@ variable "microservice" {
     ),
   })
 }
+variable "entrypoint" {
+  type    = list(string)
+  default = []
+}
+variable "command" {
+  type    = list(string)
+  default = []
+}

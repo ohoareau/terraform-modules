@@ -13,6 +13,8 @@ locals {
       IMAGE      = var.image
       LOGS_GROUP = var.enabled ? aws_cloudwatch_log_group.loggroup[0].name : null
       ENV_VARS   = [for k,v in local.variables: {name: k, value: v}]
+      COMMAND    = var.command
+      ENTRYPOINT = var.entrypoint
     }
   )
   cluster               = "" == var.cluster ? var.microservice.tasks_cluster : var.cluster

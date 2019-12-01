@@ -11,7 +11,8 @@
         "awslogs-stream-prefix": "${NAME}"
       }
     },
+    %{ if 0 < length(COMMAND) }"command": ${jsonencode(COMMAND)},%{ endif }
+    %{ if 0 < length(ENTRYPOINT) }"entryPoint": ${jsonencode(ENTRYPOINT)},%{ endif }
     "environment": ${jsonencode(ENV_VARS)}
   }
 ]
-
