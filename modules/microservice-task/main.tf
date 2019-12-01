@@ -110,7 +110,7 @@ data "aws_iam_policy_document" "ecs_task_assume_role" {
 
 resource "aws_iam_role" "ecs_task_execution" {
   count              = var.enabled ? 1 : 0
-  name               = "ecs-task-execution-${var.microservice.prefix}-${var.name}"
+  name               = "ecs-task-execution-${var.microservice.prefix}-${var.name}-execution"
   assume_role_policy = var.enabled ? data.aws_iam_policy_document.ecs_task_execution_assume_role[0].json : null
 }
 resource "aws_iam_role" "ecs_task" {
