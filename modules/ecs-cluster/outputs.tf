@@ -1,9 +1,9 @@
 output "arn" {
-  value = aws_ecs_cluster.cluster.arn
+  value = var.enabled ? aws_ecs_cluster.cluster[0].arn : null
 }
 output "id" {
-  value = aws_ecs_cluster.cluster.id
+  value = var.enabled ? aws_ecs_cluster.cluster[0].id : null
 }
 output "name" {
-  value = aws_ecs_cluster.cluster.name
+  value = var.enabled ? aws_ecs_cluster.cluster[0].name : null
 }
