@@ -14,7 +14,6 @@ variable "subnets" {
 }
 variable "security_groups" {
   type    = map(object({
-    name   = string,
     egress = list(object({
       from_port   = number,
       to_port     = number,
