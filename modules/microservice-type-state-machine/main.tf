@@ -14,6 +14,6 @@ module "state-machine" {
   enabled           = var.enabled
   source            = "../state-machine"
   name              = "${var.type.prefix}-${var.name}"
-  definition        = definition
+  definition        = local.definition
   policy_statements = local.policy_statements
 }
