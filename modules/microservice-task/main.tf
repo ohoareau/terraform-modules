@@ -25,12 +25,12 @@ locals {
 resource "aws_ecs_service" "service" {
   count            = var.enabled ? 1 : 0
   name             = "${var.microservice.prefix}-${var.name}"
-  cluster          = var.cluster
+  cluster          = local.cluster
   task_definition  = var.enabled ? aws_ecs_task_definition.task[0].arn : null
   launch_type      = "FARGATE"
   platform_version = "LATEST"
   network_configuration {
-    subnets = var.subnets
+    subnets = local.subnets
   }
   tags = merge(
     var.tags,
