@@ -1,11 +1,11 @@
 resource "aws_vpc" "vpc" {
-  count = var.enabled ? 1 : 0
+  count      = var.enabled ? 1 : 0
   cidr_block = var.cidr_block
+  tags       = {
+    Env = var.env
+  }
   lifecycle {
     create_before_destroy = true
-  }
-  tags {
-    Env = var.env
   }
 }
 
@@ -13,7 +13,7 @@ resource "aws_subnet" "subnet" {
   for_each   = var.enabled ? var.subnets : {}
   vpc_id     = var.enabled ? aws_vpc.vpc[0].id : null
   cidr_block = var.enabled ? lookup(each.value, "cidr_block", var.cidr_block) : null
-  tags {
+  tags       = {
     Env = var.env
   }
   lifecycle {
@@ -23,8 +23,8 @@ resource "aws_subnet" "subnet" {
 
 resource "aws_security_group" "allow_inbound_trafic" {
   for_each = var.enabled ? var.security_groups : {}
-  name = "${var.env}-${each.key}-${lookup(each.value, "name", "")}"
-  vpc_id = var.enabled ? aws_vpc.vpc[0].id : null
+  name     = "${var.env}-${each.key}-${lookup(each.value, "name", "")}"
+  vpc_id   = var.enabled ? aws_vpc.vpc[0].id : null
   dynamic "egress" {
     iterator = e
     for_each = length(lookup(each.value, "egress", [])) ? {egress: lookup(each.value, "egress", [])} : {}
