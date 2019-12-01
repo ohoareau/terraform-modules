@@ -1,6 +1,10 @@
 variable "name" {
   type = string
 }
+variable "enabled" {
+  type    = bool
+  default = true
+}
 variable "definition" {
   type = string
 }

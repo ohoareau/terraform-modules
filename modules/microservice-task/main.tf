@@ -5,15 +5,19 @@ locals {
     {
     }
   )
+  definition_file      = ("" == var.definition_file) ? "${path.module}/files/default.json.tmpl" : var.definition_file
   definition_variables = merge(
     var.definition_vars,
     {
       NAME       = "${var.microservice.prefix}-${var.name}"
       IMAGE      = var.image
       LOGS_GROUP = var.enabled ? aws_cloudwatch_log_group.loggroup[0].name : null
-      ENV_VARS   = local.variables
+      ENV_VARS   = [for k,v in local.variables: {name: k, value: v}]
     }
   )
+  cluster               = "" == var.cluster ? var.microservice.tasks_cluster : var.cluster
+  subnets               = (0 == length(var.subnets)) ? var.microservice.tasks_vpc_subnets : var.subnets
+  container_definitions = templatefile(local.definition_file, local.definition_variables)
 }
 
 resource "aws_ecs_service" "service" {
@@ -42,7 +46,7 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
-  container_definitions    = templatefile(var.definition_file, local.definition_variables)
+  container_definitions    = local.container_definitions
   execution_role_arn       = var.enabled ? aws_iam_role.ecs_task_execution[0].arn : null
   task_role_arn            = var.enabled ? aws_iam_role.ecs_task[0].arn : null
 }

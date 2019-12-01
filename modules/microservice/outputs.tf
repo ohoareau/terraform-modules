@@ -59,3 +59,9 @@ output "dynamodb_tables" {
     }
   }
 }
+output "tasks_cluster" {
+  value = var.tasks_cluster
+}
+output "tasks_vpc_subnets" {
+  value = var.tasks_vpc_subnets
+}

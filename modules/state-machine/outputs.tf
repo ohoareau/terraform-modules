@@ -1,3 +1,3 @@
 output "arn" {
-  value = aws_sfn_state_machine.sfn.id
+  value = var.enabled ? aws_sfn_state_machine.sfn[0].id : null
 }

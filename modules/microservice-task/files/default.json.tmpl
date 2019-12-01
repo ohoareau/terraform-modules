@@ -1,0 +1,17 @@
+[
+  {
+    "name": "${NAME}",
+    "image": "${IMAGE}",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "eu-west-1",
+        "awslogs-group": "${LOGS_GROUP}",
+        "awslogs-stream-prefix": "${NAME}"
+      }
+    },
+    "environment": ${jsonencode(ENV_VARS)}
+  }
+]
+

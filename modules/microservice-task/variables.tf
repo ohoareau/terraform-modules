@@ -15,7 +15,8 @@ variable "variables" {
   default = {}
 }
 variable "definition_file" {
-  type = string
+  type    = string
+  default = ""
 }
 variable "tags" {
   type    = map(string)
@@ -27,12 +28,14 @@ variable "policy_statements" {
     resources = list(string),
     effect = string,
   }))
+  default = []
 }
 variable "image" {
   type = string
 }
 variable "cluster" {
-  type = string
+  type    = string
+  default = ""
 }
 variable "subnets" {
   type    = list(string)
@@ -45,6 +48,8 @@ variable "microservice" {
     file = string,
     prefix = string,
     table_prefix = string,
+    tasks_cluster = string,
+    tasks_vpc_subnets = list(string)
     apis = map(
     object({
       id = string,

@@ -27,3 +27,11 @@ variable "public_api_name" {
   type    = string
   default = ""
 }
+variable "tasks_vpc_subnets" {
+  type    = list(string)
+  default = []
+}
+variable "tasks_cluster" {
+  type    = string
+  default = ""
+}
