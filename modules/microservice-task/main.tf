@@ -32,13 +32,6 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets = local.subnets
   }
-  tags = merge(
-    var.tags,
-    {
-      Env          = var.microservice.env
-      Microservice = var.microservice.name
-    }
-  )
 }
 
 resource "aws_ecs_task_definition" "task" {
