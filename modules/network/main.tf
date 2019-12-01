@@ -27,7 +27,7 @@ resource "aws_security_group" "allow_inbound_trafic" {
   vpc_id   = var.enabled ? aws_vpc.vpc[0].id : null
   dynamic "egress" {
     iterator = e
-    for_each = (0 < length(lookup(each.value, "egress", []))) ? {egress: lookup(each.value, "egress", [])} : {}
+    for_each = (0 < length(lookup(each.value, "egress", []))) ? {for k,v in lookup(each.value, "egress", []): k => v} : {}
     content {
       from_port   = lookup(e.value, "from_port", 0)
       to_port     = lookup(e.value, "to_port", 0)
