@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "task" {
 
 resource "aws_cloudwatch_log_group" "loggroup" {
   count             = var.enabled ? 1 : 0
-  name              = "fargate/${var.microservice.prefix}-${var.name}"
+  name              = "/aws/fargate/${var.microservice.prefix}-${var.name}"
   retention_in_days = 14
 }
 
