@@ -31,7 +31,7 @@ resource "aws_route" "internet_access" {
 resource "aws_subnet" "public-subnet" {
   for_each   = var.enabled ? local.public_subnets : {}
   vpc_id     = var.enabled ? aws_vpc.vpc[0].id : null
-  cidr_block = var.enabled ? lookup(each.value, "cidr_block", var.cidr_block) : null
+  cidr_block = var.enabled ? (("" != lookup(each.value, "cidr_block", var.cidr_block)) ? lookup(each.value, "cidr_block", var.cidr_block) : var.cidr_block) : null
   tags       = {
     Env = var.env
   }
@@ -44,7 +44,7 @@ resource "aws_subnet" "public-subnet" {
 resource "aws_subnet" "private-subnet" {
   for_each   = var.enabled ? local.private_subnets : {}
   vpc_id     = var.enabled ? aws_vpc.vpc[0].id : null
-  cidr_block = var.enabled ? lookup(each.value, "cidr_block", var.cidr_block) : null
+  cidr_block = var.enabled ? (("" != lookup(each.value, "cidr_block", var.cidr_block)) ? lookup(each.value, "cidr_block", var.cidr_block) : var.cidr_block) : null
   tags       = {
     Env = var.env
   }

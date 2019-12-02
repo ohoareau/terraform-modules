@@ -11,6 +11,7 @@ variable "cidr_block" {
 variable "subnets" {
   type    = map(object({
     public: bool,
+    cidr_block: string
   }))
   default = {}
 }
