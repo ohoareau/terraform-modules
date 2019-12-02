@@ -56,7 +56,7 @@ resource "aws_subnet" "private-subnet" {
 resource "aws_eip" "gw" {
   count      = var.enabled ? length(local.public_subnets) : 0
   vpc        = true
-  depends_on = aws_internet_gateway.gw
+  depends_on = [aws_internet_gateway.gw[0]]
 }
 
 resource "aws_nat_gateway" "gw" {
