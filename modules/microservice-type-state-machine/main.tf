@@ -4,6 +4,8 @@ locals {
     var.definition_vars,
     {
       CLUSTER = var.type.microservice.tasks_cluster
+      SECURITY_GROUPS = var.type.microservice.tasks_vpc_security_groups
+      SUBNETS = var.type.microservice.tasks_vpc_subnets
       TASK_PREFIX = var.type.microservice.prefix
     }
   )
