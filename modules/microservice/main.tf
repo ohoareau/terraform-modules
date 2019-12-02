@@ -50,3 +50,9 @@ module "dynamodb-table-migration" {
   attributes = {id = {type = "S"}}
   indexes    = {}
 }
+
+resource "aws_s3_bucket" "bucket" {
+  for_each = var.buckets
+  bucket   = "${local.prefix}-${lookup(each.value, prefix, "")}-${each.key}"
+  tags     = merge(each.value.tags, {Env = var.env, Microservice = var.name})
+}

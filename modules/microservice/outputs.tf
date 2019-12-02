@@ -60,6 +60,9 @@ output "dynamodb_tables" {
     }
   }
 }
+output "s3_buckets" {
+  value = aws_s3_bucket.bucket
+}
 output "tasks_cluster" {
   value = var.tasks_cluster
 }

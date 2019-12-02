@@ -39,3 +39,10 @@ variable "tasks_cluster" {
   type    = string
   default = ""
 }
+variable "buckets" {
+  type = map(object({
+    prefix = string,
+    tags = map(string),
+  }))
+  default = {}
+}
