@@ -47,7 +47,7 @@ module "lambda-policy" {
   enabled     = var.enabled
   name        = var.name
   policy_name = "lambda-${var.name}"
-  role_name   = var.enabled ? aws_iam_role.lambda[0].name : null
+  role_name   = (var.enabled && (0 < length(aws_iam_role.lambda))  ? aws_iam_role.lambda[0].name : null
   statements  = concat(
     [
       {
