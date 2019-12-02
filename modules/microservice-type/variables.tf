@@ -6,6 +6,8 @@ variable "microservice" {
     name = string,
     prefix = string,
     table_prefix = string,
+    tasks_cluster = string,
+    tasks_vpc_subnets = list(string)
     apis = map(
     object({
       id = string,
