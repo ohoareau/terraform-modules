@@ -43,7 +43,7 @@ variable "type" {
       table_prefix = string,
       tasks_cluster = string,
       tasks_vpc_subnets = list(string)
-      tasks_security_groups = list(string)
+      tasks_vpc_security_groups = list(string)
       apis = map(
       object({
         id = string,
