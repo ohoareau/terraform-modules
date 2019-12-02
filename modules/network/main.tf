@@ -67,7 +67,7 @@ resource "aws_nat_gateway" "gw" {
 
 resource "aws_route_table" "private" {
   count  = var.enabled ? length(local.private_subnets) : 0
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = var.enabled ? aws_vpc.vpc[0].id : null
   route {
     cidr_block     = "0.0.0.0/0"
     // hard coded to use nat gateway of *first public subnet* for all private subnets...
