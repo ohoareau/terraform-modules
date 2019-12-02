@@ -9,7 +9,9 @@ variable "cidr_block" {
   type = string
 }
 variable "subnets" {
-  type    = map(object({}))
+  type    = map(object({
+    public: bool,
+  }))
   default = {}
 }
 variable "security_groups" {
