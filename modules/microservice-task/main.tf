@@ -19,6 +19,7 @@ locals {
   )
   cluster               = "" == var.cluster ? var.microservice.tasks_cluster : var.cluster
   subnets               = (0 == length(var.subnets)) ? var.microservice.tasks_vpc_subnets : var.subnets
+  security_groups       = (0 == length(var.security_groups)) ? var.microservice.tasks_vpc_security_groups : var.security_groups
   container_definitions = templatefile(local.definition_file, local.definition_variables)
 }
 
@@ -30,7 +31,8 @@ resource "aws_ecs_service" "service" {
   launch_type      = "FARGATE"
   platform_version = "LATEST"
   network_configuration {
-    subnets = local.subnets
+    subnets         = local.subnets
+    security_groups = local.security_groups
   }
 }
 

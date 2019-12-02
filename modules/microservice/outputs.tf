@@ -66,3 +66,6 @@ output "tasks_cluster" {
 output "tasks_vpc_subnets" {
   value = var.tasks_vpc_subnets
 }
+output "tasks_vpc_security_groups" {
+  value = var.tasks_vpc_security_groups
+}

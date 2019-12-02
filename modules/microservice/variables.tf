@@ -31,6 +31,10 @@ variable "tasks_vpc_subnets" {
   type    = list(string)
   default = []
 }
+variable "tasks_vpc_security_groups" {
+  type    = list(string)
+  default = []
+}
 variable "tasks_cluster" {
   type    = string
   default = ""

@@ -41,6 +41,10 @@ variable "subnets" {
   type    = list(string)
   default = []
 }
+variable "security_groups" {
+  type    = list(string)
+  default = []
+}
 variable "microservice" {
   type = object({
     name = string,
@@ -50,6 +54,7 @@ variable "microservice" {
     table_prefix = string,
     tasks_cluster = string,
     tasks_vpc_subnets = list(string)
+    tasks_security_groups = list(string)
     apis = map(
     object({
       id = string,
