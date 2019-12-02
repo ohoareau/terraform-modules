@@ -71,7 +71,7 @@ resource "aws_route_table" "private" {
   route {
     cidr_block     = "0.0.0.0/0"
     // hard coded to use nat gateway of *first public subnet* for all private subnets...
-    nat_gateway_id = var.enabled ? aws_nat_gateway.gw[0].id : null
+    nat_gateway_id = var.enabled ? aws_nat_gateway.gw[keys(aws_nat_gateway.gw)[0]].id : null
   }
 }
 
