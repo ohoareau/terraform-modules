@@ -47,6 +47,7 @@ output "sqs_queues" {
     incoming = {
       arn = module.sqs-incoming-queue.arn
       id  = module.sqs-incoming-queue.id
+      url  = module.sqs-incoming-queue.url
       sources = []
     }
   }

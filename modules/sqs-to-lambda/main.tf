@@ -2,6 +2,11 @@ resource "aws_sqs_queue" "queue" {
   name = var.name
 }
 
+data "aws_sqs_queue" "queue" {
+  name       = var.name
+  depends_on = [aws_sqs_queue.queue]
+}
+
 module "lambda-event-source-mapping" {
   enabled          = "" != var.lambda_arn
   source           = "../sqs-to-lambda-event-source-mapping"
