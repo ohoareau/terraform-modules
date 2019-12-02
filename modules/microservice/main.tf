@@ -1,7 +1,8 @@
 locals {
-  prefix       = "${var.env}-${var.name}"
-  table_prefix = "${var.env}_${var.name}_"
-  variables    = var.debug ? {MICROSERVICE_DEBUG = "true"} : {}
+  prefix        = "${var.env}-${var.name}"
+  bucket_prefix = "${var.env}-{PREFIX}-${var.name}"
+  table_prefix  = "${var.env}_${var.name}_"
+  variables     = var.debug ? {MICROSERVICE_DEBUG = "true"} : {}
 }
 
 data "aws_iam_policy_document" "appsync_api_assume_role" {
@@ -53,6 +54,6 @@ module "dynamodb-table-migration" {
 
 resource "aws_s3_bucket" "bucket" {
   for_each = var.buckets
-  bucket   = "${local.prefix}-${lookup(each.value, "prefix", "")}-${each.key}"
+  bucket   = "${replace(local.bucket_prefix, "{PREFIX}", lookup(each.value, "prefix", ""))}-${each.key}"
   tags     = merge(each.value.tags, {Env = var.env, Microservice = var.name})
 }
