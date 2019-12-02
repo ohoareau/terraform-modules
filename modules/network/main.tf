@@ -54,31 +54,31 @@ resource "aws_subnet" "private-subnet" {
 }
 
 resource "aws_eip" "gw" {
-  count      = var.enabled ? length(local.public_subnets) : 0
+  for_each   = var.enabled ? local.public_subnets : {}
   vpc        = true
   depends_on = [aws_internet_gateway.gw[0]]
 }
 
 resource "aws_nat_gateway" "gw" {
-  count         = var.enabled ? length(local.public_subnets) : 0
-  subnet_id     = var.enabled ? element(aws_subnet.public-subnet.*.id, count.index) : null
-  allocation_id = var.enabled ? element(aws_eip.gw.*.id, count.index) : null
+  for_each      = var.enabled ? local.public_subnets : {}
+  subnet_id     = var.enabled ? aws_subnet.public-subnet[each.key].id : null
+  allocation_id = var.enabled ? aws_eip.gw[each.key].id : null
 }
 
 resource "aws_route_table" "private" {
-  count  = var.enabled ? length(local.private_subnets) : 0
-  vpc_id = var.enabled ? aws_vpc.vpc[0].id : null
+  for_each = var.enabled ? local.private_subnets : {}
+  vpc_id   = var.enabled ? aws_vpc.vpc[0].id : null
   route {
     cidr_block     = "0.0.0.0/0"
     // hard coded to use nat gateway of *first public subnet* for all private subnets...
-    nat_gateway_id = var.enabled ? element(aws_nat_gateway.gw[0].id, count.index) : null
+    nat_gateway_id = var.enabled ? aws_nat_gateway.gw[0].id : null
   }
 }
 
 resource "aws_route_table_association" "private" {
-  count          = var.enabled ? length(local.private_subnets) : 0
-  subnet_id      = var.enabled ? element(aws_subnet.private-subnet.*.id, count.index) : null
-  route_table_id = var.enabled ? element(aws_route_table.private.*.id, count.index) : null
+  for_each       = var.enabled ? local.private_subnets : {}
+  subnet_id      = var.enabled ? aws_subnet.private-subnet[each.key].id : null
+  route_table_id = var.enabled ? aws_route_table.private[each.key].id : null
 }
 
 resource "aws_security_group" "security_group" {
