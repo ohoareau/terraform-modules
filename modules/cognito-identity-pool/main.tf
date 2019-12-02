@@ -7,11 +7,10 @@ resource "aws_cognito_identity_pool" "main" {
     provider_name           = "cognito-idp.${var.user_pool_region}.amazonaws.com/${var.user_pool_id}"
     server_side_token_check = true
   }
-  supported_login_providers        = var.login_providers
+  supported_login_providers = var.login_providers
 }
 resource "aws_iam_role" "authenticated" {
-  name = "cognito_id_pool_authenticated_${var.name}"
-
+  name               = "cognito_id_pool_authenticated_${var.name}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -36,8 +35,7 @@ resource "aws_iam_role" "authenticated" {
 EOF
 }
 resource "aws_iam_role" "unauthenticated" {
-  name = "cognito_id_pool_unauthenticated_${var.name}"
-
+  name               = "cognito_id_pool_unauthenticated_${var.name}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -64,7 +62,6 @@ EOF
 
 resource "aws_cognito_identity_pool_roles_attachment" "pool" {
   identity_pool_id = aws_cognito_identity_pool.main.id
-
   roles = {
     "authenticated"   = aws_iam_role.authenticated.arn
     "unauthenticated" = aws_iam_role.unauthenticated.arn

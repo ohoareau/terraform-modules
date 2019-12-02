@@ -8,8 +8,9 @@ resource "aws_lambda_function" "lambda" {
   runtime          = var.runtime
   timeout          = var.timeout
   memory_size      = var.memory_size
-  depends_on       = ["module.lambda-policy", "aws_cloudwatch_log_group.lambda[0]"]
+  depends_on       = [module.lambda-policy, aws_cloudwatch_log_group.lambda[0]]
   tags             = var.tags
+
   dynamic "environment" {
     iterator = v
     for_each = (0 != length(keys(var.variables))) ? {variables: var.variables} : {}

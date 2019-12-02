@@ -13,7 +13,7 @@ variable "resources" {
   default = []
 }
 variable "statements" {
-  type    = "list"
+  type    = list(any)
   default = []
 }
 variable "policy_name" {

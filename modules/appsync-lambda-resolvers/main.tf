@@ -22,15 +22,15 @@ data "aws_iam_policy_document" "appsync_api_role" {
 }
 
 resource "aws_iam_role" "appsync_api" {
-  count = var.enabled ? 1 : 0
-  name = "appsync_api_${var.api_name}_${var.name}"
+  count              = var.enabled ? 1 : 0
+  name               = "appsync_api_${var.api_name}_${var.name}"
   assume_role_policy = data.aws_iam_policy_document.appsync_api_assume_role[0].json
 }
 
 resource "aws_iam_role_policy" "appsync_api_policy" {
-  count = var.enabled ? 1 : 0
-  name = "appsync_api_${var.api_name}_${var.name}_policy"
-  role = aws_iam_role.appsync_api[0].id
+  count  = var.enabled ? 1 : 0
+  name   = "appsync_api_${var.api_name}_${var.name}_policy"
+  role   = aws_iam_role.appsync_api[0].id
   policy = data.aws_iam_policy_document.appsync_api_role[0].json
 }
 

@@ -18,7 +18,7 @@ resource "aws_route53_record" "verification_record" {
 
 resource "aws_ses_domain_identity_verification" "verification" {
   domain     = aws_ses_domain_identity.identity.id
-  depends_on = ["aws_route53_record.verification_record"]
+  depends_on = [aws_route53_record.verification_record]
 }
 
 resource "aws_ses_email_identity" "identities" {

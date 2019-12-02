@@ -33,8 +33,7 @@ resource "aws_appsync_graphql_api" "api" {
 }
 
 resource "aws_iam_role" "logs" {
-  name = "appsync-api-${var.name}-logs-role"
-
+  name               = "appsync-api-${var.name}-logs-role"
   assume_role_policy = data.aws_iam_policy_document.appsync-api-assume-role.json
 }
 
