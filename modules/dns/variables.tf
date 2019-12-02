@@ -1,6 +1,6 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "zone" {
-  type = "string"
+  type = string
 }

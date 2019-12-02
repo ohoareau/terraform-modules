@@ -1,6 +1,7 @@
 variable "zone" {
-  type = "string"
+  type = string
 }
 variable "spf_ttl" {
+  type    = number
   default = 3600
 }

@@ -6,11 +6,11 @@ variable "api" {
   type = string
 }
 variable "type" {
-  type = string
+  type    = string
   default = ""
 }
 variable "mode" {
-  type = string
+  type    = string
   default = "query"
 }
 variable "name" {

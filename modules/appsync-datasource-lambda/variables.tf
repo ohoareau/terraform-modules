@@ -1,12 +1,13 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "api" {
-  type = "string"
+  type = string
 }
 variable "lambda_arn" {
-  type = "string"
+  type = string
 }
 variable "api_name" {
+  type    = string
   default = ""
 }

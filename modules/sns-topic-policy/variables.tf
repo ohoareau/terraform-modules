@@ -3,8 +3,8 @@ variable "enabled" {
   default = true
 }
 variable "topic" {
-  type = "string"
+  type = string
 }
 variable "sources" {
-  type = "list"
+  type = list(string)
 }

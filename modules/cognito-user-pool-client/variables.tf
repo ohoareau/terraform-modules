@@ -1,7 +1,7 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "user_pool" {
-  type = "string"
+  type = string
 }

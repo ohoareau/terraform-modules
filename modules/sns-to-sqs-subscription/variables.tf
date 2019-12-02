@@ -1,6 +1,6 @@
 variable "queue_arn" {
-  type = "string"
+  type = string
 }
 variable "topic_arn" {
-  type = "string"
+  type = string
 }

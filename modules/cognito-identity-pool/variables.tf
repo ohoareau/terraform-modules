@@ -1,16 +1,16 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "login_providers" {
-  type = "map"
+  type = map(any)
   default = {}
 }
 variable "user_pool_id" {
-  type = "string"
+  type = string
 }
 variable "user_pool_region" {
-  type = "string"
+  type = string
 }
 variable "user_pool_client_id" {
-  type = "string"
+  type = string
 }
