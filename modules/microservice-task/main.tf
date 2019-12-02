@@ -95,6 +95,18 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
     resources = ["*"]
   }
 }
+data "aws_iam_policy_document" "ecs_task_role" {
+  count = var.enabled ? 1 : 0
+  dynamic "statement" {
+    iterator = s
+    for_each = var.policy_statements
+    content {
+      actions   = lookup(s.value, "actions", [])
+      resources = lookup(s.value, "resources", [])
+      effect    = lookup(s.value, "effect", "Allow")
+    }
+  }
+}
 data "aws_iam_policy_document" "ecs_task_assume_role" {
   count = var.enabled ? 1 : 0
   statement {
@@ -126,4 +138,11 @@ resource "aws_iam_role_policy" "ecs_task_execution" {
   name   = "ecs-task-execution-${var.microservice.prefix}-${var.name}-policy"
   role   = var.enabled ? aws_iam_role.ecs_task_execution[0].name : null
   policy = var.enabled ? data.aws_iam_policy_document.ecs_task_execution_role[0].json : null
+}
+
+resource "aws_iam_role_policy" "ecs_task" {
+  count  = (var.enabled && 0 < length(var.policy_statements)) ? 1 : 0
+  name   = "ecs-task-${var.microservice.prefix}-${var.name}-policy"
+  role   = var.enabled ? aws_iam_role.ecs_task[0].name : null
+  policy = var.enabled ? data.aws_iam_policy_document.ecs_task_role[0].json : null
 }
