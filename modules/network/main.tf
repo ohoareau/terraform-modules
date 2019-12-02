@@ -21,7 +21,7 @@ resource "aws_subnet" "subnet" {
   }
 }
 
-resource "aws_security_group" "allow_inbound_trafic" {
+resource "aws_security_group" "security_group" {
   for_each = var.enabled ? var.security_groups : {}
   name     = var.enabled ? "${var.env}-${aws_vpc.vpc[0].id}-${each.key}" : null
   vpc_id   = var.enabled ? aws_vpc.vpc[0].id : null

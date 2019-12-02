@@ -11,5 +11,5 @@ output "subnets" {
   value = var.enabled ? aws_subnet.subnet : {}
 }
 output "security_groups" {
-  value = var.enabled ? aws_security_group : {}
+  value = var.enabled ? aws_security_group.security_group : {}
 }
