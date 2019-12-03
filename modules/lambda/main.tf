@@ -32,7 +32,8 @@ data "aws_iam_policy_document" "lambda-assume-role" {
 
 resource "aws_iam_role" "lambda" {
   count              = var.enabled ? 1 : 0
-  name               = "lambda-${var.name}-role"
+  name               = (64 < length("lambda-${var.name}-role")) ? null : "lambda-${var.name}-role"
+  name_prefix        = (64 >= length("lambda-${var.name}-role")) ? null : "lambda-role-"
   assume_role_policy = data.aws_iam_policy_document.lambda-assume-role.json
 }
 
