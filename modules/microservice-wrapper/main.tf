@@ -54,7 +54,7 @@ module "operation-migrate" {
     var.migrate_policy_statements,
     [
       {
-        actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
+        actions   = ["dynamodb:GetItem", "dynamodb:PutItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
         resources = [
           var.microservice.dynamodb_tables.migration.arn,
           "${var.microservice.dynamodb_tables.migration.arn}/index/*",
