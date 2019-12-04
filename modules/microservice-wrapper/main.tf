@@ -42,8 +42,25 @@ module "operation-migrate" {
   microservice      = var.microservice
   name              = "${var.microservice.prefix}-migrate"
   handler           = "index.migrate"
-  variables         = var.migrate_variables
-  policy_statements = var.migrate_policy_statements
+  variables         = merge(
+    {
+      DYNAMODB_TABLE_PREFIX = var.microservice.table_prefix,
+    },
+    var.migrate_variables,
+  )
+  policy_statements = concat(
+    var.migrate_policy_statements,
+    [
+      {
+        actions   = ["dynamodb:GetItem", "dynamodb:DescribeTable", "dynamodb:Scan", "dynamodb:Query"]
+        resources = [
+          var.microservice.dynamodb_tables.migration.arn,
+          "${var.microservice.dynamodb_tables.migration.arn}/index/*",
+        ]
+        effect    = "Allow"
+      },
+    ]
+  )
 }
 module "operation-events" {
   source            = "../microservice-operation"

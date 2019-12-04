@@ -1,10 +1,6 @@
 locals {
   name        = "${var.type.prefix}-${var.family}${local.name_suffix}"
   name_suffix = ("" != var.name) ? "-${var.name}" : ""
-  datasources = {
-    main   = "${var.type.prefix}-${var.family}${local.name_suffix}",
-    public = "${var.type.prefix}-${var.family}${local.name_suffix}-public",
-  }
   local_name = "${var.type.full_name}-${var.family}${local.name_suffix}"
   tags       = merge(var.tags, {
     MicroserviceOperation = local.name
@@ -21,7 +17,7 @@ module "operation" {
   resolvers    = var.resolvers
   timeout      = var.timeout
   memory_size  = var.memory_size
-  tags         = var.tags
+  tags         = local.tags
   variables    = merge(
     {
       DYNAMODB_TABLE_PREFIX = var.type.microservice.table_prefix,
