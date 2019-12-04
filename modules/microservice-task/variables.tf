@@ -51,6 +51,7 @@ variable "microservice" {
     env = string,
     file = string,
     prefix = string,
+    dlq_sns_topic = string,
     table_prefix = string,
     tasks_cluster = string,
     tasks_vpc_subnets = list(string)

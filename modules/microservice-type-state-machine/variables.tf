@@ -41,6 +41,7 @@ variable "type" {
       file = string,
       prefix = string,
       table_prefix = string,
+      dlq_sns_topic = string,
       tasks_cluster = string,
       tasks_vpc_subnets = list(string)
       tasks_vpc_security_groups = list(string)
