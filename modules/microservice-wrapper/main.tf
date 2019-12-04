@@ -38,14 +38,13 @@ resource "aws_iam_role_policy" "appsync_api_public_policy" {
 }
 
 module "operation-migrate" {
-  source            = "../microservice-operation"
-  microservice      = var.microservice
-  name              = "${var.microservice.prefix}-migrate"
-  handler           = "index.migrate"
-  timeout           = 30
-  memory_size       = 256
-  dlq_sns_topic     = var.microservice.dlq_sns_topic
-  variables         = merge(
+  source       = "../microservice-operation"
+  microservice = var.microservice
+  name         = "${var.microservice.prefix}-migrate"
+  handler      = "index.migrate"
+  timeout      = 30
+  memory_size  = 256
+  variables    = merge(
     {
       DYNAMODB_TABLE_PREFIX = var.microservice.table_prefix,
     },
@@ -64,7 +63,7 @@ module "operation-migrate" {
       },
     ]
   )
-  tags              = {
+  tags         = {
     MicroserviceOperationFamily = "migrate"
   }
 }
