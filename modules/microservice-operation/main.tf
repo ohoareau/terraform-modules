@@ -15,15 +15,16 @@ locals {
 }
 
 module "lambda" {
-  source      = "../lambda"
-  enabled     = var.enabled
-  file        = var.microservice.file
-  name        = var.name
-  handler     = var.handler
-  timeout     = var.timeout
-  memory_size = var.memory_size
-  tags        = local.tags
-  variables   = merge(
+  source        = "../lambda"
+  enabled       = var.enabled
+  file          = var.microservice.file
+  name          = var.name
+  handler       = var.handler
+  timeout       = var.timeout
+  memory_size   = var.memory_size
+  dlq_sns_topic = var.microservice.dlq_sns_topic
+  tags          = local.tags
+  variables     = merge(
     {
       MICROSERVICE_OUTGOING_TOPIC_ARN           = var.microservice.sns_topics.outgoing.arn,
       MICROSERVICE_PATTERN_LAMBDA_OPERATION_ARN = "arn:aws:lambda:${local.aws_region}:${local.aws_account}:function:${var.microservice.prefix}-{name}"

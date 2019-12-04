@@ -44,6 +44,7 @@ module "operation-migrate" {
   handler           = "index.migrate"
   timeout           = 30
   memory_size       = 256
+  dlq_sns_topic     = var.microservice.dlq_sns_topic
   variables         = merge(
     {
       DYNAMODB_TABLE_PREFIX = var.microservice.table_prefix,

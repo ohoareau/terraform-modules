@@ -46,3 +46,7 @@ variable "buckets" {
   }))
   default = {}
 }
+variable "dlq_sns_topic" {
+  type    = string
+  default = ""
+}

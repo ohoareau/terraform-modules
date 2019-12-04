@@ -5,6 +5,7 @@ variable "microservice" {
     table_prefix = string,
     prefix = string,
     name = string,
+    dlq_sns_topic = string,
     apis = map(
     object({
       id = string,

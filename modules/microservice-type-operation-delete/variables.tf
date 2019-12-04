@@ -50,6 +50,7 @@ variable "type" {
       name = string,
       prefix = string,
       table_prefix = string,
+      dlq_sns_topic = string,
       apis = map(
       object({
         id = string,

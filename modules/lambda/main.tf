@@ -11,6 +11,13 @@ resource "aws_lambda_function" "lambda" {
   depends_on       = [module.lambda-policy, aws_cloudwatch_log_group.lambda[0]]
   tags             = var.tags
 
+  dynamic "dead_letter_config" {
+    iterator = v
+    for_each = ("" != var.dlq_sns_topic) ? {dlq: var.dlq_sns_topic} : {}
+    content {
+      target_arn = v.value
+    }
+  }
   dynamic "environment" {
     iterator = v
     for_each = (0 != length(keys(var.variables))) ? {variables: var.variables} : {}

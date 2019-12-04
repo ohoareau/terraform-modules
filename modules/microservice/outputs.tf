@@ -72,3 +72,6 @@ output "tasks_vpc_subnets" {
 output "tasks_vpc_security_groups" {
   value = var.tasks_vpc_security_groups
 }
+output "dlq_sns_topic" {
+  value = var.dlq_sns_topic
+}
