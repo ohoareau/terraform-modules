@@ -64,6 +64,13 @@ module "lambda-policy" {
         effect    = "Allow"
       },
     ],
-    var.policy_statements
+    var.policy_statements,
+    var.dlq_sns_topic ? [
+      {
+        actions   = ["SNS:Publish"],
+        resources = [var.dlq_sns_topic],
+        effect    = "Allow"
+      },
+    ] : []
   )
 }
