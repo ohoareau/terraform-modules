@@ -33,14 +33,8 @@ data "archive_file" "lambda-sqs-to-s3" {
 }
 
 resource "aws_s3_bucket" "dlq" {
-  count  = var.create_bucket ? 1 : 0
   bucket = var.bucket_name
   tags   = {Env = var.env}
-}
-
-data "aws_s3_bucket" "dlq" {
-  bucket     = var.bucket_name
-  depends_on = var.create_bucket ? [aws_s3_bucket.dlq] : []
 }
 
 module "lambda-sqs-to-s3" {
@@ -49,13 +43,13 @@ module "lambda-sqs-to-s3" {
   name        = "${local.name}-sqs-to-s3"
   handler     = "index.handler"
   variables   = {
-    S3_BUCKET_ID         = data.aws_s3_bucket.dlq.id
+    S3_BUCKET_ID         = aws_s3_bucket.dlq.id
     S3_BUCKET_KEY_PREFIX = var.bucket_key_prefix
   }
   policy_statements = [
     {
       actions   = ["s3:PutObject"]
-      resources = [data.aws_s3_bucket.dlq.arn]
+      resources = [aws_s3_bucket.dlq.arn]
       effect    = "Allow"
     },
   ]
