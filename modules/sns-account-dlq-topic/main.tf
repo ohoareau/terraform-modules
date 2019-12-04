@@ -61,3 +61,9 @@ module "lambda-event-source-mapping" {
   lambda_arn       = module.lambda-sqs-to-s3.arn
   lambda_role_name = module.lambda-sqs-to-s3.role_name
 }
+
+module "dlq-sns-to-dlq-sqs" {
+  source    = "../sns-to-sqs-subscription"
+  queue_arn = aws_sqs_queue.dlq.arn
+  topic_arn = module.sns-dlq-topic.arn
+}
