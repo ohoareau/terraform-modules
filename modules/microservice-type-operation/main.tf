@@ -3,8 +3,10 @@ locals {
   name_suffix = ("" != var.name) ? "-${var.name}" : ""
   local_name = "${var.type.full_name}-${var.family}${local.name_suffix}"
   tags       = merge(var.tags, {
-    MicroserviceOperation = local.name
+    MicroserviceType            = var.type.full_name
+    MicroserviceOperation       = local.name
     MicroserviceOperationFamily = var.family
+    MicroserviceTypeOperation   = "${var.family}${local.name_suffix}"
   })
 }
 

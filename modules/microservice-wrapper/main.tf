@@ -42,6 +42,8 @@ module "operation-migrate" {
   microservice      = var.microservice
   name              = "${var.microservice.prefix}-migrate"
   handler           = "index.migrate"
+  timeout           = 30
+  memory_size       = 256
   variables         = merge(
     {
       DYNAMODB_TABLE_PREFIX = var.microservice.table_prefix,
@@ -61,12 +63,20 @@ module "operation-migrate" {
       },
     ]
   )
+  tags              = {
+    MicroserviceOperationFamily = "migrate"
+  }
 }
 module "operation-events" {
   source            = "../microservice-operation"
   microservice      = var.microservice
   name              = "${var.microservice.prefix}-events"
   handler           = "index.receiveExternalEvents"
+  timeout           = 30
+  memory_size       = 256
   variables         = var.events_variables
   policy_statements = var.events_policy_statements
+  tags              = {
+    MicroserviceOperationFamily = "events"
+  }
 }
