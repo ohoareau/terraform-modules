@@ -65,7 +65,7 @@ module "lambda-policy" {
       },
     ],
     var.policy_statements,
-    var.dlq_sns_topic ? [
+    ("" != var.dlq_sns_topic) ? [
       {
         actions   = ["SNS:Publish"],
         resources = [var.dlq_sns_topic],
