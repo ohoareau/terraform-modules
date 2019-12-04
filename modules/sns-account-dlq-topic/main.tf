@@ -32,8 +32,15 @@ data "archive_file" "lambda-sqs-to-s3" {
   source_dir  = "${path.module}/files/lambda-sqs-to-s3"
 }
 
-data "aws_s3_bucket" "dlq" {
+resource "aws_s3_bucket" "dlq" {
+  count  = var.create_bucket ? 1 : 0
   bucket = var.bucket_name
+  tags   = {Env = var.env}
+}
+
+data "aws_s3_bucket" "dlq" {
+  bucket     = var.bucket_name
+  depends_on = var.create_bucket ? [aws_s3_bucket.dlq] : []
 }
 
 module "lambda-sqs-to-s3" {
