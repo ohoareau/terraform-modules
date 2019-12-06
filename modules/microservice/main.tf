@@ -59,7 +59,11 @@ resource "aws_s3_bucket" "bucket" {
 }
 
 module "sns-to-local-sqs-events" {
-  source = "../sns-to-sqs-subscription"
-  topic_arn = module.sns-outgoing-topic.arn
-  queue_arn = module.sqs-incoming-queue.arn
+  source         = "../sns-to-sqs-subscriptions"
+  subscriptions  = {
+    local = {
+      topic = module.sns-outgoing-topic.arn
+      queue = module.sqs-incoming-queue.arn
+    }
+  }
 }

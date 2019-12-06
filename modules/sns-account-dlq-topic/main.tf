@@ -63,7 +63,11 @@ module "lambda-event-source-mapping" {
 }
 
 module "dlq-sns-to-dlq-sqs" {
-  source    = "../sns-to-sqs-subscription"
-  queue_arn = aws_sqs_queue.dlq.arn
-  topic_arn = module.sns-dlq-topic.arn
+  source     = "../sns-to-sqs-subscriptions"
+  subscriptions = {
+    local = {
+      topic = module.sns-dlq-topic.arn
+      queue = aws_sqs_queue.dlq.arn
+    }
+  }
 }
