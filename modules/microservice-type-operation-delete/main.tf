@@ -13,7 +13,7 @@ module "operation" {
     var.policy_statements,
     [
       {
-        actions   = ["dynamodb:GetItem", "dynamodb:DeleteItem", "dynamodb:BatchDeleteItem", "dynamodb:ScanTable", "dynamodb:QueryTable", "dynamodb:DescribeTable", "dynamodb:PutItem"]
+        actions   = ["dynamodb:GetItem", "dynamodb:DeleteItem", "dynamodb:BatchDeleteItem", "dynamodb:Scan", "dynamodb:QueryTable", "dynamodb:DescribeTable", "dynamodb:PutItem"]
         resources = [var.type.dynamodb-table.arn]
         effect    = "Allow"
       },

@@ -77,3 +77,6 @@ output "tasks_vpc_security_groups" {
 output "dlq_sns_topic" {
   value = var.dlq_sns_topic
 }
+output "required_types" {
+  value = var.required_types
+}

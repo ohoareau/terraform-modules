@@ -50,3 +50,7 @@ variable "dlq_sns_topic" {
   type    = string
   default = ""
 }
+variable "required_types" {
+  type    = map(map(object({})))
+  default = {}
+}
