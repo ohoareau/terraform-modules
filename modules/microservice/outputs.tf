@@ -48,7 +48,9 @@ output "sqs_queues" {
       arn = module.sqs-incoming-queue.arn
       id  = module.sqs-incoming-queue.id
       url  = module.sqs-incoming-queue.url
-      sources = []
+      sources = [
+        module.sns-outgoing-topic.arn,
+      ]
     }
   }
 }
