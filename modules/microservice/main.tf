@@ -57,3 +57,9 @@ resource "aws_s3_bucket" "bucket" {
   bucket   = "${replace(local.bucket_prefix, "{PREFIX}", lookup(each.value, "prefix", ""))}-${each.key}"
   tags     = merge(each.value.tags, {Env = var.env, Microservice = var.name})
 }
+
+module "sns-to-local-sqs-events" {
+  source = "../sns-to-sqs-subscription"
+  topic_arn = module.sns-outgoing-topic.arn
+  queue_arn = module.sqs-incoming-queue.arn
+}
