@@ -1,21 +1,23 @@
 data "aws_iam_policy_document" "queue" {
+  for_each = var.policies
   statement {
     actions = ["sqs:SendMessage"]
     condition {
-      test = "ArnEquals"
+      test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values = var.sources
+      values   = each.value.sources
     }
     effect = "Allow"
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
-    resources = [var.arn]
+    resources = [each.value.arn]
   }
 }
 
 resource "aws_sqs_queue_policy" "queue" {
-  queue_url = var.id
-  policy = data.aws_iam_policy_document.queue.json
+  for_each  = var.policies
+  queue_url = each.value.id
+  policy    = data.aws_iam_policy_document.queue[each.key].json
 }

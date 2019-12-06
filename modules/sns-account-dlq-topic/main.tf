@@ -20,10 +20,14 @@ module "sns-dlq-topic-policy" {
 }
 
 module "sqs-dlq-policy" {
-  source  = "../sqs-policy"
-  arn     = aws_sqs_queue.dlq.arn
-  id      = aws_sqs_queue.dlq.id
-  sources = [module.sns-dlq-topic.arn]
+  source   = "../sqs-policy"
+  policies = {
+    dlq = {
+      arn     = aws_sqs_queue.dlq.arn
+      id      = aws_sqs_queue.dlq.id
+      sources = [module.sns-dlq-topic.arn]
+    }
+  }
 }
 
 data "archive_file" "lambda-sqs-to-s3" {

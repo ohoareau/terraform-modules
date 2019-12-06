@@ -1,10 +1,7 @@
-variable "id" {
-  type = string
-}
-variable "arn" {
-  type = string
-}
-variable "sources" {
-  type    = list(string)
-  default = []
+variable "policies" {
+  type = map(object({
+    id      = string,
+    arn     = string,
+    sources = list(string)
+  }))
 }
