@@ -54,16 +54,17 @@ resource "aws_subnet" "private-subnet" {
 }
 
 resource "aws_eip" "gw" {
-  for_each   = var.enabled ? local.public_subnets : {}
+  for_each   = (var.enabled && local.has_private) ? local.public_subnets : {}
   vpc        = true
   depends_on = [aws_internet_gateway.gw[0]]
 }
 
 resource "aws_nat_gateway" "gw" {
-  for_each      = var.enabled ? local.public_subnets : {}
+  for_each      = (var.enabled && local.has_private) ? local.public_subnets : {}
   subnet_id     = var.enabled ? aws_subnet.public-subnet[each.key].id : null
   allocation_id = var.enabled ? aws_eip.gw[each.key].id : null
 }
+
 
 resource "aws_route_table" "private" {
   for_each = var.enabled ? local.private_subnets : {}
