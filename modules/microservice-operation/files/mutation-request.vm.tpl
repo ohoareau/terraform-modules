@@ -14,7 +14,7 @@ $util.quiet($params.get("input").put("${config.idAsInput}", $params.get("id")))
 %{ endif ~}
 %{ if "" != lookup(config, "forcedInput", "") ~}
 #set ($inputParams = $utils.defaultIfNull($params.get("input"), {}))
-#foreach ($entry in $utils.defaultIfNull($util.parseJson("${config.forcedInput}"), {}).entrySet())
+#foreach ($entry in $utils.defaultIfNull(${config.forcedInput}, {}).entrySet())
 $util.quiet($inputParams.put($entry.key, $entry.value))
 #end
 $util.quiet($params.put("input", $inputParams))
