@@ -6,6 +6,10 @@ variable "microservice" {
     name = string,
     prefix = string,
     dlq_sns_topic = string,
+    registered_external_operations = map(object({
+      variable: string,
+      arn: string,
+    })),
     table_prefix = string,
     tasks_cluster = string,
     tasks_vpc_subnets = list(string)
