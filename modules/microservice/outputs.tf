@@ -80,3 +80,6 @@ output "dlq_sns_topic" {
 output "required_types" {
   value = var.required_types
 }
+output "registered_external_operations" {
+  value = local.registered_external_operations
+}

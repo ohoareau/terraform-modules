@@ -8,6 +8,8 @@ locals {
     MicroserviceOperationFamily = var.family
     MicroserviceTypeOperation   = "${var.family}${local.name_suffix}"
   })
+  extra_variables = {for o in var.required_external_operations: var.type.microservice.registered_external_operations[o].variable => var.type.microservice.registered_external_operations[o].arn}
+  extra_invokable_lambda_arns = [for o in var.required_external_operations: var.type.microservice.registered_external_operations[o].arn]
 }
 
 module "operation" {
@@ -24,7 +26,15 @@ module "operation" {
     {
       DYNAMODB_TABLE_PREFIX = var.type.microservice.table_prefix,
     },
-    var.variables,
+    local.extra_variables,
+    var.variables
   )
-  policy_statements = var.policy_statements
+  policy_statements = concat(
+    var.policy_statements,
+    (length(local.extra_invokable_lambda_arns) > 0) ? [{
+      effect    = "Allow"
+      actions   = ["lambda:InvokeFunction"]
+      resources = local.extra_invokable_lambda_arns
+    }] : []
+  )
 }

@@ -9,6 +9,7 @@ module "operation" {
   timeout           = var.timeout
   memory_size       = var.memory_size
   tags              = var.tags
+  required_external_operations = var.required_external_operations
   policy_statements = concat(
     var.policy_statements,
     [

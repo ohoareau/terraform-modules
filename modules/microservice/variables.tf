@@ -51,6 +51,6 @@ variable "dlq_sns_topic" {
   default = ""
 }
 variable "required_types" {
-  type    = map(map(object({})))
+  type    = map(map(map(object({}))))
   default = {}
 }

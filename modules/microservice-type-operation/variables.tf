@@ -52,6 +52,10 @@ variable "type" {
       prefix = string,
       table_prefix = string,
       dlq_sns_topic = string,
+      registered_external_operations = map(object({
+        variable: string,
+        arn: string,
+      })),
       apis = map(
         object({
           id = string,
@@ -82,5 +86,9 @@ variable "resolvers" {
       config = map(string),
     }
   ))
+  default = []
+}
+variable "required_external_operations" {
+  type    = list(string)
   default = []
 }

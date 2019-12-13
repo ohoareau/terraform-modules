@@ -1,8 +1,31 @@
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
+
 locals {
+  aws_account   = data.aws_caller_identity.current.account_id
+  aws_region    = data.aws_region.current.name
   prefix        = "${var.env}-${var.name}"
   bucket_prefix = "${var.env}-{PREFIX}-${var.name}"
   table_prefix  = "${var.env}_${var.name}_"
   variables     = var.debug ? {MICROSERVICE_DEBUG = "true"} : {}
+  registered_external_operations = {for item in flatten(
+    [for ms_name, ms in var.required_types:
+      [for type_name,type in ms:
+        [for op_name,op in type:
+          {
+            microservice = ms_name
+            type = type_name
+            operation = op_name
+            config = op
+          }
+        ]
+      ]
+    ]
+  ): "${item.microservice}.${item.type}.${item.operation}" => {
+    variable = "MICROSERVICE_${replace(upper(item.microservice), ".", "_")}_${replace(upper(item.type), ".", "_")}_${replace(upper(item.operation), ".", "_")}_LAMBDA_ARN",
+    arn      = "arn:aws:lambda:${local.aws_region}:${local.aws_account}:function:${var.env}-${item.microservice}-${item.type}-${item.operation}",
+  }}
 }
 
 data "aws_iam_policy_document" "appsync_api_assume_role" {

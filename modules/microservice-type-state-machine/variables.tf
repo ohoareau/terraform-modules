@@ -42,6 +42,10 @@ variable "type" {
       prefix = string,
       table_prefix = string,
       dlq_sns_topic = string,
+      registered_external_operations = map(object({
+        variable: string,
+        arn: string,
+      })),
       tasks_cluster = string,
       tasks_vpc_subnets = list(string)
       tasks_vpc_security_groups = list(string)
