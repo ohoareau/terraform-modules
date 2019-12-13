@@ -12,6 +12,9 @@ $util.quiet($params.put($entry.key, $entry.value))
 %{ if "" != lookup(config, "idAsInput", "") ~}
 $util.quiet($params.get("input").put("${config.idAsInput}", $params.get("id")))
 %{ endif ~}
+%{ if "" != lookup(config, "userAsInput", "") ~}
+$util.quiet($params.get("input").put("${config.userAsInput}", $context.identity.sub))
+%{ endif ~}
 %{ if "" != lookup(config, "forcedInput", "") ~}
 #set ($inputParams = $utils.defaultIfNull($params.get("input"), {}))
 #foreach ($entry in $utils.defaultIfNull(${config.forcedInput}, {}).entrySet())
