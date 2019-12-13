@@ -24,6 +24,13 @@ $util.quiet($params.put("criteria", {"${config.sourceIdAs}": $context.source.get
 %{ if "" != lookup(config, "userAsCriteria", "") ~}
 $util.quiet($params.put("criteria", {"${config.userAsCriteria}": $context.identity.sub}))
 %{ endif ~}
+%{ if "" != lookup(config, "forcedCriteria", "") ~}
+#set ($criteriaParams = $utils.defaultIfNull($params.get("criteria"), {}))
+#foreach ($entry in $utils.defaultIfNull(${config.forcedCriteria}, {}).entrySet())
+$util.quiet($criteriaParams.put($entry.key, $entry.value))
+#end
+$util.quiet($params.put("criteria", $criteriaParams))
+%{ endif ~}
 {
     "version": "2018-05-29",
     "operation": "Invoke",
