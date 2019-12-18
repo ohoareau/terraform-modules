@@ -46,3 +46,7 @@ variable "dlq_sns_topic" {
   type    = string
   default = ""
 }
+variable "layers" {
+  type    = list(string)
+  default = []
+}
