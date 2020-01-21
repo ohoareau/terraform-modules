@@ -43,6 +43,7 @@ variable "buckets" {
   type = map(object({
     prefix = string,
     tags = map(string),
+    cors = bool
   }))
   default = {}
 }

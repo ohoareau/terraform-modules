@@ -79,6 +79,17 @@ resource "aws_s3_bucket" "bucket" {
   for_each = var.buckets
   bucket   = "${replace(local.bucket_prefix, "{PREFIX}", lookup(each.value, "prefix", ""))}-${each.key}"
   tags     = merge(each.value.tags, {Env = var.env, Microservice = var.name})
+  acl      = "private"
+  dynamic "cors_rule" {
+    for_each = lookup(each.value, "cors", false) ? {cors: true} : {}
+    content {
+      allowed_headers = ["*"]
+      allowed_methods = ["POST", "GET"]
+      allowed_origins = ["*"]
+      expose_headers  = ["ETag"]
+      max_age_seconds = 3000
+    }
+  }
 }
 
 module "sns-to-local-sqs-events" {
