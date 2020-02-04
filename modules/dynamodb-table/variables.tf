@@ -9,6 +9,10 @@ variable "hash_key" {
   type    = string
   default = "id"
 }
+variable "range_key" {
+  type    = string
+  default = null
+}
 variable "attributes" {
   default = {"id": {"type" = "S"}}
 }
@@ -23,4 +27,8 @@ variable "indexes" {
 variable "tags" {
   type    = map(string)
   default = {}
+}
+variable "billing_mode" {
+  type    = string
+  default = "PROVISIONED"
 }

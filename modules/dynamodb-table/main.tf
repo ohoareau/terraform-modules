@@ -4,7 +4,9 @@ resource "aws_dynamodb_table" "table" {
   read_capacity  = 1
   write_capacity = 1
   hash_key       = var.hash_key
+  range_key      = var.range_key
   tags           = var.tags
+  billing_mode   = var.billing_mode
 
   dynamic "attribute" {
     iterator = v
