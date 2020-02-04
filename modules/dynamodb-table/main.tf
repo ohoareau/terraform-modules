@@ -1,8 +1,8 @@
 resource "aws_dynamodb_table" "table" {
   count          = var.enabled ? 1 : 0
   name           = var.name
-  read_capacity  = 1
-  write_capacity = 1
+  read_capacity  = (var.billing_mode == 'PROVISION') ? 1 : 0
+  write_capacity = (var.billing_mode == 'PROVISION') ? 1 : 0
   hash_key       = var.hash_key
   range_key      = var.range_key
   tags           = var.tags
