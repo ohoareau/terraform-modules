@@ -179,7 +179,7 @@ resource "aws_route53_record" "website_redirect_apex" {
 resource "aws_acm_certificate" "cert" {
   domain_name       = var.dns
   validation_method = "DNS"
-  provider          = "aws.acm"
+  provider          = aws.acm
   subject_alternative_names = var.apex_redirect ? ["www.${var.dns}"] : null
 
   lifecycle {
@@ -204,7 +204,7 @@ resource "aws_route53_record" "cert_validation_alt" {
 }
 
 resource "aws_acm_certificate_validation" "cert" {
-  provider                = "aws.acm"
+  provider                = aws.acm
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = var.apex_redirect ? [aws_route53_record.cert_validation.fqdn, aws_route53_record.cert_validation_alt[0].fqdn] : [aws_route53_record.cert_validation.fqdn]
 }

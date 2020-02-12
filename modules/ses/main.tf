@@ -1,7 +1,8 @@
 data "aws_region" "current" {}
 
 locals {
-  region = data.aws_region.current.name
+  region      = data.aws_region.current.name
+  need_policy = (0 < length(var.service_sources)) || (0 < length(var.sources))
 }
 
 resource "aws_ses_domain_identity" "identity" {
@@ -61,6 +62,7 @@ resource "aws_route53_record" "dkim_record" {
 }
 
 data "aws_iam_policy_document" "policy" {
+  count = local.need_policy ? 1 : 0
   dynamic "statement" {
     for_each = (0 < length(var.sources)) ? [var.sources] : []
     content {
@@ -103,7 +105,8 @@ data "aws_iam_policy_document" "policy" {
 }
 
 resource "aws_ses_identity_policy" "policy" {
+  count    = local.need_policy ? 1 : 0
   identity = aws_ses_domain_identity.identity.arn
   name     = "${var.name}-policy"
-  policy   = data.aws_iam_policy_document.policy.json
+  policy   = local.need_policy ? data.aws_iam_policy_document.policy[0].json : null
 }
