@@ -1,8 +1,12 @@
+locals {
+  read_capacity = ("PROVISION" == var.billing_mode) ? 1 : 0
+  write_capacity = ("PROVISION" == var.billing_mode) ? 1 : 0
+}
 resource "aws_dynamodb_table" "table" {
   count          = var.enabled ? 1 : 0
   name           = var.name
-  read_capacity  = ("PROVISION" == var.billing_mode) ? 1 : 0
-  write_capacity = ("PROVISION" == var.billing_mode) ? 1 : 0
+  read_capacity  = local.read_capacity
+  write_capacity = local.write_capacity
   hash_key       = var.hash_key
   range_key      = var.range_key
   tags           = var.tags
@@ -31,8 +35,8 @@ resource "aws_dynamodb_table" "table" {
         name               = v.key
         hash_key           = lookup(v.value, "hash_key", v.key)
         range_key          = lookup(v.value, "range_key", null)
-        write_capacity     = lookup(v.value, "write_capacity", 1)
-        read_capacity      = lookup(v.value, "read_capacity", 1)
+        write_capacity     = lookup(v.value, "write_capacity", local.write_capacity)
+        read_capacity      = lookup(v.value, "read_capacity", local.read_capacity)
         projection_type    = lookup(v.value, "projection_type", "ALL")
         non_key_attributes = lookup(v.value, "non_key_attributes", null)
     }
