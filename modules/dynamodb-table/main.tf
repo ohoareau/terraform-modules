@@ -38,7 +38,7 @@ resource "aws_dynamodb_table" "table" {
         write_capacity     = lookup(v.value, "write_capacity", local.write_capacity)
         read_capacity      = lookup(v.value, "read_capacity", local.read_capacity)
         projection_type    = lookup(v.value, "projection_type", "ALL")
-        non_key_attributes = lookup(v.value, "non_key_attributes", null)
+        non_key_attributes = (length(lookup(v.value, "non_key_attributes", "")) > 0) ? split(",", lookup(v.value, "non_key_attributes", "")) : null
     }
   }
 }
