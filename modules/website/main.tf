@@ -8,8 +8,8 @@ resource "aws_s3_bucket" "website" {
   bucket = var.bucket_name
   acl    = "public-read"
   website {
-    index_document = "index.html"
-    error_document = "error.html"
+    index_document = var.index_document
+    error_document = ("" == var.error_document) ? var.index_document : var.error_document
   }
   tags = {
     Website = var.name
@@ -85,16 +85,22 @@ resource "aws_cloudfront_distribution" "website" {
     minimum_protocol_version = "TLSv1"
   }
 
-  custom_error_response {
-    error_code    = 403
-    response_code = 200
-    response_page_path = var.error_403_path
+  dynamic "custom_error_response" {
+    for_each = ("" == var.error_403_path) ? [var.error_403_path] : []
+    content {
+      error_code    = 403
+      response_code = 200
+      response_page_path = custom_error_response
+    }
   }
 
-  custom_error_response {
-    error_code    = 404
-    response_code = 200
-    response_page_path = var.error_404_path
+  dynamic "custom_error_response" {
+    for_each = ("" == var.error_404_path) ? [var.error_404_path] : []
+    content {
+      error_code    = 404
+      response_code = 200
+      response_page_path = custom_error_response
+    }
   }
 }
 resource "aws_cloudfront_distribution" "website_redirect_apex" {

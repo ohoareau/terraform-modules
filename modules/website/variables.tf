@@ -10,13 +10,21 @@ variable "zone" {
 variable "dns" {
   type = string
 }
+variable "index_document" {
+  type    = string
+  default = "index.html"
+}
+variable "error_document" {
+  type    = string
+  default = ""
+}
 variable "error_403_path" {
   type    = string
-  default = "/403.html"
+  default = ""
 }
 variable "error_404_path" {
   type    = string
-  default = "/404.html"
+  default = ""
 }
 variable "geolocations" {
   type    = list(string)
