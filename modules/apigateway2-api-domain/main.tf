@@ -5,6 +5,7 @@ provider "aws" {
 }
 
 resource "aws_apigatewayv2_domain_name" "api" {
+  depends_on  = [aws_acm_certificate_validation.cert]
   domain_name = var.dns
   domain_name_configuration {
     certificate_arn = aws_acm_certificate.cert.arn
