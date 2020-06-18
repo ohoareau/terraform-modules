@@ -4,13 +4,16 @@ resource "aws_apigatewayv2_api" "api" {
   description   = var.name
   target        = var.lambda_arn
 
-  cors_configuration {
-    allow_credentials = var.cors.allow_credentials
-    allow_headers     = var.cors.allow_headers
-    allow_methods     = var.cors.allow_methods
-    allow_origins     = var.cors.allow_origins
-    expose_headers    = var.cors.expose_headers
-    max_age           = var.cors.max_age
+  dynamic "cors_configuration" {
+    for_each = var.cors ? [var.cors_config] : []
+    content {
+      allow_credentials = var.cors_config.allow_credentials
+      allow_headers     = var.cors_config.allow_headers
+      allow_methods     = var.cors_config.allow_methods
+      allow_origins     = var.cors_config.allow_origins
+      expose_headers    = var.cors_config.expose_headers
+      max_age           = var.cors_config.max_age
+    }
   }
 }
 resource "aws_lambda_permission" "apigw_lambda" {

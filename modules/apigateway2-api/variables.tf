@@ -9,6 +9,10 @@ variable "lambda_arn" {
   type = string
 }
 variable "cors" {
+  type    = bool
+  default = false
+}
+variable "cors_config" {
   type = object({
     allow_credentials = bool
     allow_headers     = list(string)
@@ -18,7 +22,7 @@ variable "cors" {
     max_age           = number
   })
   default = {
-    allow_credentials = true
+    allow_credentials = false
     allow_headers     = ["*"]
     allow_methods     = ["*"]
     allow_origins     = ["*"]
