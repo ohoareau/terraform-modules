@@ -8,13 +8,19 @@ variable "protocol" {
 variable "lambda_arn" {
   type = string
 }
-variable "cors_config" {
-  type    = object({
-    allow_origins = string
-    allow_credentials = string
-    expose_headers = string
-    max_age = string
-    allow_methods = string
-    allow_headers = string
+variable "cors" {
+  type = object({
+    allow_credentials = bool
+    allow_headers     = list(string)
+    allow_methods     = list(string)
+    allow_origins     = list(string)
+    expose_headers    = number
   })
+  default = {
+    allow_credentials = true
+    allow_methods     = ["*"]
+    allow_origins     = ["*"]
+    expose_headers    = []
+    max_age           = 300
+  }
 }
