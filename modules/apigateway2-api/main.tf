@@ -3,6 +3,7 @@ resource "aws_apigatewayv2_api" "api" {
   protocol_type = var.protocol
   description   = var.name
   target        = var.lambda_arn
+  cors_configuration = var.cors_config
 }
 resource "aws_lambda_permission" "apigw_lambda" {
   action        = "lambda:InvokeFunction"
