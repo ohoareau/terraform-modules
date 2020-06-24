@@ -182,11 +182,14 @@ resource "aws_route53_record" "website_redirect_apex" {
   }
 }
 
+locals {
+  www_dns = "www.${var.dns}"
+}
 resource "aws_acm_certificate" "cert" {
   domain_name       = var.dns
   validation_method = "DNS"
   provider          = aws.acm
-  subject_alternative_names = var.apex_redirect ? ["www.${var.dns}"] : null
+  subject_alternative_names = var.apex_redirect ? [local.www_dns] : null
 
   lifecycle {
     create_before_destroy = true
@@ -201,7 +204,7 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
 }
 resource "aws_route53_record" "cert_validation_alt" {
-  count   = var.apex_redirect ? 1 : 0
+  count   = (var.apex_redirect && (aws_acm_certificate.cert.domain_validation_options > 1)) ? 1 : 0
   name    = aws_acm_certificate.cert.domain_validation_options.1.resource_record_name
   type    = aws_acm_certificate.cert.domain_validation_options.1.resource_record_type
   zone_id = var.zone
@@ -212,7 +215,7 @@ resource "aws_route53_record" "cert_validation_alt" {
 resource "aws_acm_certificate_validation" "cert" {
   provider                = aws.acm
   certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = var.apex_redirect ? [aws_route53_record.cert_validation.fqdn, aws_route53_record.cert_validation_alt[0].fqdn] : [aws_route53_record.cert_validation.fqdn]
+  validation_record_fqdns = (var.apex_redirect && (aws_acm_certificate.cert.domain_validation_options > 1)) ? [aws_route53_record.cert_validation.fqdn, aws_route53_record.cert_validation_alt[0].fqdn] : [aws_route53_record.cert_validation.fqdn]
 }
 
 data "aws_iam_policy_document" "s3_website_policy" {
