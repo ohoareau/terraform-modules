@@ -204,6 +204,7 @@ resource "aws_route53_record" "cert_validation" {
   ttl     = 60
 }
 resource "aws_route53_record" "cert_validation_alt" {
+  depends_on = [aws_acm_certificate.cert]
   count   = (var.apex_redirect && (length(aws_acm_certificate.cert.domain_validation_options) > 1)) ? 1 : 0
   name    = aws_acm_certificate.cert.domain_validation_options.1.resource_record_name
   type    = aws_acm_certificate.cert.domain_validation_options.1.resource_record_type
