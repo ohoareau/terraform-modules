@@ -173,7 +173,7 @@ resource "aws_route53_record" "website_redirect_apex" {
   count = var.apex_redirect ? 1 : 0
   zone_id = var.zone
   name    = "www.${var.dns}"
-  type    = "CNAME"
+  type    = "A"
 
   alias {
     name                   = aws_cloudfront_distribution.website_redirect_apex[count.index].domain_name
