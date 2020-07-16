@@ -2,17 +2,17 @@ locals {
   statements = concat(
     [
       {
-        action   = [
+        actions   = [
           "s3:GetObject",
           "s3:GetObjectVersion",
           "s3:GetBucketVersioning",
           "s3:PutObject"
         ]
-        resource = [
+        resources = [
           aws_s3_bucket.artifacts.arn,
           "${aws_s3_bucket.artifacts.arn}/*"
         ]
-        effect   = "Allow"
+        effect    = "Allow"
       },
       {
         actions   = [
@@ -81,7 +81,7 @@ resource "aws_codepipeline" "pipeline" {
         category      = stage.value.type
         configuration = stage.value.config
         owner         = "AWS"
-        provider      = "CodeBuild"
+        provider      = stage.value.provider
         run_order     = stage.key + 1
         version       = "1"
       }
