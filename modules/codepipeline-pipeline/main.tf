@@ -77,13 +77,15 @@ resource "aws_codepipeline" "pipeline" {
     content {
       name = stage.value.name
       action {
-        name          = stage.value.name
-        category      = stage.value.type
-        configuration = stage.value.config
-        owner         = "AWS"
-        provider      = stage.value.provider
-        run_order     = stage.key + 1
-        version       = "1"
+        name             = stage.value.name
+        category         = stage.value.type
+        configuration    = stage.value.config
+        owner            = "AWS"
+        provider         = stage.value.provider
+        run_order        = stage.key + 1
+        version          = "1"
+        input_artifacts  = stage.value.inputs
+        output_artifacts = stage.value.outputs
       }
     }
   }
