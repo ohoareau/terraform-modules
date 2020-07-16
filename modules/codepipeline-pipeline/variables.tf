@@ -11,8 +11,8 @@ variable "stages" {
     name     = string
     provider = string
     config   = map(string)
-    inputs   = list(map(string))
-    outputs  = list(map(string))
+    inputs   = list(string)
+    outputs  = list(string)
   }))
   default = []
 }
