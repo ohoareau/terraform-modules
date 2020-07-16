@@ -1,6 +1,3 @@
-provider "aws" {
-}
-
 locals {
   statements = concat(
     [
