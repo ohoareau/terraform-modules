@@ -1,3 +1,19 @@
+locals {
+  statements = concat(
+  [
+    {
+      actions   = [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild"
+      ]
+      resources = ["*"]
+      effect    = "Allow"
+    }
+  ],
+  var.policy_statements
+  )
+}
+
 data "aws_iam_policy_document" "assume-role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -17,7 +33,7 @@ module "artifacts-policy" {
   source            = "../codepipeline-artifacts-policy"
   role_name         = aws_iam_role.role.name
   pipeline_bucket   = aws_s3_bucket.artifacts.arn
-  policy_statements = var.policy_statements
+  policy_statements = local.statements
 }
 
 resource "aws_s3_bucket" "artifacts" {
