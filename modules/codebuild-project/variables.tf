@@ -5,6 +5,10 @@ variable "env" {
 variable "name" {
   type = string
 }
+variable "compute_type" {
+  type    = string
+  default = "BUILD_GENERAL1_SMALL"
+}
 variable "buildspec_file" {
   type = string
 }
@@ -20,4 +24,8 @@ variable "policy_statements" {
   })
   )
   default = []
+}
+variable "variables" {
+  type    = map(string)
+  default = {}
 }

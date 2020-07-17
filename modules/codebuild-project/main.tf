@@ -41,10 +41,19 @@ resource "aws_codebuild_project" "project" {
   }
 
   environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
+    compute_type                = var.compute_type
     image                       = var.image
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "SERVICE_ROLE"
+
+    dynamic "environment_variable" {
+      for_each = var.variables
+      iterator = "v"
+      content {
+        name  = lookup(v, "key", null)
+        value = lookup(v, "value", null)
+      }
+    }
   }
 
   logs_config {
