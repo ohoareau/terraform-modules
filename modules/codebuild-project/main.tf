@@ -47,11 +47,10 @@ resource "aws_codebuild_project" "project" {
     image_pull_credentials_type = "SERVICE_ROLE"
 
     dynamic "environment_variable" {
-      for_each = var.variables
-      iterator = "v"
+      for_each = [for v,k in var.variables: {name: k, value: v1}]
       content {
-        name  = lookup(v, "key", null)
-        value = lookup(v, "value", null)
+        name  = lookup(environment_variable.value, "name", null)
+        value = lookup(environment_variable.value, "value", null)
       }
     }
   }
