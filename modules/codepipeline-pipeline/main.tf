@@ -1,32 +1,3 @@
-locals {
-  statements = concat(
-    [
-      {
-        actions   = [
-          "s3:GetObject",
-          "s3:GetObjectVersion",
-          "s3:GetBucketVersioning",
-          "s3:PutObject"
-        ]
-        resources = [
-          aws_s3_bucket.artifacts.arn,
-          "${aws_s3_bucket.artifacts.arn}/*"
-        ]
-        effect    = "Allow"
-      },
-      {
-        actions   = [
-          "codebuild:BatchGetBuilds",
-          "codebuild:StartBuild"
-        ]
-        resources = ["*"]
-        effect    = "Allow"
-      }
-    ],
-    var.policy_statements
-  )
-}
-
 data "aws_iam_policy_document" "assume-role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -37,26 +8,16 @@ data "aws_iam_policy_document" "assume-role" {
   }
 }
 
-data "aws_iam_policy_document" "pipeline" {
-  dynamic "statement" {
-    iterator = s
-    for_each = local.statements
-    content {
-      actions   = lookup(s.value, "actions", [])
-      resources = lookup(s.value, "resources", [])
-      effect    = lookup(s.value, "effect", "Allow")
-    }
-  }
-}
-
 resource "aws_iam_role" "role" {
   name               = "project-${var.env}-${var.name}-pipeline-role"
   assume_role_policy = data.aws_iam_policy_document.assume-role.json
 }
 
-resource "aws_iam_role_policy" "policy" {
-  role   = aws_iam_role.role.name
-  policy = data.aws_iam_policy_document.pipeline.json
+module "artifacts-policy" {
+  source            = "../codepipeline-artifacts-policy"
+  role_name         = aws_iam_role.role.name
+  pipeline_bucket   = aws_s3_bucket.artifacts.arn
+  policy_statements = var.policy_statements
 }
 
 resource "aws_s3_bucket" "artifacts" {
