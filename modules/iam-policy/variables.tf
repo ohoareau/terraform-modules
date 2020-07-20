@@ -3,10 +3,10 @@ variable "enabled" {
   default = true
 }
 variable "name" {
-  type = "string"
+  type = string
 }
 variable "name_prefix" {
-  type    = "string"
+  type    = string
   default = "policy-"
 }
 variable "role_name" {

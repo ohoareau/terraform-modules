@@ -15,8 +15,8 @@ locals {
 }
 
 resource "aws_iam_role" "role" {
-  name        = (128 < length(local.role_name)) ? null : local.role_name
-  name_prefix = (128 >= length(local.role_name)) ? null : local.role_name_prefix
+  name        = (64 < length(local.role_name)) ? null : local.role_name
+  name_prefix = (64 >= length(local.role_name)) ? null : local.role_name_prefix
   assume_role_policy = data.aws_iam_policy_document.assume-role.json
 }
 
