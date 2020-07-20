@@ -9,21 +9,21 @@ data "aws_iam_policy_document" "assume-role" {
 }
 
 locals {
-  prefix           = "${var.env}-${var.pipeline_name}-${var.ecr_name}-${var.ecr_tag}-trigger-ecr"
-  role_name        = "pipeline-${local.prefix}-role"
-  role_name_prefix = "pipeline-trigger-ecr-"
+  prefix      = "${var.pipeline_name}-${var.ecr_name}-${var.ecr_tag}-trigger-ecr"
+  name        = "pipeline-${local.prefix}"
+  name_prefix = "pipeline-trigger-ecr-"
 }
 
 resource "aws_iam_role" "role" {
-  name        = (64 < length(local.role_name)) ? null : local.role_name
-  name_prefix = (64 >= length(local.role_name)) ? null : local.role_name_prefix
+  name               = (64 < length(local.name)) ? null : local.name
+  name_prefix        = (64 >= length(local.name)) ? null : local.name_prefix
   assume_role_policy = data.aws_iam_policy_document.assume-role.json
 }
 
 module "policy" {
   source      = "../iam-policy"
-  name        = local.role_name
-  name_prefix = local.role_name_prefix
+  name        = local.name
+  name_prefix = local.name_prefix
   role_name   = aws_iam_role.role.name
   statements  = [
     {
@@ -35,7 +35,8 @@ module "policy" {
 }
 
 resource "aws_cloudwatch_event_rule" "ecr-push" {
-  name          = local.prefix
+  name          = (64 < length(local.name)) ? null : local.name
+  name_prefix   = (64 >= length(local.name)) ? null : local.name_prefix
   description   = "Capture ECR Push on ${var.ecr_name}:${var.ecr_tag} and trigger pipeline ${var.pipeline_name}"
   role_arn      = aws_iam_role.role.arn
   event_pattern = <<PATTERN

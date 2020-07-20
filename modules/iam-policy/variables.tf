@@ -10,7 +10,7 @@ variable "name_prefix" {
   default = "policy-"
 }
 variable "role_name" {
-  type = "string"
+  type = string
 }
 variable "statements" {
   type = list(
