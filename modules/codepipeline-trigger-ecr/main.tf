@@ -57,4 +57,5 @@ resource "aws_cloudwatch_event_target" "trigger-pipeline" {
   target_id = "trigger-pipeline"
   arn       = var.pipeline_arn
   rule      = aws_cloudwatch_event_rule.ecr-push.name
+  role_arn = aws_iam_role.role.arn
 }
