@@ -3,15 +3,16 @@ locals {
   write_capacity = ("PROVISION" == var.billing_mode) ? 1 : 0
 }
 resource "aws_dynamodb_table" "table" {
-  count          = var.enabled ? 1 : 0
-  name           = var.name
-  read_capacity  = local.read_capacity
-  write_capacity = local.write_capacity
-  hash_key       = var.hash_key
-  range_key      = var.range_key
-  tags           = var.tags
-  billing_mode   = var.billing_mode
-
+  count            = var.enabled ? 1 : 0
+  name             = var.name
+  read_capacity    = local.read_capacity
+  write_capacity   = local.write_capacity
+  hash_key         = var.hash_key
+  range_key        = var.range_key
+  tags             = var.tags
+  billing_mode     = var.billing_mode
+  stream_enabled   = ("" != var.stream_type) ? true : null
+  stream_view_type = ("" != var.stream_type) ? var.stream_type : null
   dynamic "attribute" {
     iterator = v
     for_each = ("" == var.attributes) ? {} : var.attributes

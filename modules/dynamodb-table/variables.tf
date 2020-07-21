@@ -32,3 +32,7 @@ variable "billing_mode" {
   type    = string
   default = "PROVISIONED"
 }
+variable "stream_type" {
+  type    = string
+  default = ""
+}

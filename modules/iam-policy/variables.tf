@@ -3,7 +3,8 @@ variable "enabled" {
   default = true
 }
 variable "name" {
-  type = string
+  type    = string
+  default = ""
 }
 variable "name_prefix" {
   type    = string
