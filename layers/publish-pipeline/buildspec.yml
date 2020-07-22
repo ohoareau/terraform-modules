@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - make -C /code build-code env=$env
+  post_build:
+    commands:
+      - make -C /code deploy-code env=$env
+      - make -C /code invalidate-cache env=$env
