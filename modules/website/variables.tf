@@ -38,3 +38,7 @@ variable "apex_redirect" {
   type    = bool
   default = false
 }
+variable "bucket_cors" {
+  type    = bool
+  default = false
+}
