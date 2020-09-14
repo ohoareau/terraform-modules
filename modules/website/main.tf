@@ -64,7 +64,7 @@ resource "aws_cloudfront_distribution" "website" {
     target_origin_id = "website-${var.name}-s3"
 
     forwarded_values {
-      query_string = false
+      query_string = var.forward_query_string
 
       cookies {
         forward = "none"
@@ -140,7 +140,7 @@ resource "aws_cloudfront_distribution" "website_redirect_apex" {
     target_origin_id = "website-${var.name}-s3"
 
     forwarded_values {
-      query_string = false
+      query_string = var.forward_query_string
 
       cookies {
         forward = "none"

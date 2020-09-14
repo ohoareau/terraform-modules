@@ -42,3 +42,7 @@ variable "bucket_cors" {
   type    = bool
   default = false
 }
+variable "forward_query_string" {
+  type    = bool
+  default = false
+}
