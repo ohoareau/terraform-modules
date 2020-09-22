@@ -82,8 +82,8 @@ resource "aws_cloudfront_distribution" "website" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = var.geolocations
+      restriction_type = length(var.geolocations) == 0 ? "none" : "whitelist"
+      locations        = length(var.geolocations) == 0 ? null : var.geolocations
     }
   }
 
