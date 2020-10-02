@@ -10,6 +10,9 @@ output "gateway_id" {
 output "lambda_arn" {
   value = module.lambda.arn
 }
+output "lambda_name" {
+  value = module.lambda.name
+}
 output "lambda_role_arn" {
   value = module.lambda.role_arn
 }
