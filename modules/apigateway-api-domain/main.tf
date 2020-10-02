@@ -42,10 +42,10 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
-  name    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_name
-  type    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_type
+  name    = element(tolist(aws_acm_certificate.cert.domain_validation_options), 0).resource_record_name
+  type    = element(tolist(aws_acm_certificate.cert.domain_validation_options), 0).resource_record_type
   zone_id = var.zone
-  records = [aws_acm_certificate.cert.domain_validation_options.0.resource_record_value]
+  records = [element(tolist(aws_acm_certificate.cert.domain_validation_options), 0).resource_record_value]
   ttl     = 60
 }
 
