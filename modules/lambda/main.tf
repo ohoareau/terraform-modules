@@ -26,6 +26,14 @@ resource "aws_lambda_function" "lambda" {
         variables = v.value
     }
   }
+  dynamic "vpc_config" {
+    iterator = v
+    for_each = (0 != length(var.subnet_ids)) ? {x: {subnet_ids: var.subnet_ids, security_group_ids: var.security_group_ids}} : {}
+    content {
+        subnet_ids         = v.value.x.subnet_ids
+        security_group_ids = v.value.x.security_group_ids
+    }
+  }
 }
 
 data "aws_iam_policy_document" "lambda-assume-role" {

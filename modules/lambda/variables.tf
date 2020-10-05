@@ -50,3 +50,11 @@ variable "layers" {
   type    = list(string)
   default = []
 }
+variable "subnet_ids" {
+  type    = list(string)
+  default = []
+}
+variable "security_group_ids" {
+  type    = list(string)
+  default = []
+}
