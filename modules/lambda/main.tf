@@ -83,7 +83,7 @@ module "lambda-policy" {
     ] : [],
     length(var.subnet_ids) > 0 ? [
       {
-        action    = [
+        actions   = [
           "ec2:DescribeSecurityGroups",
           "ec2:DescribeSubnets",
           "ec2:DescribeVpcs",
