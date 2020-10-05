@@ -80,6 +80,20 @@ module "lambda-policy" {
         resources = [var.dlq_sns_topic],
         effect    = "Allow"
       },
+    ] : [],
+    length(var.subnet_ids) > 0 ? [
+      {
+        action    = [
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeVpcs",
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DeleteNetworkInterface"
+        ]
+        resources = ["*"]
+        effect    = "Allow"
+      }
     ] : []
   )
 }
