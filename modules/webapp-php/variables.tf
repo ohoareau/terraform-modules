@@ -18,7 +18,7 @@ variable "memory_size" {
 }
 variable "handler" {
   type    = string
-  default = "web/app.php"
+  default = "lambda.handler"
 }
 variable "variables" {
   type    = map(string)
