@@ -18,11 +18,21 @@ variable "error_document" {
   type    = string
   default = ""
 }
+# buggy
 variable "error_403_path" {
   type    = string
   default = ""
 }
+variable "error_403_page_path" {
+  type    = string
+  default = ""
+}
+# buggy
 variable "error_404_path" {
+  type    = string
+  default = ""
+}
+variable "error_404_page_path" {
   type    = string
   default = ""
 }
