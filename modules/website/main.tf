@@ -107,11 +107,11 @@ resource "aws_cloudfront_distribution" "website" {
   }
 
   dynamic "custom_error_response" {
-    for_each = ("" == var.error_403_page_path) ? [] : [var.error_403_page_path]
+    for_each = toset(("" == var.error_403_page_path) ? [] : [var.error_403_page_path])
     content {
       error_code    = 403
       response_code = 200
-      response_page_path = custom_error_response
+      response_page_path = each.value
     }
   }
 
@@ -126,11 +126,11 @@ resource "aws_cloudfront_distribution" "website" {
   }
 
   dynamic "custom_error_response" {
-    for_each = ("" == var.error_404_page_path) ? [] : [var.error_404_page_path]
+    for_each = toset(("" == var.error_404_page_path) ? [] : [var.error_404_page_path])
     content {
       error_code    = 404
       response_code = 200
-      response_page_path = custom_error_response
+      response_page_path = each.value
     }
   }
 }
