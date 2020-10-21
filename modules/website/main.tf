@@ -111,7 +111,7 @@ resource "aws_cloudfront_distribution" "website" {
     content {
       error_code    = 403
       response_code = 200
-      response_page_path = each.value
+      response_page_path = custom_error_response.value
     }
   }
 
@@ -130,7 +130,7 @@ resource "aws_cloudfront_distribution" "website" {
     content {
       error_code    = 404
       response_code = 200
-      response_page_path = each.value
+      response_page_path = custom_error_response.value
     }
   }
 }
