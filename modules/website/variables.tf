@@ -18,7 +18,7 @@ variable "error_document" {
   type    = string
   default = ""
 }
-# buggy
+# kept for compatibility, not used, use error_403_page_path instead
 variable "error_403_path" {
   type    = string
   default = ""
@@ -27,7 +27,7 @@ variable "error_403_page_path" {
   type    = string
   default = ""
 }
-# buggy
+# kept for compatibility, not used, use error_404_page_path instead
 variable "error_404_path" {
   type    = string
   default = ""

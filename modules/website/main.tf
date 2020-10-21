@@ -96,32 +96,12 @@ resource "aws_cloudfront_distribution" "website" {
     minimum_protocol_version = "TLSv1"
   }
 
-  # buggy
-  dynamic "custom_error_response" {
-    for_each = ("" == var.error_403_path) ? [var.error_403_path] : []
-    content {
-      error_code    = 403
-      response_code = 200
-      response_page_path = custom_error_response
-    }
-  }
-
   dynamic "custom_error_response" {
     for_each = toset(("" == var.error_403_page_path) ? [] : [var.error_403_page_path])
     content {
       error_code    = 403
       response_code = 200
       response_page_path = custom_error_response.value
-    }
-  }
-
-  # buggy
-  dynamic "custom_error_response" {
-    for_each = ("" == var.error_404_path) ? [var.error_404_path] : []
-    content {
-      error_code    = 404
-      response_code = 200
-      response_page_path = custom_error_response
     }
   }
 
