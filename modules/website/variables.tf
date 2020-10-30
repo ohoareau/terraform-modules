@@ -56,3 +56,10 @@ variable "forward_query_string" {
   type    = bool
   default = false
 }
+variable "lambdas" {
+  type = list(object({
+    event_type = string
+    lambda_arn = string
+    include_body = bool
+  }))
+}
