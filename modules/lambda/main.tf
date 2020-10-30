@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "lambda-assume-role" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = merge(
+      identifiers = concat(
         ["lambda.amazonaws.com"],
         var.assume_role_identifiers
       )
