@@ -1,8 +1,9 @@
 variable "name" {
   type = string
 }
-variable "file" {
+variable "config_file" {
   type = string
+  default = ""
 }
 variable "runtime" {
   type    = string
@@ -24,10 +25,6 @@ variable "variables" {
   type    = map(string)
   default = {}
 }
-variable "enabled" {
-  type    = bool
-  default = true
-}
 variable "policy_statements" {
   type = list(
     object({
@@ -36,29 +33,5 @@ variable "policy_statements" {
       effect    = string
     })
   )
-  default = []
-}
-variable "tags" {
-  type    = map(string)
-  default = {}
-}
-variable "dlq_sns_topic" {
-  type    = string
-  default = ""
-}
-variable "layers" {
-  type    = list(string)
-  default = []
-}
-variable "subnet_ids" {
-  type    = list(string)
-  default = []
-}
-variable "security_group_ids" {
-  type    = list(string)
-  default = []
-}
-variable "assume_role_identifiers" {
-  type    = list(string)
   default = []
 }
