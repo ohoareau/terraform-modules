@@ -62,4 +62,5 @@ variable "lambdas" {
     lambda_arn = string
     include_body = bool
   }))
+  default = []
 }
