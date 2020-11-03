@@ -11,6 +11,7 @@ resource "aws_lambda_function" "lambda" {
   depends_on       = [module.lambda-policy, aws_cloudwatch_log_group.lambda[0]]
   tags             = var.tags
   layers           = var.layers
+  publish          = var.publish
 
   dynamic "dead_letter_config" {
     iterator = v

@@ -13,3 +13,9 @@ output "role_arn" {
 output "role_name" {
   value = module.lambda.name
 }
+output "qualified_arn" {
+  value = module.lambda.qualified_arn
+}
+output "version" {
+  value = module.lambda.version
+}

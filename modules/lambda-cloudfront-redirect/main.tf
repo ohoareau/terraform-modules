@@ -24,5 +24,6 @@ module "lambda" {
   memory_size       = var.memory_size
   handler           = var.handler
   variables         = var.variables
+  publish           = true
   assume_role_identifiers = ["edgelambda.amazonaws.com"]
 }

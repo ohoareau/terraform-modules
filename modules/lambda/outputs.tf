@@ -13,3 +13,9 @@ output "role_arn" {
 output "role_name" {
   value = (var.enabled && 0 < length(aws_lambda_function.lambda)) ? aws_iam_role.lambda[0].name : null
 }
+output "qualified_arn" {
+  value = (var.enabled && 0 < length(aws_lambda_function.lambda) && (true == var.publish)) ? aws_lambda_function.lambda[0].qualified_arn : null
+}
+output "version" {
+  value = (var.enabled && 0 < length(aws_lambda_function.lambda) && (true == var.publish)) ? aws_lambda_function.lambda[0].version : null
+}

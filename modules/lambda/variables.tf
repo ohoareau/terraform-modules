@@ -62,3 +62,7 @@ variable "assume_role_identifiers" {
   type    = list(string)
   default = []
 }
+variable "publish" {
+  type    = bool
+  default = false
+}
