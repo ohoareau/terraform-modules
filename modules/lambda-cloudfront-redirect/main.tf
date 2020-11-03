@@ -15,6 +15,11 @@ data "archive_file" "lambda-code" {
   }
 }
 
+provider "aws" {
+  alias = "central"
+  region = "us-east-1"
+}
+
 module "lambda" {
   source            = "../lambda"
   name              = var.name
@@ -26,4 +31,7 @@ module "lambda" {
   variables         = var.variables
   publish           = true
   assume_role_identifiers = ["edgelambda.amazonaws.com"]
+  providers = {
+    aws = aws.central
+  }
 }
