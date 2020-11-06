@@ -18,20 +18,27 @@ const isHostMatching = (a, b) => a === b;
 const isUriMatching = (a, b) => a === b;
 
 const isMatchingRule = (rule, context) => {
-    let r = false;
-    rule.host && (r = r && isHostMatching(rule.host, context.host));
-    rule.uri && (r = r && isUriMatching(rule.uri, context.uri));
+    let r = undefined;
+    // noinspection PointlessBooleanExpressionJS
+    rule.host && (r = ((undefined !== r) ? r : true) && isHostMatching(rule.host, context.host));
+    rule.uri && (r = ((undefined !== r) ? r : true) && isUriMatching(rule.uri, context.uri));
     return r;
 }
 
 const getHostFromRequest = request => (((request.headers || [])['host'] || [])[0] || {}).value;
 
-const getUriFromRequest = request => request.uri;
+const getUriFromRequest = (request, {refererMode = false} = {}) => {
+    if (!refererMode) return request.uri;
+    let host = getHostFromRequest(request);
+    let referer = (((request.headers || [])["referer"] || [])[0] || {}).value;
+    if (host && referer) return referer.split(host)[1];
+    return request.uri;
+}
 
 const getRedirectResponseIfExistFromConfig = (request, config) => {
     const context = {
         host: getHostFromRequest(request),
-        uri: getUriFromRequest(request),
+        uri: getUriFromRequest(request, config),
     };
     return ((config || {}).redirects || []).find(
         rule => isMatchingRule(rule, context, request)
