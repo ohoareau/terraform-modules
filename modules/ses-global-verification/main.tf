@@ -3,7 +3,7 @@ resource "aws_route53_record" "verification_record" {
   name    = "_amazonses.${var.domain}"
   type    = "TXT"
   ttl     = "600"
-  records = [for i in values(var.identities): i.verification_tokens]
+  records = [for i in values(var.identities): i.verification_token]
 }
 
 resource "aws_ses_domain_mail_from" "domain" {
