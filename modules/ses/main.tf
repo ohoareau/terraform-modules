@@ -1,3 +1,12 @@
+/**
+ * @deprecated
+ *
+ * @see
+ *   module '../ses-global' (global, only one)
+ *   module '../ses-regional-identity' (local, one per region)
+ *   module '../ses-global-verification' (global, only one)
+ */
+
 data "aws_region" "current" {}
 
 locals {

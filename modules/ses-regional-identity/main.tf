@@ -9,27 +9,9 @@ resource "aws_ses_domain_identity" "identity" {
   domain = var.domain
 }
 
-resource "aws_route53_record" "verification_record" {
-  zone_id = var.zone
-  name    = "_amazonses.${var.domain}"
-  type    = "TXT"
-  ttl     = "600"
-  records = [aws_ses_domain_identity.identity.verification_token]
-}
-
-resource "aws_ses_domain_identity_verification" "verification" {
-  domain     = aws_ses_domain_identity.identity.id
-  depends_on = [aws_route53_record.verification_record]
-}
-
 resource "aws_ses_email_identity" "identities" {
   for_each = var.emails
-  email = "${each.value}@${var.domain}"
-}
-
-resource "aws_ses_domain_mail_from" "domain" {
-  domain           = aws_ses_domain_identity.identity.domain
-  mail_from_domain = "bounce.${aws_ses_domain_identity.identity.domain}"
+  email    = "${each.value}@${var.domain}"
 }
 
 data "aws_iam_policy_document" "policy" {
