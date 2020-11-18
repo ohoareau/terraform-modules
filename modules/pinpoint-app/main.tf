@@ -1,68 +1,68 @@
 resource "aws_pinpoint_email_channel" "email" {
-  for_each       = var.email_channels
+  count          = null != var.email ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
-  from_address   = each.value.from
-  identity       = each.value.identity
+  from_address   = var.email.from
+  identity       = var.email.identity
   role_arn       = aws_iam_role.app.arn
 }
 
 resource "aws_pinpoint_sms_channel" "sms" {
-  for_each = var.sms_channels
+  count          = null != var.sms ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
-  sender_id = each.value.sender
-  short_code = each.value.short_code
+  sender_id      = var.sms.sender
+  short_code     = var.sms.short_code
 }
 
 resource "aws_pinpoint_apns_channel" "apns" {
-  for_each = var.apns_channels
+  count          = null != var.apns ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
-  certificate = each.value.certificate
-  private_key = each.value.private_key
-  bundle_id = each.value.bundle_id
-  team_id = each.value.team_id
-  token_key = each.value.token_key
-  token_key_id = each.value.token_key_id
+  certificate    = var.apns.certificate
+  private_key    = var.apns.private_key
+  bundle_id      = var.apns.bundle_id
+  team_id        = var.apns.team_id
+  token_key      = var.apns.token_key
+  token_key_id   = var.apns.token_key_id
 }
 
 resource "aws_pinpoint_apns_sandbox_channel" "apns_sandbox" {
-  for_each = var.apns_sandbox_channels
+  count          = null != var.apns_sandbox ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
-  certificate = each.value.certificate
-  private_key = each.value.private_key
-  bundle_id = each.value.bundle_id
-  team_id = each.value.team_id
-  token_key = each.value.token_key
-  token_key_id = each.value.token_key_id
+  certificate    = var.apns_sandbox.certificate
+  private_key    = var.apns_sandbox.private_key
+  bundle_id      = var.apns_sandbox.bundle_id
+  team_id        = var.apns_sandbox.team_id
+  token_key      = var.apns_sandbox.token_key
+  token_key_id   = var.apns_sandbox.token_key_id
 }
 
 resource "aws_pinpoint_apns_voip_channel" "apns_voip" {
-  for_each = var.apns_voip_channels
+  count          = null != var.apns_voip ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
-  certificate = each.value.certificate
-  private_key = each.value.private_key
-  bundle_id = each.value.bundle_id
-  team_id = each.value.team_id
-  token_key = each.value.token_key
-  token_key_id = each.value.token_key_id
+  certificate    = var.apns_voip.certificate
+  private_key    = var.apns_voip.private_key
+  bundle_id      = var.apns_voip.bundle_id
+  team_id        = var.apns_voip.team_id
+  token_key      = var.apns_voip.token_key
+  token_key_id   = var.apns_voip.token_key_id
 }
 
 resource "aws_pinpoint_apns_voip_sandbox_channel" "apns_voip_sandbox" {
-  for_each = var.apns_voip_sandbox_channels
+  count          = null != var.apns_voip_sandbox ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
-  certificate = each.value.certificate
-  private_key = each.value.private_key
-  bundle_id = each.value.bundle_id
-  team_id = each.value.team_id
-  token_key = each.value.token_key
-  token_key_id = each.value.token_key_id
+  certificate    = var.apns_voip_sandbox.certificate
+  private_key    = var.apns_voip_sandbox.private_key
+  bundle_id      = var.apns_voip_sandbox.bundle_id
+  team_id        = var.apns_voip_sandbox.team_id
+  token_key      = var.apns_voip_sandbox.token_key
+  token_key_id   = var.apns_voip_sandbox.token_key_id
 }
 
 resource "aws_pinpoint_baidu_channel" "baidu" {
-  for_each       = var.baidu_channels
+  count          = null != var.baidu ? 1 : 0
   application_id = aws_pinpoint_app.app.application_id
   enabled        = true
-  api_key        = each.value.api_key
-  secret_key     = each.value.secret_key
+  api_key        = var.baidu.api_key
+  secret_key     = var.baidu.secret_key
 }
 
 resource "aws_pinpoint_app" "app" {

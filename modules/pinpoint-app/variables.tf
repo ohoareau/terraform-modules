@@ -2,76 +2,76 @@ variable "name" {
   type = string
 }
 
-variable "email_channels" {
-  type = map(object({
+variable "email" {
+  type = object({
     from     = string
     identity = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
-variable "sms_channels" {
-  type = map(object({
+variable "sms" {
+  type = object({
     sender     = string
     short_code = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
-variable "baidu_channels" {
-  type = map(object({
+variable "baidu" {
+  type = object({
     api_key    = string
     secret_key = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
-variable "apns_channels" {
-  type = map(object({
+variable "apns" {
+  type = object({
     certificate  = string
     private_key  = string
     bundle_id    = string
     team_id      = string
     token_key    = string
     token_key_id = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
-variable "apns_sandbox_channels" {
-  type = map(object({
+variable "apns_sandbox" {
+  type = object({
     certificate  = string
     private_key  = string
     bundle_id    = string
     team_id      = string
     token_key    = string
     token_key_id = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
-variable "apns_voip_channels" {
-  type = map(object({
+variable "apns_voip" {
+  type = object({
     certificate  = string
     private_key  = string
     bundle_id    = string
     team_id      = string
     token_key    = string
     token_key_id = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
-variable "apns_voip_sandbox_channels" {
-  type = map(object({
+variable "apns_voip_sandbox" {
+  type = object({
     certificate  = string
     private_key  = string
     bundle_id    = string
     team_id      = string
     token_key    = string
     token_key_id = string
-  }))
-  default = {}
+  })
+  default = null
 }
 
 variable "assume_role_identifiers" {
