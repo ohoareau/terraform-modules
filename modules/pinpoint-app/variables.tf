@@ -3,7 +3,7 @@ variable "name" {
 }
 
 variable "email_channels" {
-  type = map(object({
+  type = list(object({
     from     = string
     identity = string
   }))
@@ -11,7 +11,7 @@ variable "email_channels" {
 }
 
 variable "sms_channels" {
-  type = map(object({
+  type = list(object({
     sender     = string
     short_code = string
   }))
@@ -19,7 +19,7 @@ variable "sms_channels" {
 }
 
 variable "baidu_channels" {
-  type = map(object({
+  type = list(object({
     api_key    = string
     secret_key = string
   }))
@@ -27,7 +27,7 @@ variable "baidu_channels" {
 }
 
 variable "apns_channels" {
-  type = map(object({
+  type = list(object({
     certificate  = string
     private_key  = string
     bundle_id    = string
@@ -39,7 +39,7 @@ variable "apns_channels" {
 }
 
 variable "apns_sandbox_channels" {
-  type = map(object({
+  type = list(object({
     certificate  = string
     private_key  = string
     bundle_id    = string
@@ -51,7 +51,7 @@ variable "apns_sandbox_channels" {
 }
 
 variable "apns_voip_channels" {
-  type = map(object({
+  type = list(object({
     certificate  = string
     private_key  = string
     bundle_id    = string
@@ -63,7 +63,7 @@ variable "apns_voip_channels" {
 }
 
 variable "apns_voip_sandbox_channels" {
-  type = map(object({
+  type = list(object({
     certificate  = string
     private_key  = string
     bundle_id    = string
@@ -75,6 +75,6 @@ variable "apns_voip_sandbox_channels" {
 }
 
 variable "assume_role_identifiers" {
-  type    = map(string)
+  type    = list(string)
   default = []
 }
