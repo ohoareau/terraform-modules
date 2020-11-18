@@ -1,5 +1,5 @@
 resource "aws_pinpoint_email_channel" "email" {
-  for_each       = toset(var.email_channels)
+  for_each       = var.email_channels
   application_id = aws_pinpoint_app.app.application_id
   from_address   = each.value.from
   identity       = each.value.identity
@@ -7,14 +7,14 @@ resource "aws_pinpoint_email_channel" "email" {
 }
 
 resource "aws_pinpoint_sms_channel" "sms" {
-  for_each = toset(var.sms_channels)
+  for_each = var.sms_channels
   application_id = aws_pinpoint_app.app.application_id
   sender_id = each.value.sender
   short_code = each.value.short_code
 }
 
 resource "aws_pinpoint_apns_channel" "apns" {
-  for_each = toset(var.apns_channels)
+  for_each = var.apns_channels
   application_id = aws_pinpoint_app.app.application_id
   certificate = each.value.certificate
   private_key = each.value.private_key
@@ -25,7 +25,7 @@ resource "aws_pinpoint_apns_channel" "apns" {
 }
 
 resource "aws_pinpoint_apns_sandbox_channel" "apns_sandbox" {
-  for_each = toset(var.apns_sandbox_channels)
+  for_each = var.apns_sandbox_channels
   application_id = aws_pinpoint_app.app.application_id
   certificate = each.value.certificate
   private_key = each.value.private_key
@@ -36,7 +36,7 @@ resource "aws_pinpoint_apns_sandbox_channel" "apns_sandbox" {
 }
 
 resource "aws_pinpoint_apns_voip_channel" "apns_voip" {
-  for_each = toset(var.apns_voip_channels)
+  for_each = var.apns_voip_channels
   application_id = aws_pinpoint_app.app.application_id
   certificate = each.value.certificate
   private_key = each.value.private_key
@@ -47,7 +47,7 @@ resource "aws_pinpoint_apns_voip_channel" "apns_voip" {
 }
 
 resource "aws_pinpoint_apns_voip_sandbox_channel" "apns_voip_sandbox" {
-  for_each = toset(var.apns_voip_sandbox_channels)
+  for_each = var.apns_voip_sandbox_channels
   application_id = aws_pinpoint_app.app.application_id
   certificate = each.value.certificate
   private_key = each.value.private_key
@@ -58,7 +58,7 @@ resource "aws_pinpoint_apns_voip_sandbox_channel" "apns_voip_sandbox" {
 }
 
 resource "aws_pinpoint_baidu_channel" "baidu" {
-  for_each       = toset(var.baidu_channels)
+  for_each       = var.baidu_channels
   application_id = aws_pinpoint_app.app.application_id
   enabled        = true
   api_key        = each.value.api_key
