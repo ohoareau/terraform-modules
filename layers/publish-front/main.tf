@@ -33,13 +33,13 @@ module "codepipeline-publish-front" {
   ]
 }
 
-module "codepipeline-publish-artifacts-policy-for-codebuild-project-publish-front" {
+module "codepipeline-publish-front-artifacts-policy-for-codebuild-project-publish-front" {
   source          = "../../modules/codepipeline-artifacts-policy"
   role_name       = module.codebuild-project-publish-front.role_name
   pipeline_bucket = module.codepipeline-publish-front.artifacts_bucket_arn
 }
 
-module "codepipeline-publish-ecr-trigger" {
+module "codepipeline-publish-front-ecr-trigger" {
   source        = "../../modules/codepipeline-trigger-ecr"
   ecr_name      = module.ecr.name
   ecr_tag       = "latest"
