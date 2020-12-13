@@ -2,7 +2,8 @@ variable "env" {
   type = string
 }
 variable "name" {
-  type = string
+  type    = string
+  default = "front"
 }
 variable "project_prefix" {
   type = string
