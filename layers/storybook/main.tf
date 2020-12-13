@@ -6,7 +6,7 @@ provider "aws" {
 }
 
 module "website" {
-  source      = "../website"
+  source      = "../../modules/website"
   name        = var.name
   bucket_name = var.bucket_name
   zone        = var.dns_zone
