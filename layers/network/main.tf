@@ -10,8 +10,9 @@ resource "aws_vpc" "vpc" {
   }
 }
 
+// ["primary", "secondary", "tertiary"] (list)
 resource "aws_subnet" "private-subnet" {
-  for_each   = toset([for s in keys(var.subnets): s])
+  for_each   = tolist(keys(var.subnets))
   vpc_id     = aws_vpc.vpc.id
   cidr_block = lookup(var.subnets[each.value], "cidr_block", var.cidr_block)
   availability_zone = data.aws_availability_zones.available.names[each.key]
