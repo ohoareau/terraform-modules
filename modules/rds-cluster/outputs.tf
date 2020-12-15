@@ -16,3 +16,6 @@ output "db_url" {
 output "db_name" {
   value = local.db_name
 }
+output "db_security_group_id" {
+  value = aws_security_group.default.id
+}
