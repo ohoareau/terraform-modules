@@ -22,7 +22,7 @@ resource "aws_rds_cluster" "db" {
   engine_mode               = var.db_engine_mode
   availability_zones        = var.db_availability_zones
   database_name             = var.db_name
-  final_snapshot_identifier = "${var.db_name}-final"
+  final_snapshot_identifier = "${replace(var.db_name, "_", "-")}-final"
   master_username           = var.db_master_username
   master_password           = var.db_master_password
   backup_retention_period   = var.db_backup_retention_period
