@@ -10,12 +10,16 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-// ["primary", "secondary", "tertiary"] (list)
+locals {
+  subnet_names = tolist(keys(var.subnets)) // => ["primary", "secondary", "tertiary"]
+  azs_map      = {for k,v in data.aws_availability_zones.available.names: local.subnet_names[k] => v}
+}
+
 resource "aws_subnet" "private-subnet" {
-  for_each   = tolist(keys(var.subnets))
+  for_each   = var.subnets
   vpc_id     = aws_vpc.vpc.id
-  cidr_block = lookup(var.subnets[each.value], "cidr_block", var.cidr_block)
-  availability_zone = data.aws_availability_zones.available.names[each.key]
+  cidr_block = lookup(each.value, "cidr_block", var.cidr_block)
+  availability_zone = local.azs_map[each.key]
   lifecycle {
     create_before_destroy = true
   }
