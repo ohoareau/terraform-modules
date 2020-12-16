@@ -8,5 +8,7 @@ output "subnets" {
   value = aws_subnet.private-subnet
 }
 output "route_tables" {
-  value = aws_route_table.private
+  value = {
+    private = aws_route_table.private
+  }
 }
