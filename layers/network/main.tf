@@ -11,7 +11,7 @@ resource "aws_vpc" "vpc" {
 }
 
 locals {
-  subnet_names = tolist(keys(var.subnets)) // => ["primary", "secondary", "tertiary"]
+  subnet_names = tolist(keys(var.subnets))
   azs_map      = {for k,v in data.aws_availability_zones.available.names: local.subnet_names[k] => v}
 }
 
