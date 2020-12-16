@@ -19,3 +19,6 @@ output "private_subnets" {
 output "security_groups" {
   value = var.enabled ? aws_security_group.security_group : {}
 }
+output "private_route_table_ids" {
+  value = local.has_private ? {for k,v in aws_route_table.private: k => v.id} : null
+}
