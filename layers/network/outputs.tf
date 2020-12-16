@@ -7,3 +7,6 @@ output "vpc_id" {
 output "subnets" {
   value = aws_subnet.private-subnet
 }
+output "route_tables" {
+  value = aws_route_table.private
+}
