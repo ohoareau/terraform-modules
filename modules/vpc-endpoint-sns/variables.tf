@@ -8,6 +8,6 @@ variable "subnet_ids" {
   type = list(string)
 }
 variable "private_dns_enabled" {
-  type  = bool
-  default = true
+  type    = bool
+  default = false
 }
