@@ -9,5 +9,5 @@ variable "subnet_ids" {
 }
 variable "private_dns_enabled" {
   type  = bool
-  value = true
+  default = true
 }
