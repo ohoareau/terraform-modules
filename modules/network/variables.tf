@@ -26,3 +26,11 @@ variable "security_groups" {
   }))
   default = {}
 }
+variable "dns_hostnames" {
+  type    = bool
+  default = null
+}
+variable "dns_support" {
+  type    = bool
+  default = null
+}
