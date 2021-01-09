@@ -103,12 +103,12 @@ resource "aws_vpc_endpoint" "service" {
   subnet_ids          = local.isInterface ? var.subnet_ids : null
   private_dns_enabled = local.isInterface ? var.private_dns_enabled : null
   // for Gateway endpoints
-  route_table_ids = local.isInterface[var.route_table_id]
+  route_table_ids     = local.isInterface ? null : [var.route_table_id]
 }
 
 // Gateway only
 resource "aws_vpc_endpoint_route_table_association" "service" {
-  count = local.gatewayCount
+  count           = local.gatewayCount
   route_table_id  = var.route_table_id
   vpc_endpoint_id = aws_vpc_endpoint.service.id
 }
