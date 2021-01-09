@@ -16,11 +16,11 @@ output "route_tables" {
   }
 }
 output "security_group_id" {
-  value = null == var.security_group ? null : aws_security_group.default[0].id
+  value = null == var.security_group ? aws_security_group.default[0].id : null
 }
 output "security_group_name" {
-  value = null == var.security_group ? null : aws_security_group.default[0].name
+  value = null == var.security_group ? aws_security_group.default[0].name : null
 }
 output "security_group_arn" {
-  value = null == var.security_group ? null : aws_security_group.default[0].arn
+  value = null == var.security_group ? aws_security_group.default[0].arn : null
 }
