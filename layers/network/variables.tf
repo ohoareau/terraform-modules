@@ -1,6 +1,10 @@
 variable "env" {
   type = string
 }
+variable "name" {
+  type    = string
+  default = "network"
+}
 variable "cidr_block" {
   type = string
 }
@@ -19,4 +23,8 @@ variable "dns_hostnames" {
 variable "dns_support" {
   type    = bool
   default = true
+}
+variable "security_group" {
+  type    = bool
+  default = false
 }
