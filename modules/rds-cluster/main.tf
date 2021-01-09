@@ -7,12 +7,13 @@ provider "aws" {
 
 
 locals {
-  db_user     = var.db_master_username
-  db_password = var.db_master_password
-  db_host     = aws_rds_cluster.db.endpoint
-  db_port     = aws_rds_cluster.db.port
-  db_name     = aws_rds_cluster.db.database_name
-  db_url      = "mysql:host=${aws_rds_cluster.db.endpoint};dbname=${aws_rds_cluster.db.database_name};port=${aws_rds_cluster.db.port}"
+  db_user           = var.db_master_username
+  db_password       = var.db_master_password
+  db_host           = aws_rds_cluster.db.endpoint
+  db_port           = aws_rds_cluster.db.port
+  db_name           = aws_rds_cluster.db.database_name
+  db_url            = "mysql:host=${aws_rds_cluster.db.endpoint};dbname=${aws_rds_cluster.db.database_name};port=${aws_rds_cluster.db.port}"
+  security_group_id = null == var.db_security_group_id ? aws_security_group.default[0].id : var.db_security_group_id
 }
 
 resource "aws_rds_cluster" "db" {
@@ -45,31 +46,37 @@ resource "aws_rds_cluster" "db" {
     create_before_destroy = true
   }
 }
+
 resource "aws_db_subnet_group" "default" {
   name        = "${var.env}_db_subnets"
   description = "Group of DB subnets - ${var.env}"
   subnet_ids  = [for k,v in var.db_subnets: v.id]
 }
+
 resource "aws_security_group" "default" {
+  count       = null == var.db_security_group_id ? 1 : 0
   vpc_id      = var.db_vpc_id
   name        = format("%s-%s-sg", var.env, "aurora")
   description = format("Security Group for %s - %s", "aurora", var.env)
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 3306
-    to_port     = 3306
-    cidr_blocks = [for k,v in var.db_subnets: v.cidr_block]
-  }
-
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_security_group_rule" "aurora-incoming" {
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 3306
+  to_port           = 3306
+  cidr_blocks       = [for k,v in var.db_subnets: v.cidr_block]
+  security_group_id = local.security_group_id
+}
+resource "aws_security_group_rule" "aurora-outgoing" {
+  count             = null == var.db_security_group_id ? 1 : 0
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = local.security_group_id
 }

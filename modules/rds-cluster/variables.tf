@@ -62,3 +62,7 @@ variable "db_min_capacity" {
   type    = number
   default = 1
 }
+variable "db_security_group_id" {
+  type    = string
+  default = null
+}
