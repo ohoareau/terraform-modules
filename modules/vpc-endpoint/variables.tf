@@ -1,4 +1,4 @@
-variable "name" {
+variable "service" {
   type = string
 }
 variable "vpc_id" {

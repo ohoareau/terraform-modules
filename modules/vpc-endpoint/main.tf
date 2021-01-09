@@ -81,7 +81,7 @@ locals {
 
 // automatic local variables
 locals {
-  svc          = local.services[var.name]
+  svc          = local.services[var.service]
   service      = local.svc["service"]
   type         = local.svc["type"]
   isInterface  = "Interface" == local.type
