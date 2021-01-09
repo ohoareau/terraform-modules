@@ -29,7 +29,7 @@ resource "aws_rds_cluster" "db" {
   backup_retention_period   = var.db_backup_retention_period
   preferred_backup_window   = var.db_preferred_backup_window
   skip_final_snapshot       = false
-  vpc_security_group_ids    = [aws_security_group.default.id]
+  vpc_security_group_ids    = [local.security_group_id]
   db_subnet_group_name      = aws_db_subnet_group.default.name
   enable_http_endpoint      = true
 
