@@ -28,3 +28,11 @@ variable "security_group" {
   type    = bool
   default = false
 }
+variable "security_group_allow_outgoing" {
+  type    = bool
+  default = false
+}
+variable "security_group_allow_internal_https" {
+  type    = bool
+  default = false
+}

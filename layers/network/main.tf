@@ -47,3 +47,21 @@ resource "aws_security_group" "default" {
     create_before_destroy = true
   }
 }
+resource "aws_security_group_rule" "allow-outgoing" {
+  count             = (true == var.security_group && true == var.security_group_allow_outgoing) ? 1 : 0
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.default[0].id
+}
+resource "aws_security_group_rule" "allow-internal-https" {
+  count             = (true == var.security_group && true == var.security_group_allow_internal_https) ? 1 : 0
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 443
+  to_port           = 443
+  cidr_blocks       = [for k,v in aws_subnet.private-subnet: v.cidr_block]
+  security_group_id = aws_security_group.default[0].id
+}
