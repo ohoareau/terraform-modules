@@ -14,9 +14,9 @@ variable "subnets" {
 }
 variable "dns_hostnames" {
   type    = bool
-  default = null
+  default = true
 }
 variable "dns_support" {
   type    = bool
-  default = null
+  default = true
 }
