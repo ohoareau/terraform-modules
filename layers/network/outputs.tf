@@ -1,5 +1,5 @@
 output "vpc_name" {
-  value = local.vpc_name
+  value = local.name
 }
 output "vpc_arn" {
   value = aws_vpc.vpc.arn
@@ -16,11 +16,11 @@ output "route_tables" {
   }
 }
 output "security_group_id" {
-  value = null == var.security_group ? null : aws_security_group.default.id
+  value = null == var.security_group ? null : aws_security_group.default[0].id
 }
 output "security_group_name" {
-  value = null == var.security_group ? null : aws_security_group.default.name
+  value = null == var.security_group ? null : aws_security_group.default[0].name
 }
 output "security_group_arn" {
-  value = null == var.security_group ? null : aws_security_group.default.arn
+  value = null == var.security_group ? null : aws_security_group.default[0].arn
 }
