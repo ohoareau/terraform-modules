@@ -32,8 +32,8 @@ locals {
 resource "aws_codebuild_project" "project" {
   name           = "${var.env}-${var.name}"
   description    = "${upper(var.env)} ${var.name}"
-  build_timeout  = 5
-  queued_timeout = 5
+  build_timeout  = var.build_timeout
+  queued_timeout = var.queued_timeout
   service_role   = aws_iam_role.role.arn
 
   artifacts {

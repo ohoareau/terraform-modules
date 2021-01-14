@@ -29,3 +29,11 @@ variable "variables" {
   type    = map(string)
   default = {}
 }
+variable "build_timeout" {
+  type    = number
+  default = 5
+}
+variable "queued_timeout" {
+  type    = number
+  default = 5
+}
