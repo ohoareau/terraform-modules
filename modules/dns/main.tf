@@ -9,10 +9,11 @@ resource "aws_route53_zone" "zone" {
 
 locals {
   statics = (null != var.statics_file) ? csvdecode(file(var.statics_file)) : []
+  entries = {for entry in local.statics : "${entry.type}-${entry.name}" => entry}
 }
 
 resource "aws_route53_record" "statics" {
-  for_each = { for record in local.statics : "${record.type}-${record.name}" => record }
+  for_each = {for record_name, record in local.entries: record_name => record if ((record.env == null) or (record.env == var.env))}
   zone_id = var.zone
   name    = each.value.name
   type    = each.value.type

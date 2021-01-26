@@ -1,3 +1,7 @@
+variable "env" {
+  type    = string
+  default = null
+}
 variable "name" {
   type = string
 }
