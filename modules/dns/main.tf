@@ -8,7 +8,7 @@ resource "aws_route53_zone" "zone" {
 }
 
 locals {
-  statics = (null != var.statics_file) ? csvdecode(file(var.statics_file)) : []
+  statics = (null != var.statics_file) ? csvdecode(trim(file(var.statics_file))) : []
   entries = {for entry in local.statics : "${entry.type}-${entry.name}" => entry}
 }
 
