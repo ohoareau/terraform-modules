@@ -13,7 +13,7 @@ locals {
 }
 
 resource "aws_route53_record" "statics" {
-  for_each = {for record_name, record in local.entries: record_name => record if ((record.env == null) or (record.env == var.env))}
+  for_each = {for record_name, record in local.entries: record_name => record if ((record.env == null) || (record.env == var.env))}
   zone_id = var.zone
   name    = each.value.name
   type    = each.value.type
