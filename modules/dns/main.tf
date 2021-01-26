@@ -18,5 +18,5 @@ resource "aws_route53_record" "statics" {
   name    = each.value.name
   type    = each.value.type
   ttl     = each.value.ttl
-  records = split(",", each.value.value)
+  records = split(";;;", each.value.value)
 }
