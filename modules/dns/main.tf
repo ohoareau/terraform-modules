@@ -6,3 +6,16 @@ resource "aws_route53_zone" "zone" {
   delegation_set_id = aws_route53_delegation_set.primary.id
   comment           = "${var.name} zone"
 }
+
+locals {
+  statics = (null != var.statics_file) ? csvdecode(file(var.statics_file)) : []
+}
+
+resource "aws_route53_record" "statics" {
+  for_each = { for record in local.statics : "${record.type}-${record.name}" => record }
+  zone_id = var.zone
+  name    = each.value.name
+  type    = each.value.type
+  ttl     = each.value.ttl
+  records = split("\n", each.value.value)
+}
