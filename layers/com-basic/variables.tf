@@ -19,3 +19,8 @@ variable "service_sources" {
   type    = list(string)
   default = []
 }
+variable "smtp_user_name" {
+  type        = string
+  default     = null
+  description = "Name of the optional IAM User to create and for which to enable SES SMTP access"
+}

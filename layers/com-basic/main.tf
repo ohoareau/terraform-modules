@@ -43,3 +43,9 @@ module "ses-regional-verification" {
   }
   depends_on = [module.ses-global-verification]
 }
+
+module "ses-smtp-user" {
+  count  = null != var.smtp_user_name
+  source = "../../modules/ses-smtp-user"
+  name   = var.smtp_user_name
+}
