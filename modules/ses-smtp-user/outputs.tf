@@ -9,7 +9,7 @@ output "arn" {
 }
 
 output "login" {
-  value       = aws_iam_access_key.user
+  value       = aws_iam_access_key.user.id
   description = "IAM Access Key of the created user, used as the SMTP user name"
 }
 
