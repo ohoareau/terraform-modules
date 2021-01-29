@@ -46,7 +46,7 @@ module "ses-regional-verification" {
 }
 
 module "ses-smtp-user" {
-  count  = null != var.smtp_user_name
+  count  = null != var.smtp_user_name ? 1 : 0
   source = "../../modules/ses-smtp-user"
   name   = var.smtp_user_name
 }
