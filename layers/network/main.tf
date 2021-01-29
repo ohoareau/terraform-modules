@@ -65,3 +65,12 @@ resource "aws_security_group_rule" "allow-internal-https" {
   cidr_blocks       = [for k,v in aws_subnet.private-subnet: v.cidr_block]
   security_group_id = aws_security_group.default[0].id
 }
+resource "aws_security_group_rule" "allow-internal-smtps" {
+  count             = (true == var.security_group && true == var.security_group_allow_internal_smtps) ? 1 : 0
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 465
+  to_port           = 465
+  cidr_blocks       = [for k,v in aws_subnet.private-subnet: v.cidr_block]
+  security_group_id =  aws_security_group.default[0].id
+}

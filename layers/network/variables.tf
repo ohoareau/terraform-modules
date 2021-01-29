@@ -36,3 +36,7 @@ variable "security_group_allow_internal_https" {
   type    = bool
   default = false
 }
+variable "security_group_allow_internal_smtps" {
+  type    = bool
+  default = false
+}
