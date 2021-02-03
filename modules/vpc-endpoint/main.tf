@@ -90,7 +90,8 @@ locals {
 }
 
 data "aws_vpc_endpoint_service" "service" {
-  service = local.service
+  service      = local.service
+  service_type = local.type
 }
 
 resource "aws_vpc_endpoint" "service" {
