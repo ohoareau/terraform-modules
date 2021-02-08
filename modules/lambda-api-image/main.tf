@@ -23,7 +23,7 @@ resource "local_file" "config_statics_js" {
 }
 
 resource "local_file" "favicon_ico" {
-  content  = file("" == var.favicon_file ? var.favicon_file : "${path.module}/code/statics/favicon.ico")
+  content  = file("" != var.favicon_file ? var.favicon_file : "${path.module}/code/statics/favicon.ico")
   filename = "${path.module}/code/statics/favicon.ico"
 }
 
