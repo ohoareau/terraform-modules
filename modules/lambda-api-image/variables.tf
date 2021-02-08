@@ -5,7 +5,23 @@ variable "config_file" {
   type = string
   default = ""
 }
+variable "config_statics_file" {
+  type = string
+  default = ""
+}
 variable "favicon_file" {
+  type = string
+  default = ""
+}
+variable "health_file" {
+  type = string
+  default = ""
+}
+variable "robots_file" {
+  type = string
+  default = ""
+}
+variable "sitemap_file" {
   type = string
   default = ""
 }
