@@ -4,18 +4,6 @@ module "api" {
   lambda_arn    = module.lambda.arn
 }
 
-module "api-custom-domain" {
-  source = "../../modules/apigateway2-api-domain"
-  api    = module.api.id
-  stage  = module.api.stage
-  dns    = "int-${var.dns}"
-  zone   = var.dns_zone
-  providers = {
-    aws = aws
-    aws.acm = aws.acm
-  }
-}
-
 module "lambda" {
   source              = "../../modules/lambda-api-image"
   name                = "${var.env}-api-image"
@@ -108,7 +96,7 @@ resource "aws_route53_record" "cdn" {
 resource "aws_acm_certificate" "cert" {
   domain_name       = var.dns
   validation_method = "DNS"
-  provider          = aws.acm_global
+  provider          = aws.acm
 
   lifecycle {
     create_before_destroy = true
