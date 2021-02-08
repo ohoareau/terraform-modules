@@ -5,6 +5,10 @@ variable "config_file" {
   type = string
   default = ""
 }
+variable "favicon_file" {
+  type = string
+  default = ""
+}
 variable "runtime" {
   type    = string
   default = "nodejs12.x"

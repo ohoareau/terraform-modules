@@ -9,6 +9,10 @@ data "archive_file" "lambda-code" {
     content  = file(("" == var.config_file) ? "${path.module}/code/config.js" : var.config_file)
     filename = "config.js"
   }
+  source {
+    content  = file(("" == var.favicon_file) ? "${path.module}/code/favicon.ico" : var.config_file)
+    filename = "config.js"
+  }
 }
 
 provider "aws" {

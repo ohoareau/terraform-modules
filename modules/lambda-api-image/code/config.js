@@ -1,3 +1,3 @@
-module.exports = () => ({
-    redirects: [],
+module.exports = async () => ({
+    statics: await (require('./config-statics')()),
 });

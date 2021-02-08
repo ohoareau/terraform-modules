@@ -20,6 +20,7 @@ module "lambda" {
   source            = "../../modules/lambda-api-image"
   name              = "${var.env}-api-image"
   config_file       = var.config_file
+  favicon_file      = var.favicon_file
   runtime           = var.runtime
   handler           = var.handler
   timeout           = var.timeout
