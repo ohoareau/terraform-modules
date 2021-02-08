@@ -26,4 +26,7 @@ module "lambda" {
   memory_size       = var.memory_size
   variables         = var.variables
   policy_statements = var.policy_statements
+  providers = {
+    aws = aws
+  }
 }
