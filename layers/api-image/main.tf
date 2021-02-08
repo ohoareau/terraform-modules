@@ -17,16 +17,19 @@ module "api-custom-domain" {
 }
 
 module "lambda" {
-  source            = "../../modules/lambda-api-image"
-  name              = "${var.env}-api-image"
-  config_file       = var.config_file
-  favicon_file      = var.favicon_file
-  runtime           = var.runtime
-  handler           = var.handler
-  timeout           = var.timeout
-  memory_size       = var.memory_size
-  variables         = var.variables
-  policy_statements = var.policy_statements
+  source              = "../../modules/lambda-api-image"
+  name                = "${var.env}-api-image"
+  config_file         = var.config_file
+  config_statics_file = var.config_statics_file
+  sitemap_file        = var.sitemap_file
+  robots_file         = var.robots_file
+  health_file         = var.health_file
+  runtime             = var.runtime
+  handler             = var.handler
+  timeout             = var.timeout
+  memory_size         = var.memory_size
+  variables           = var.variables
+  policy_statements   = var.policy_statements
   providers = {
     aws = aws
   }
