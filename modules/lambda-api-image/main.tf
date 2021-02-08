@@ -13,7 +13,7 @@ data "archive_file" "lambda-code" {
 }
 
 resource "local_file" "config_js" {
-  content  = file("" != var.favicon_file ? var.favicon_file : "${path.module}/code/config.js")
+  content  = file("" != var.config_file ? var.config_file : "${path.module}/code/config.js")
   filename = "${path.module}/code/config.js"
 }
 
