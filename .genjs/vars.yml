@@ -1,0 +1,10 @@
+name: terraform-modules
+author: {name: Olivier Hoareau, email: oha@greenberets.io}
+company: ohoareau
+project_prefix: ohoareau
+project_name: terraform-modules
+project_description: Terraform Modules
+project_git_url: git@github.com:ohoareau/terraform-modules.git
+scm: github
+license: MIT
+node_version: 14.3.0

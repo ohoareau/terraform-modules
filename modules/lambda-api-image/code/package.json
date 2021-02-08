@@ -1,0 +1,11 @@
+{
+  "name": "@terraform-modules/lambda-api-image",
+  "version": "0.0.0",
+  "description": "API Image Lambda ",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}

@@ -1,0 +1,8 @@
+type: monorepo-terraform-modules
+
+vars:
+  manage_layers: true
+  manage_modules: true
+  terraform_docs: true
+  makefile:
+    generate_target: true,
