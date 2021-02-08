@@ -25,7 +25,7 @@ module "lambda" {
 
 resource "aws_cloudfront_distribution" "cdn" {
   origin {
-    domain_name         = var.dns
+    domain_name         = module.api.dns
     origin_id           = "${var.env}-api-image"
     custom_origin_config {
       http_port              = "80"
