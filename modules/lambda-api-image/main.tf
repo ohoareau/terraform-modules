@@ -2,50 +2,43 @@ data "archive_file" "lambda-code" {
   type        = "zip"
   output_path = "${path.module}/lambda-code.zip"
   source_dir  = "${path.module}/code"
-
-  depends_on = concat(
-    ("" == var.config_file) ? [] : [local_file.config_js],
-    ("" == var.config_statics_file) ? [] : [local_file.config_statics_js],
-    ("" == var.favicon_file) ? [] : [local_file.favicon_ico],
-    ("" == var.health_file) ? [] : [local_file.health_json],
-    ("" == var.robots_file) ? [] : [local_file.robots_txt],
-    ("" == var.sitemap_file) ? [] : [local_file.sitemap_xml],
-  )
+  depends_on  = [
+    local_file.config_js,
+    local_file.config_statics_js,
+    local_file.favicon_ico,
+    local_file.health_json,
+    local_file.robots_txt,
+    local_file.sitemap_xml,
+  ]
 }
 
 resource "local_file" "config_js" {
-  count    = "" == var.favicon_file ? 0 : 1
-  content  = file(var.favicon_file)
+  content  = file("" == var.favicon_file ? var.favicon_file : "${path.module}/code/config.js")
   filename = "${path.module}/code/config.js"
 }
 
 resource "local_file" "config_statics_js" {
-  count    = "" == var.config_statics_file ? 0 : 1
-  content  = file(var.config_statics_file)
+  content  = file("" == var.config_statics_file ? var.config_statics_file : "${path.module}/code/config-statics.js")
   filename = "${path.module}/code/config-statics.js"
 }
 
 resource "local_file" "favicon_ico" {
-  count    = "" == var.favicon_file ? 0 : 1
-  content  = file(var.favicon_file)
+  content  = file("" == var.favicon_file ? var.favicon_file : "${path.module}/code/statics/favicon.ico")
   filename = "${path.module}/code/statics/favicon.ico"
 }
 
 resource "local_file" "health_json" {
-  count    = "" == var.health_file ? 0 : 1
-  content  = file(var.health_file)
+  content  = file("" == var.health_file ? var.health_file : "${path.module}/code/statics/health.json")
   filename = "${path.module}/code/statics/health.json"
 }
 
 resource "local_file" "robots_txt" {
-  count    = "" == var.robots_file ? 0 : 1
-  content  = file(var.robots_file)
+  content  = file("" == var.robots_file ? var.robots_file : "${path.module}/code/statics/robots.txt")
   filename = "${path.module}/code/statics/robots.txt"
 }
 
 resource "local_file" "sitemap_xml" {
-  count    = "" == var.sitemap_file ? 0 : 1
-  content  = file(var.sitemap_file)
+  content  = file("" == var.sitemap_file ? var.sitemap_file : "${path.module}/code/statics/sitemap.xml")
   filename = "${path.module}/code/statics/sitemap.xml"
 }
 
