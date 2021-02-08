@@ -9,10 +9,6 @@ variable "config_statics_file" {
   type = string
   default = ""
 }
-variable "favicon_file" {
-  type = string
-  default = ""
-}
 variable "health_file" {
   type = string
   default = ""

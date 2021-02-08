@@ -5,7 +5,6 @@ data "archive_file" "lambda-code" {
   depends_on  = [
     local_file.config_js,
     local_file.config_statics_js,
-    local_file.favicon_ico,
     local_file.health_json,
     local_file.robots_txt,
     local_file.sitemap_xml,
@@ -20,11 +19,6 @@ resource "local_file" "config_js" {
 resource "local_file" "config_statics_js" {
   content  = file("" != var.config_statics_file ? var.config_statics_file : "${path.module}/code/config-statics.js")
   filename = "${path.module}/code/config-statics.js"
-}
-
-resource "local_file" "favicon_ico" {
-  content  = file("" != var.favicon_file ? var.favicon_file : "${path.module}/code/statics/favicon.ico")
-  filename = "${path.module}/code/statics/favicon.ico"
 }
 
 resource "local_file" "health_json" {
