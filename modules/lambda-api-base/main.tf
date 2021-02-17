@@ -71,4 +71,7 @@ module "lambda" {
   providers = {
     aws = aws
   }
+  depends_on = [
+    data.archive_file.lambda-code
+  ]
 }
