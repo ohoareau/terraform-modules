@@ -22,19 +22,19 @@
   dependencies:
     sharp "^0.27.1"
 
-"@ohoareau/lambda-api-image@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.1.4.tgz#40d7acbfa6ebbaa2b1c34d08c6bbf48e77bcd9f9"
-  integrity sha512-laLxunnTiiPo2oaAxUXXslHl0LBfC9UmOo3IN44sD2sMioglFtIMvkQJ1azj6+/icqeHLp/29szW25sOkL8Nwg==
+"@ohoareau/lambda-api-image@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.1.5.tgz#dbca26df8a075f0c0bea5076447c7c9556d759d6"
+  integrity sha512-W4N8oiU1Py/R/d7J2avZtPHvX8OAMhHQLt79zt7Z5l3UXSiK1Y3vRdoiAwg9g6Jdl8J2hfMXsKe5+Bie2C9Ykg==
   dependencies:
     "@ohoareau/aws" "^0.1.3"
     "@ohoareau/imageman" "^0.0.4"
-    "@ohoareau/lambda-utils" "^0.1.4"
+    "@ohoareau/lambda-utils" "^0.1.5"
 
-"@ohoareau/lambda-utils@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.4.tgz#bcebdbaa15bc48cf12c4486e1ac15dc4714a6e0e"
-  integrity sha512-hu9z/HMNWHJfyjvr9lgVtIphzN60B+CP7ZN5/Sr6B1gk/1kpiupGNYg0OWLiph3VdG72kmYqy+sWzpoZCwehEg==
+"@ohoareau/lambda-utils@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.5.tgz#4eec986ac8842de6c638c12dc63e244dff0b741e"
+  integrity sha512-O0wEoiFTv832TQQYYpVLbztLwIUxhQNR0+vHj06q2dg7sdCk9WjLpL1N/HucBXz/5s9eQ7Tn0qKT6+bDzv2iYg==
   dependencies:
     "@ohoareau/aws" "^0.1.3"
 
