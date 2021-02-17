@@ -15,18 +15,18 @@
   resolved "https://registry.yarnpkg.com/@ohoareau/errors/-/errors-0.1.0.tgz#dc6646ba6892fa90934c86227d28a8d38414ed1f"
   integrity sha512-5eeiyHzTScqvxsS3O3cRFYUptsJvGvoFJX4gGFkG+U5T9rjWHE6NePpRzH0V8ieuxkfXtTN5e5qfmRn3fHqy7g==
 
-"@ohoareau/lambda-api-image@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.1.1.tgz#52f530845908991997c8115d66f084ea0a5023ba"
-  integrity sha512-Eg7Xbzlza9eOLprMj8qh6lCyQTIMjMwIFMLsEqe1eTeVUWHSxkZeI+/NVyKrWC9q9T8DwW9x4hyqkgkGPo33qw==
+"@ohoareau/lambda-api-image@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.1.2.tgz#e7c3820a9e8e01ef88595ea5297558bfa066a898"
+  integrity sha512-GyJ3V4h4kfja/fjHkBCS2Auh5OxMthVWmmmscf/TjyeYrDPDnllOvOubcKtnlt4/DV6OBo0cPlNnP0d/Ad3u3g==
   dependencies:
     "@ohoareau/aws" "^0.1.3"
-    "@ohoareau/lambda-utils" "^0.1.1"
+    "@ohoareau/lambda-utils" "^0.1.2"
 
-"@ohoareau/lambda-utils@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.1.tgz#9c3d9361e478643d3e7091dcb9e6e0b1867f8936"
-  integrity sha512-EwhYDNmWHwGnAAdwic7YIQhQKRX3R2Sl3FE7XA09D1Nh5HGjCZDPq85qO5pEXOfILsD67Bi3KlKtjh5YS+Z3gQ==
+"@ohoareau/lambda-utils@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.2.tgz#4e658eee60025886e7f9801de668519b0e4ad5c7"
+  integrity sha512-gyI50ugy3U+4EpLVGLygYKK4k+s8naq9fecSInLNc1Eaw7nyvQKaD5i1V/izc5WgdvZV0n+rJuMLigTfAKXZJg==
   dependencies:
     "@ohoareau/aws" "^0.1.3"
 
