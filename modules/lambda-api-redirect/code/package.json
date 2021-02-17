@@ -1,0 +1,11 @@
+{
+  "name": "@terraform-modules/lambda-api-redirect",
+  "version": "0.0.0",
+  "description": "API Redirect Lambda",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@ohoareau/lambda-api-redirect": "^0.1.0"
+  }
+}
