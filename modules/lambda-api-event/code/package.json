@@ -6,6 +6,6 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@ohoareau/lambda-api-event": "^0.1.0"
+    "@ohoareau/lambda-api-event": "^0.1.1"
   }
 }
