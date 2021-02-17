@@ -15,20 +15,20 @@
   resolved "https://registry.yarnpkg.com/@ohoareau/errors/-/errors-0.1.0.tgz#dc6646ba6892fa90934c86227d28a8d38414ed1f"
   integrity sha512-5eeiyHzTScqvxsS3O3cRFYUptsJvGvoFJX4gGFkG+U5T9rjWHE6NePpRzH0V8ieuxkfXtTN5e5qfmRn3fHqy7g==
 
-"@ohoareau/imageman@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@ohoareau/imageman/-/imageman-0.0.4.tgz#1676619631645028603b2cd68c701ba1422a0957"
-  integrity sha512-x18ZCENXydoKMiohJ56AXjkii+nasD05HyjVyKpoHCYIKN/mKciIHWA21GjAZQmAINxMRQor6jad0vNrDhrfZQ==
+"@ohoareau/imageman@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/imageman/-/imageman-0.0.5.tgz#9d148bdab674ee0a875be32356ec95a60e7950b2"
+  integrity sha512-1sBagOxp3k1vBdPRluZOtRWYnfTI5/HlUdvDeGYBUSTa+n0g/khWHAmvX/G3BWC2jkkafj/AFgaj5bqoSJjRmw==
   dependencies:
     sharp "^0.27.1"
 
-"@ohoareau/lambda-api-image@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.1.5.tgz#dbca26df8a075f0c0bea5076447c7c9556d759d6"
-  integrity sha512-W4N8oiU1Py/R/d7J2avZtPHvX8OAMhHQLt79zt7Z5l3UXSiK1Y3vRdoiAwg9g6Jdl8J2hfMXsKe5+Bie2C9Ykg==
+"@ohoareau/lambda-api-image@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.1.6.tgz#50cd9b46a30a5294c75d862ad58cd7eecd6b433b"
+  integrity sha512-6lRaKv1N5MaKqiHjhWU5pTh1koZByJpkQOkqKDPt+cq+vJcxw0b2or2zWSE1f1kT+esr4HfR4liFjCfXxstK2Q==
   dependencies:
     "@ohoareau/aws" "^0.1.3"
-    "@ohoareau/imageman" "^0.0.4"
+    "@ohoareau/imageman" "^0.0.5"
     "@ohoareau/lambda-utils" "^0.1.5"
 
 "@ohoareau/lambda-utils@^0.1.5":
