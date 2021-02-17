@@ -65,5 +65,5 @@ variable "policy_statements" {
 }
 variable "publish" {
   type    = bool
-  default = true
+  default = null
 }

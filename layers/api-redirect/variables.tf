@@ -83,5 +83,5 @@ variable "forward_query_string" {
 }
 variable "publish" {
   type    = bool
-  default = true
+  default = null
 }

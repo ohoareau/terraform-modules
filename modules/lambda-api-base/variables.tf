@@ -61,7 +61,7 @@ variable "variables" {
 }
 variable "publish" {
   type    = bool
-  default = true
+  default = false
 }
 variable "policy_statements" {
   type = list(
