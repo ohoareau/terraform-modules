@@ -61,6 +61,7 @@ module "lambda" {
   source            = "../lambda"
   name              = var.name
   file              = data.archive_file.lambda-code.output_path
+  file_hash         = data.archive_file.lambda-code.output_base64sha256
   runtime           = var.runtime
   timeout           = var.timeout
   memory_size       = var.memory_size

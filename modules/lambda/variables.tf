@@ -4,6 +4,10 @@ variable "name" {
 variable "file" {
   type = string
 }
+variable "file_hash" {
+  type    = string
+  default = null
+}
 variable "runtime" {
   type    = string
   default = "nodejs12.x"
