@@ -28,7 +28,7 @@ resource "aws_cloudfront_distribution" "cdn" {
     target_origin_id = "${var.env}-api-${var.name}"
 
     forwarded_values {
-      query_string = var.forward_query_string
+      query_string = null == var.forward_query_string ? true : var.forward_query_string
 
       cookies {
         forward = "none"

@@ -67,7 +67,7 @@ module "lambda" {
   memory_size       = var.memory_size
   handler           = var.handler
   variables         = var.variables
-  publish           = var.publish
+  publish           = null == var.publish ? false : var.publish
   policy_statements = var.policy_statements
   providers = {
     aws = aws
