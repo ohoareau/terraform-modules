@@ -23,5 +23,5 @@ variable "price_class" {
 }
 variable "forward_query_string" {
   type    = bool
-  default = false
+  default = true
 }
