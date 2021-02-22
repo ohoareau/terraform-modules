@@ -1,0 +1,11 @@
+{
+  "name": "@terraform-modules/lambda-api-status",
+  "version": "0.0.0",
+  "description": "API Status Lambda",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@ohoareau/lambda-api-status": "^0.0.1"
+  }
+}
