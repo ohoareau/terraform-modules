@@ -1,0 +1,11 @@
+{
+  "name": "@terraform-modules/lambda-api-generator",
+  "version": "0.0.0",
+  "description": "API Generator Lambda",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@ohoareau/lambda-api-generator": "^0.0.2"
+  }
+}

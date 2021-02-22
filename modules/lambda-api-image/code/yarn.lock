@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ohoareau/aws@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@ohoareau/aws/-/aws-0.1.3.tgz#a5c05e0cf116ab98b7546b5ab1955eb96d3eab61"
-  integrity sha512-g5YVR31s3xU3HbFfNs+33tUuovQ3hswnSZxpBU8bOwer1wFWgL4PSpIN7J5csnAKVUeMZtYN0EOlEPPEnmznAA==
+"@ohoareau/aws@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@ohoareau/aws/-/aws-0.1.4.tgz#9d3914c90100f77aa55db056fe88df1d40e15f5a"
+  integrity sha512-JwZ7w/QoJji/Ix7JGyBFMDG/FIEBW9zvFPqUxafT1+JOmJLxfx7tbOIXH6rYquoYVxK0gWDAZVZ89vCpNJ9fEg==
   dependencies:
     "@ohoareau/errors" "^0.1.0"
     uuid "^8.3.1"
@@ -22,21 +22,21 @@
   dependencies:
     sharp "^0.27.1"
 
-"@ohoareau/lambda-api-image@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.2.2.tgz#10942b5afb8dafb05070e016d78986ce3726e498"
-  integrity sha512-zosLTmcT0WsU2+fTh2W+hTHTI4GpIvLDg2Y3LXoCiGbDy8t5TgdF5dGx9KQcBxlz8Lsbdswsb8JvRV0M3dQHWg==
+"@ohoareau/lambda-api-image@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.2.5.tgz#da64a9fd3198cb6adc9d0a8efad69ec4a0b5c24a"
+  integrity sha512-iasGg/vmwXd8Og/ysLqV0uwbdcXyS9v97KoYVMa/yZ9EDlJM/M5IJdbdoX786IHgG3V7irrSvU3ALCiwBeRuGw==
   dependencies:
-    "@ohoareau/aws" "^0.1.3"
+    "@ohoareau/aws" "^0.1.4"
     "@ohoareau/imageman" "^0.1.1"
-    "@ohoareau/lambda-utils" "^0.1.5"
+    "@ohoareau/lambda-utils" "^0.1.8"
 
-"@ohoareau/lambda-utils@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.5.tgz#4eec986ac8842de6c638c12dc63e244dff0b741e"
-  integrity sha512-O0wEoiFTv832TQQYYpVLbztLwIUxhQNR0+vHj06q2dg7sdCk9WjLpL1N/HucBXz/5s9eQ7Tn0qKT6+bDzv2iYg==
+"@ohoareau/lambda-utils@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.8.tgz#24a6f853a3693debb37590aceb4068294201362d"
+  integrity sha512-yRCh2cTnC1vCubFowAXyqnnd/aWQ/+2nJMBquIyifz3dVBh3LnfibKHykfmzD14itbotMEGZaYnqkvPtOFxQ1Q==
   dependencies:
-    "@ohoareau/aws" "^0.1.3"
+    "@ohoareau/aws" "^0.1.4"
 
 ansi-regex@^2.0.0:
   version "2.1.1"

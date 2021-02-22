@@ -16,6 +16,7 @@ No requirements.
 | dlq\_sns\_topic | n/a | `string` | `""` | no |
 | enabled | n/a | `bool` | `true` | no |
 | file | n/a | `string` | n/a | yes |
+| file\_hash | n/a | `string` | `null` | no |
 | handler | n/a | `string` | `"index.handler"` | no |
 | layers | n/a | `list(string)` | `[]` | no |
 | memory\_size | n/a | `number` | `128` | no |
