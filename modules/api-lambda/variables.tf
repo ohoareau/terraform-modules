@@ -25,3 +25,11 @@ variable "forward_query_string" {
   type    = bool
   default = true
 }
+variable "allowed_methods" {
+  type    = list(string)
+  default = ["GET", "POST", "DELETE", "PUT", "PATCH", "HEAD", "OPTIONS"]
+}
+variable "cached_methods" {
+  type    = list(string)
+  default = ["GET", "HEAD"]
+}
