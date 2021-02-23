@@ -19,10 +19,10 @@ module "lambda" {
   name                  = "${var.env}-api-payment"
   config_file           = var.config_file
   config_statics_file   = var.config_statics_file
+  config_routes_file    = var.config_routes_file
   utils_file            = var.utils_file
   sitemap_file          = var.sitemap_file
   robots_file           = var.robots_file
-  root_file             = var.root_file
   site_webmanifest_file = var.site_webmanifest_file
   healthz_file          = var.healthz_file
   runtime               = var.runtime

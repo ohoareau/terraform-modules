@@ -15,6 +15,10 @@ variable "config_statics_file" {
   type = string
   default = ""
 }
+variable "config_routes_file" {
+  type = string
+  default = ""
+}
 variable "utils_file" {
   type = string
   default = ""
@@ -24,10 +28,6 @@ variable "sitemap_file" {
   default = ""
 }
 variable "robots_file" {
-  type = string
-  default = ""
-}
-variable "root_file" {
   type = string
   default = ""
 }
