@@ -3,14 +3,7 @@ data "archive_file" "lambda-code" {
   output_path = var.package_file
   source_dir  = var.code_dir
   depends_on  = [
-    local_file.file["config_js"],
-    local_file.file["config_statics_js"],
-    local_file.file["config_routes_js"],
-    local_file.file["site_webmanifest"],
-    local_file.file["utils_js"],
-    local_file.file["healthz_json"],
-    local_file.file["robots_txt"],
-    local_file.file["sitemap_xml"],
+    local_file.file,
   ]
 }
 
