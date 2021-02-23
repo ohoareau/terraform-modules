@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ohoareau/aws@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ohoareau/aws/-/aws-0.1.4.tgz#9d3914c90100f77aa55db056fe88df1d40e15f5a"
-  integrity sha512-JwZ7w/QoJji/Ix7JGyBFMDG/FIEBW9zvFPqUxafT1+JOmJLxfx7tbOIXH6rYquoYVxK0gWDAZVZ89vCpNJ9fEg==
+"@ohoareau/aws@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/aws/-/aws-0.1.5.tgz#2aae671040f589d7b7f64ae31117c7e39450b087"
+  integrity sha512-mdxc3b5SKBrGJ1nySxeU+59HmsWTKE3LrIlxVL+QXfGnWsUF5y/p+oqrJ4G637xigaUL50hz+SMfdCNA6hkajQ==
   dependencies:
     "@ohoareau/errors" "^0.1.0"
     uuid "^8.3.1"
@@ -22,21 +22,23 @@
   dependencies:
     sharp "^0.27.1"
 
-"@ohoareau/lambda-api-image@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.2.5.tgz#da64a9fd3198cb6adc9d0a8efad69ec4a0b5c24a"
-  integrity sha512-iasGg/vmwXd8Og/ysLqV0uwbdcXyS9v97KoYVMa/yZ9EDlJM/M5IJdbdoX786IHgG3V7irrSvU3ALCiwBeRuGw==
+"@ohoareau/lambda-api-image@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-image/-/lambda-api-image-0.3.2.tgz#1dfc6f07bec0a8a39c44873e7598f382a336ad2d"
+  integrity sha512-+upjm+ymHpEcX1B7Wwr90nBhfIpdOYDMcVKpSO1uNhLo9vYn0ao+3nJnAkX4/YX9k6LowuaDl4PaTMZvb/f7BQ==
   dependencies:
-    "@ohoareau/aws" "^0.1.4"
+    "@ohoareau/aws" "^0.1.5"
     "@ohoareau/imageman" "^0.1.1"
-    "@ohoareau/lambda-utils" "^0.1.8"
+    "@ohoareau/lambda-utils" "^0.2.2"
 
-"@ohoareau/lambda-utils@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.8.tgz#24a6f853a3693debb37590aceb4068294201362d"
-  integrity sha512-yRCh2cTnC1vCubFowAXyqnnd/aWQ/+2nJMBquIyifz3dVBh3LnfibKHykfmzD14itbotMEGZaYnqkvPtOFxQ1Q==
+"@ohoareau/lambda-utils@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.2.2.tgz#28f2cd01f487e5bc0761f4a013bb38e1d8389b08"
+  integrity sha512-ef/lzHkomg46TsoDm7LCyuTAdtJe+ypNh/wgcDg+8j25HDuwQSijrg7pLIhXZn8RY5NTwkG31GnzcVpe/zhrPA==
   dependencies:
-    "@ohoareau/aws" "^0.1.4"
+    "@ohoareau/aws" "^0.1.5"
+    node-fetch "^2.6.1"
+    path-parser "^6.1.0"
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -292,6 +294,11 @@ node-addon-api@^3.1.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.1.0.tgz#98b21931557466c6729e51cb77cd39c965f42239"
   integrity sha512-flmrDNB06LIl5lywUz7YlNGZH/5p0M7W28k8hzd9Lshtdh1wshD2Y+U4h9LD6KObOy1f+fEVdgprPrEymjM5uw==
 
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+
 noop-logger@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/noop-logger/-/noop-logger-0.1.1.tgz#94a2b1633c4f1317553007d8966fd0e841b6a4c2"
@@ -323,6 +330,14 @@ once@^1.3.1, once@^1.4.0:
   integrity sha1-WDsap3WWHUsROsF9nFC6753Xa9E=
   dependencies:
     wrappy "1"
+
+path-parser@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/path-parser/-/path-parser-6.1.0.tgz#ee8a1dd7b1ffaf4069f2ddd1c20d1867c8fd3a08"
+  integrity sha512-nAB6J73z2rFcQP+870OHhpkHFj5kO4rPLc2Ol4Y3Ale7F6Hk1/cPKp7cQ8RznKF8FOSvu+YR9Xc6Gafk7DlpYA==
+  dependencies:
+    search-params "3.0.0"
+    tslib "^1.10.0"
 
 prebuild-install@^6.0.0:
   version "6.0.1"
@@ -399,6 +414,11 @@ safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
+
+search-params@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/search-params/-/search-params-3.0.0.tgz#dbc7c243058e5a33ae1e9870be91f5aced4100d8"
+  integrity sha512-8CYNl/bjkEhXWbDTU/K7c2jQtrnqEffIPyOLMqygW/7/b+ym8UtQumcAZjOfMLjZKR6AxK5tOr9fChbQZCzPqg==
 
 semver@^5.4.1:
   version "5.7.1"
@@ -538,6 +558,11 @@ tar-stream@^2.1.4:
     fs-constants "^1.0.0"
     inherits "^2.0.3"
     readable-stream "^3.1.1"
+
+tslib@^1.10.0:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
+  integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

@@ -15,7 +15,7 @@ variable "config_statics_file" {
   type = string
   default = ""
 }
-variable "root_file" {
+variable "config_routes_file" {
   type = string
   default = ""
 }

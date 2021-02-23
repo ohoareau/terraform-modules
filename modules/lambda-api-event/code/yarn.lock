@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ohoareau/aws@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ohoareau/aws/-/aws-0.1.4.tgz#9d3914c90100f77aa55db056fe88df1d40e15f5a"
-  integrity sha512-JwZ7w/QoJji/Ix7JGyBFMDG/FIEBW9zvFPqUxafT1+JOmJLxfx7tbOIXH6rYquoYVxK0gWDAZVZ89vCpNJ9fEg==
+"@ohoareau/aws@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/aws/-/aws-0.1.5.tgz#2aae671040f589d7b7f64ae31117c7e39450b087"
+  integrity sha512-mdxc3b5SKBrGJ1nySxeU+59HmsWTKE3LrIlxVL+QXfGnWsUF5y/p+oqrJ4G637xigaUL50hz+SMfdCNA6hkajQ==
   dependencies:
     "@ohoareau/errors" "^0.1.0"
     uuid "^8.3.1"
@@ -15,20 +15,45 @@
   resolved "https://registry.yarnpkg.com/@ohoareau/errors/-/errors-0.1.0.tgz#dc6646ba6892fa90934c86227d28a8d38414ed1f"
   integrity sha512-5eeiyHzTScqvxsS3O3cRFYUptsJvGvoFJX4gGFkG+U5T9rjWHE6NePpRzH0V8ieuxkfXtTN5e5qfmRn3fHqy7g==
 
-"@ohoareau/lambda-api-event@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-event/-/lambda-api-event-0.1.8.tgz#5608f0825d24c25336e73b406ca27f4b2e0d97f4"
-  integrity sha512-nRChRpMKdP2SPkI/lqXzLQ7IKPvUKjsIVxmJc/roeZoKZhTk7nYXTwT3fh9IF6AMTBj2NqIbzgu+3AVLQthjRw==
+"@ohoareau/lambda-api-event@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-event/-/lambda-api-event-0.2.2.tgz#d7d9fb86f164ecf063c28798d5aa2d97c557e79a"
+  integrity sha512-L1saK9pZUsRCl7/iuUYRDUs63pFn9+0VyWVQTNS3chZZApxPX3DjVIpongNDtxJOziJqU9onZIleKyuzdfML/Q==
   dependencies:
-    "@ohoareau/aws" "^0.1.4"
-    "@ohoareau/lambda-utils" "^0.1.8"
+    "@ohoareau/aws" "^0.1.5"
+    "@ohoareau/lambda-utils" "^0.2.2"
 
-"@ohoareau/lambda-utils@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.1.8.tgz#24a6f853a3693debb37590aceb4068294201362d"
-  integrity sha512-yRCh2cTnC1vCubFowAXyqnnd/aWQ/+2nJMBquIyifz3dVBh3LnfibKHykfmzD14itbotMEGZaYnqkvPtOFxQ1Q==
+"@ohoareau/lambda-utils@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-utils/-/lambda-utils-0.2.2.tgz#28f2cd01f487e5bc0761f4a013bb38e1d8389b08"
+  integrity sha512-ef/lzHkomg46TsoDm7LCyuTAdtJe+ypNh/wgcDg+8j25HDuwQSijrg7pLIhXZn8RY5NTwkG31GnzcVpe/zhrPA==
   dependencies:
-    "@ohoareau/aws" "^0.1.4"
+    "@ohoareau/aws" "^0.1.5"
+    node-fetch "^2.6.1"
+    path-parser "^6.1.0"
+
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+
+path-parser@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/path-parser/-/path-parser-6.1.0.tgz#ee8a1dd7b1ffaf4069f2ddd1c20d1867c8fd3a08"
+  integrity sha512-nAB6J73z2rFcQP+870OHhpkHFj5kO4rPLc2Ol4Y3Ale7F6Hk1/cPKp7cQ8RznKF8FOSvu+YR9Xc6Gafk7DlpYA==
+  dependencies:
+    search-params "3.0.0"
+    tslib "^1.10.0"
+
+search-params@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/search-params/-/search-params-3.0.0.tgz#dbc7c243058e5a33ae1e9870be91f5aced4100d8"
+  integrity sha512-8CYNl/bjkEhXWbDTU/K7c2jQtrnqEffIPyOLMqygW/7/b+ym8UtQumcAZjOfMLjZKR6AxK5tOr9fChbQZCzPqg==
+
+tslib@^1.10.0:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
+  integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
 uuid@^8.3.1:
   version "8.3.2"

@@ -59,9 +59,4 @@ module.exports = () => ({
         contentType: 'application/json',
         headers: {'Cache-Control': 'no-cache, max-age=0, s-max-age=0'}
     },
-    '/': {
-        name: 'root.json',
-        contentType: 'application/json',
-        headers: {'Cache-Control': 'no-cache, max-age=0, s-max-age=0'}
-    },
 })

@@ -9,11 +9,11 @@ variable "config_statics_file" {
   type = string
   default = ""
 }
-variable "utils_file" {
+variable "config_routes_file" {
   type = string
   default = ""
 }
-variable "root_file" {
+variable "utils_file" {
   type = string
   default = ""
 }

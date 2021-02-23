@@ -6,6 +6,6 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@ohoareau/lambda-api-redirect": "^0.1.8"
+    "@ohoareau/lambda-api-redirect": "^0.2.2"
   }
 }
