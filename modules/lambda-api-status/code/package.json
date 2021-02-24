@@ -6,6 +6,6 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@ohoareau/lambda-api-status": "^0.1.2"
+    "@ohoareau/lambda-api-status": "^0.1.3"
   }
 }
