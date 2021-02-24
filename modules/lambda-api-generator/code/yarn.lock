@@ -27,10 +27,10 @@
   resolved "https://registry.yarnpkg.com/@ohoareau/errors/-/errors-0.1.0.tgz#dc6646ba6892fa90934c86227d28a8d38414ed1f"
   integrity sha512-5eeiyHzTScqvxsS3O3cRFYUptsJvGvoFJX4gGFkG+U5T9rjWHE6NePpRzH0V8ieuxkfXtTN5e5qfmRn3fHqy7g==
 
-"@ohoareau/lambda-api-generator@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-generator/-/lambda-api-generator-0.1.4.tgz#653306711b66af572ae1f52a0321d8dca71dda03"
-  integrity sha512-Wnm5wfTwBRrUwKcF2t8NsaNclOVSIjHGI2fVoyRiJifnQhi9YtVz0a1Gi/u/0z4iVLsF9TaTWNlf3AQ+w6iSZA==
+"@ohoareau/lambda-api-generator@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@ohoareau/lambda-api-generator/-/lambda-api-generator-0.1.5.tgz#3147b9cc8ac744cae2582a66e5c2ddceb80593da"
+  integrity sha512-EU1RWBf1+Cm0Zr6YaYi+JRlE8AJFj/QjkunZEmPlg5N6WFRR7pqxvzwwndc6nadcd2SKuuTyfa22qeWygP/4LA==
   dependencies:
     "@ohoareau/aws" "^0.1.5"
     "@ohoareau/lambda-utils" "^0.2.3"
