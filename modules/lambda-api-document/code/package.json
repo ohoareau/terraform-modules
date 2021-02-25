@@ -1,0 +1,11 @@
+{
+  "name": "@terraform-modules/lambda-api-document",
+  "version": "0.0.0",
+  "description": "API Document Lambda",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@ohoareau/lambda-api-document": "^0.1.0"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@terraform-modules/lambda-api-spreadsheet",
+  "version": "0.0.0",
+  "description": "API Spreadsheet Lambda",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@ohoareau/lambda-api-spreadsheet": "^0.1.0"
+  }
+}

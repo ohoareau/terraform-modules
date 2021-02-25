@@ -1,0 +1,1 @@
+module.exports = {handler: require('@ohoareau/lambda-api-pdf').default()}

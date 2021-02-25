@@ -1,0 +1,13 @@
+{
+  "name": "@terraform-modules/lambda-api-pdf",
+  "version": "0.0.0",
+  "description": "API Pdf Lambda",
+  "author": "Olivier Hoareau <oha+oss@greenberets.io>",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@ohoareau/lambda-api-pdf": "^0.1.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  }
+}

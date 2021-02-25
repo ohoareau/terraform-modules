@@ -1,1 +1,0 @@
-module.exports = {handler: require('@ohoareau/lambda-api-generator').default()}
